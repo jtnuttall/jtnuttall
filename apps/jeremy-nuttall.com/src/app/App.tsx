@@ -7,7 +7,8 @@ export const App = () => {
   useEffect(() => {
     fetch('/api')
       .then((r) => r.json())
-      .then(setMessage);
+      .then(setMessage)
+      .catch((e) => console.log(e));
   }, []);
 
   return (

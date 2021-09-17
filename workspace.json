@@ -80,10 +80,7 @@
             "main": "apps/jeremy-nuttall.com/src/main.tsx",
             "polyfills": "apps/jeremy-nuttall.com/src/polyfills.ts",
             "tsConfig": "apps/jeremy-nuttall.com/tsconfig.app.json",
-            "assets": [
-              "apps/jeremy-nuttall.com/src/favicon.ico",
-              "apps/jeremy-nuttall.com/src/assets"
-            ],
+            "assets": ["apps/jeremy-nuttall.com/src/assets"],
             "styles": [],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack"

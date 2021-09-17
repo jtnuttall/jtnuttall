@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "start-all": "nx run-many --target=serve --projects=api,jeremy-nuttall.com --parallel=true"
   },
   "private": true,
   "dependencies": {
