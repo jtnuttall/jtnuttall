@@ -14,10 +14,12 @@
     "@emotion/styled": "11.1.5",
     "@fontsource/space-grotesk": "^4.5.0",
     "@mui/material": "^5.0.0",
+    "axios": "^0.21.4",
     "core-js": "^3.6.5",
     "express": "4.17.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-query": "^3.23.2",
     "regenerator-runtime": "0.13.7",
     "tslib": "^2.0.0"
   },

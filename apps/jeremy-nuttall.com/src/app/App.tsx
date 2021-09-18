@@ -1,31 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Message } from '@jtnuttall/api-interfaces';
-import { Button, CssBaseline, ThemeProvider, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from './style/theme';
+import HomePage from './pages/HomePage';
+
+const queryClient = new QueryClient();
 
 export const App = () => {
   const [dark, setDark] = useState(true);
-  const [m, setMessage] = useState<Message>({ message: '' });
-
-  useEffect(() => {
-    fetch('/api')
-      .then((r) => r.json())
-      .then(setMessage)
-      .catch((e) => console.log(e));
-  }, []);
 
   return (
-    <ThemeProvider theme={dark ? theme.dark : theme.light}>
-      <CssBaseline />
-      <div style={{ textAlign: 'center' }}>
-        <Typography variant="h1">Welcome to jeremy-nuttall.com</Typography>
-      </div>
-      <Typography variant="h2">{m.message}</Typography>
-      <Typography variant="body1" paragraph>
-        hello there, yellow blue Greeen Black
-      </Typography>
-      <Button variant="contained">Press me</Button>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={dark ? theme.dark : theme.light}>
+        <CssBaseline />
+        <HomePage />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 };
 
