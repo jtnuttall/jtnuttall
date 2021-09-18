@@ -12,6 +12,8 @@
   "dependencies": {
     "@emotion/react": "11.1.5",
     "@emotion/styled": "11.1.5",
+    "@fontsource/space-grotesk": "^4.5.0",
+    "@mui/material": "^5.0.0",
     "core-js": "^3.6.5",
     "express": "4.17.1",
     "react": "17.0.2",

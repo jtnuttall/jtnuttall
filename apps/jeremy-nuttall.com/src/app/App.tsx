@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Message } from '@jtnuttall/api-interfaces';
+import { Button, CssBaseline, ThemeProvider, Typography } from '@mui/material';
+import theme from './style/theme';
 
 export const App = () => {
+  const [dark, setDark] = useState(true);
   const [m, setMessage] = useState<Message>({ message: '' });
 
   useEffect(() => {
@@ -12,17 +15,17 @@ export const App = () => {
   }, []);
 
   return (
-    <>
+    <ThemeProvider theme={dark ? theme.dark : theme.light}>
+      <CssBaseline />
       <div style={{ textAlign: 'center' }}>
-        <h1>Welcome to jeremy-nuttall.com!</h1>
-        <img
-          width="450"
-          src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png"
-          alt="Nx - Smart, Extensible Build Framework"
-        />
+        <Typography variant="h1">Welcome to jeremy-nuttall.com</Typography>
       </div>
-      <div>{m.message}</div>
-    </>
+      <Typography variant="h2">{m.message}</Typography>
+      <Typography variant="body1" paragraph>
+        hello there, yellow blue Greeen Black
+      </Typography>
+      <Button variant="contained">Press me</Button>
+    </ThemeProvider>
   );
 };
 
