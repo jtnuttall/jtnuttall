@@ -1,9 +1,30 @@
 {
-  "extends": ["plugin:@nrwl/nx/react", "../../.eslintrc.json"],
+  "extends": [
+    "plugin:@nrwl/nx/react",
+    "../../.eslintrc.json",
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
   "ignorePatterns": ["!**/*"],
+  "rules": {
+    "import/extensions": "off",
+    "react/prop-types": "off",
+    "react/require-default-props": "off",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/jsx-props-no-spreading": "off",
+    "@typescript-eslint/no-unused-vars": ["warn"],
+    // As of React 17, React no longer needs to be in scope when writing JSX
+    "react/react-in-jsx-scope": "off"
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "parserOptions": {
+        "project": ["apps/jeremy-nuttall.com/tsconfig.*?.json"]
+      },
       "rules": {}
     },
     {
@@ -13,6 +34,12 @@
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
+    },
+    {
+      "files": ["src/environments/*.ts"],
+      "rules": {
+        "import/prefer-default-export": 0
+      }
     }
   ]
 }

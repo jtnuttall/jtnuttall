@@ -1,21 +1,18 @@
 import { cleanup, getByText, render, waitFor } from '@testing-library/react';
-import React from 'react';
+import mockAxios from 'jest-mock-axios';
 import App from './App';
 
 describe('App', () => {
+  beforeEach(() => {
+    mockAxios.reset();
+  });
+
   afterEach(() => {
-    delete global['fetch'];
     cleanup();
   });
 
   it('should render successfully', async () => {
-    global['fetch'] = jest.fn().mockResolvedValueOnce({
-      json: () => ({
-        message: 'my message',
-      }),
-    });
-
     const { baseElement } = render(<App />);
-    await waitFor(() => getByText(baseElement, 'my message'));
+    await waitFor(() => getByText(baseElement as HTMLElement, 'my message'));
   });
 });

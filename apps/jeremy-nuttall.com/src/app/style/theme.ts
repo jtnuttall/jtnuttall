@@ -9,7 +9,7 @@ const typography: TypographyOptions = {
 const light = responsiveFontSizes(
   createTheme({
     typography,
-  })
+  }),
 );
 
 const dark = responsiveFontSizes(
@@ -35,7 +35,7 @@ const dark = responsiveFontSizes(
         main: '#fffc00',
       },
     },
-  })
+  }),
 );
 
 export default {

@@ -23,6 +23,7 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
+      "plugins": [],
       "extends": ["plugin:@nrwl/nx/typescript"],
       "rules": {}
     },

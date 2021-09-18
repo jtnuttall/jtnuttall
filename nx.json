@@ -14,12 +14,7 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ]
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
       }
     }
   },
@@ -43,9 +38,7 @@
     },
     "jeremy-nuttall.com-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "jeremy-nuttall.com"
-      ]
+      "implicitDependencies": ["jeremy-nuttall.com"]
     }
   }
 }

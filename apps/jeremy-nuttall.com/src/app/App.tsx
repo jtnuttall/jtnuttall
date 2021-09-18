@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { CssBaseline, ThemeProvider } from '@mui/material';
@@ -7,7 +7,7 @@ import HomePage from './pages/HomePage';
 
 const queryClient = new QueryClient();
 
-export const App = (): JSX.Element => {
+const App = (): JSX.Element => {
   const [dark, setDark] = useState(true);
 
   return (

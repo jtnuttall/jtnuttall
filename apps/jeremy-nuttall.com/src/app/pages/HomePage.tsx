@@ -1,12 +1,11 @@
-import React from 'react';
 import axios from 'axios';
 import { useQuery } from 'react-query';
-import { Button, CssBaseline, ThemeProvider, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { Message } from '@jtnuttall/api-interfaces';
 
 const HomePage = (): JSX.Element => {
   const { data, isLoading, error } = useQuery('api-message', () =>
-    axios.get<Message>('/api').then(({ data }) => data)
+    axios.get<Message>('/api').then((response) => response.data),
   );
 
   return (
