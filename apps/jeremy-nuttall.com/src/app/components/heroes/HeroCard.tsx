@@ -1,7 +1,26 @@
-import styled from '@emotion/styled';
-import { CardMedia } from '@mui/material';
+import { ReactNode } from 'react';
+import { Box, CardMedia, styled } from '@mui/material';
 
-const HeroCard = styled(CardMedia)`
+type LinearGradientProps = {
+  linearGradient?: string[];
+  children: ReactNode;
+};
+
+const LinearGradient = (props: LinearGradientProps): JSX.Element => {
+  const { linearGradient, children } = props;
+
+  if (linearGradient) {
+    return (
+      <Box sx={{ background: `linear-gradient(${linearGradient.join(',')})` }}>
+        {children}
+      </Box>
+    );
+  }
+
+  return <>{children}</>;
+};
+
+const HeroCardMedia = styled(CardMedia)`
   display: flex;
   flex-direction: column;
   min-height: 500px;
@@ -10,5 +29,17 @@ const HeroCard = styled(CardMedia)`
   align-items: center;
   justify-content: center;
 `;
+
+type HeroCardProps = Parameters<typeof HeroCardMedia>[0] & LinearGradientProps;
+
+const HeroCard = (props: HeroCardProps): JSX.Element => {
+  const { linearGradient: gradient, ...cardMediaProps } = props;
+
+  return (
+    <LinearGradient linearGradient={gradient}>
+      <HeroCardMedia {...cardMediaProps} />
+    </LinearGradient>
+  );
+};
 
 export default HeroCard;

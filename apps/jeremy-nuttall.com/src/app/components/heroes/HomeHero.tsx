@@ -5,6 +5,7 @@ import Typewriter, {
   TypewriterAction,
   TypewriterActions,
 } from '../typewriter/Typewriter';
+import { bluePurpleOrange } from '../../style/gradients';
 
 const typewriterActions: TypewriterActions[] = [
   {
@@ -61,7 +62,7 @@ const FakeTerminal = styled(Box)`
 `;
 
 const HomeHero = (): JSX.Element => (
-  <HeroCard image={CircuitBoard}>
+  <HeroCard image={CircuitBoard} linearGradient={bluePurpleOrange}>
     <Typography variant="h1" style={{ marginBottom: 10, textAlign: 'center' }}>
       Jeremy Nuttall
     </Typography>
