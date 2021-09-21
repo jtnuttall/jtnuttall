@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from './style/theme';
 import HomePage from './pages/HomePage';
+import NavigationHeader from './components/navigation/NavigationHeader';
 
 const queryClient = new QueryClient();
 
@@ -15,6 +16,7 @@ const App = (): JSX.Element => {
       <BrowserRouter>
         <ThemeProvider theme={dark ? theme.dark : theme.light}>
           <CssBaseline />
+          <NavigationHeader />
           <HomePage />
         </ThemeProvider>
       </BrowserRouter>
