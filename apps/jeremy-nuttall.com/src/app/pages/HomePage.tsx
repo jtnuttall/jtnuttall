@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useQuery } from 'react-query';
 import { Button, Typography } from '@mui/material';
 import { Message } from '@jtnuttall/api-interfaces';
+import HomeHero from '../components/heroes/HomeHero';
 
 const HomePage = (): JSX.Element => {
   const { data, isLoading, error } = useQuery('api-message', () =>
@@ -10,6 +11,7 @@ const HomePage = (): JSX.Element => {
 
   return (
     <>
+      <HomeHero />
       <div style={{ textAlign: 'center' }}>
         <Typography variant="h1">Welcome to jeremy-nuttall.com</Typography>
       </div>

@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
 import '@fontsource/space-grotesk/variable.css';
+import '@fontsource/space-mono';
 import App from './app/App';
 
 ReactDOM.render(

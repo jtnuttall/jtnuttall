@@ -1180,6 +1180,11 @@
   resolved "https://registry.yarnpkg.com/@fontsource/space-grotesk/-/space-grotesk-4.5.0.tgz#abb226d0a03fb0b733cd4f0c87bc8a08c0a1d215"
   integrity sha512-Kdnq5m31DsJ8l/VCpZGz4QpIxLLvNVh4MyVGY0PmDh7aY9aM5rmO2NF49dJ0749gLPgMW6Moc/xjgW95G0MbMg==
 
+"@fontsource/space-mono@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/space-mono/-/space-mono-4.5.0.tgz#634cb042d570f9341f4449c6bf0b4c57c562c0c2"
+  integrity sha512-1tzGlLH2N/k1sovGSA4s7MpIRMciKeJbXKfdrKc1H84lg1FPcmiYGYdWiQA5MoQyjF6Bqx+IWpyIcOktMKvViA==
+
 "@gar/promisify@^1.0.1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.2.tgz#30aa825f11d438671d585bd44e7fd564535fc210"
@@ -2368,6 +2373,11 @@
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
+
+"@types/lodash@^4.14.173":
+  version "4.14.173"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.173.tgz#9d3b674c67a26cf673756f6aca7b429f237f91ed"
+  integrity sha512-vv0CAYoaEjCw/mLy96GBTnRoZrSxkGE0BKzKimdR8P3OzrNYNvBgtW7p055A+E8C31vXNUhWKoFCbhq7gbyhFg==
 
 "@types/mime@^1":
   version "1.3.2"
