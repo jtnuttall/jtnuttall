@@ -1,28 +1,77 @@
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
-type UseIntersectionProps = {
-  elementRef: MutableRefObject<HTMLElement | null>;
-  options?: Omit<IntersectionObserverInit, 'root'>;
+export enum ScrollingDirection {
+  None = 'intersection/none',
+  EnterDown = 'intersection/enter/down',
+  EnterUp = 'intersection/enter/up',
+  LeaveDown = 'intersection/leave/down',
+  LeaveUp = 'intersection/leave/up',
+}
+
+type BoundingRectMeta = {
+  y: number;
+  ratio: number;
 };
 
 type UseIntersectionReturn = {
-  anyIntersection: boolean | null;
-  entries: IntersectionObserverEntry[];
+  intersecting: boolean | null;
+  scrollingDirection: ScrollingDirection;
+};
+
+const getIntersectionDirection = (
+  isIntersecting: boolean,
+  previous: BoundingRectMeta,
+  current: BoundingRectMeta,
+): ScrollingDirection => {
+  if (current.y < previous.y) {
+    return current.ratio > previous.ratio && isIntersecting
+      ? ScrollingDirection.EnterDown
+      : ScrollingDirection.LeaveDown;
+  }
+
+  if (current.y > previous.y) {
+    return current.ratio > previous.ratio && isIntersecting
+      ? ScrollingDirection.EnterUp
+      : ScrollingDirection.LeaveUp;
+  }
+
+  return ScrollingDirection.None;
 };
 
 const useIntersection = (
-  props: UseIntersectionProps,
+  elementRef: MutableRefObject<HTMLElement | null>,
+  options?: IntersectionObserverInit,
 ): UseIntersectionReturn => {
-  const { elementRef, options } = props;
-
   const lastElementRef = elementRef.current;
-  const [anyIntersection, setAnyIntersection] = useState<boolean | null>(null);
-  const [entries, setEntries] = useState<IntersectionObserverEntry[]>([]);
   const intersectionObserverRef = useRef<IntersectionObserver>();
+  const previousRect = useRef<BoundingRectMeta>({ y: 0, ratio: 0 });
+
+  const [intersecting, setIntersecting] = useState<boolean | null>(null);
+  const [scrollingDirection, setIntersectionDirection] =
+    useState<ScrollingDirection>(ScrollingDirection.None);
 
   const handleIntersection: IntersectionObserverCallback = (newEntries) => {
-    setEntries(newEntries);
-    setAnyIntersection(newEntries.some((entry) => entry.isIntersecting));
+    let isIntersecting = false;
+
+    newEntries.forEach((entry) => {
+      const currentRect = {
+        y: entry.boundingClientRect.y,
+        ratio: entry.intersectionRatio,
+      };
+
+      setIntersectionDirection(
+        getIntersectionDirection(
+          entry.isIntersecting,
+          previousRect.current,
+          currentRect,
+        ),
+      );
+
+      isIntersecting ||= entry.isIntersecting;
+      previousRect.current = currentRect;
+    });
+
+    setIntersecting(isIntersecting);
   };
 
   useEffect(() => {
@@ -43,8 +92,8 @@ const useIntersection = (
   }, [elementRef, lastElementRef, options]);
 
   return {
-    entries,
-    anyIntersection,
+    intersecting,
+    scrollingDirection,
   };
 };
 
