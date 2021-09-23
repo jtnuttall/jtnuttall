@@ -1,52 +1,113 @@
-import { Box, AppBar, Toolbar, Button, Fab, Typography } from '@mui/material';
-import { Home as HomeIcon, Face as FaceIcon } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  Hidden,
+  ButtonGroup,
+  Button,
+  Fab,
+  Typography,
+} from '@mui/material';
+import {
+  Code as CodeIcon,
+  Home as HomeIcon,
+  GitHub as GitHubIcon,
+  MenuOpen as MenuOpenIcon,
+} from '@mui/icons-material';
 import { useEffect, useRef, useState } from 'react';
 import useScroll from '../../hooks/useScroll';
 
+type ToolbarContentsProps = {
+  opaqueAppBar: boolean;
+};
+
+const DesktopToolbarContents = (props: ToolbarContentsProps): JSX.Element => {
+  const { opaqueAppBar } = props;
+
+  return (
+    <>
+      <Fab
+        size="medium"
+        color="secondary"
+        sx={{ mr: 2 }}
+        component={Link}
+        to="/"
+      >
+        <HomeIcon />
+      </Fab>
+      <Typography variant="h5" sx={{ mr: 2 }}>
+        Jeremy
+      </Typography>
+      <Box sx={{ flexGrow: 1 }} />
+      <ButtonGroup
+        variant="contained"
+        color={opaqueAppBar ? 'secondary' : 'primary'}
+      >
+        <Button component={Link} to="/projects">
+          <CodeIcon sx={{ mr: 1 }} /> Projects
+        </Button>
+        <Button
+          href="https://github.com/jtnuttall/jtnuttall"
+          target="_blank"
+          rel="noopener"
+        >
+          <GitHubIcon sx={{ mr: 1 }} /> GitHub
+        </Button>
+      </ButtonGroup>
+    </>
+  );
+};
+
+const MobileToolbarContents = (props: ToolbarContentsProps): JSX.Element => {
+  const { opaqueAppBar } = props;
+
+  return (
+    <>
+      <Fab size="medium" color="secondary" sx={{ mr: 2 }}>
+        <MenuOpenIcon />
+      </Fab>
+    </>
+  );
+};
+
 type NavigationHeaderProps = {
-  transparentOffset?: number;
+  opaqueOffset?: number;
 };
 
 const NavigationHeader = (props: NavigationHeaderProps): JSX.Element => {
-  const { transparentOffset = 15 } = props;
+  const { opaqueOffset = null } = props;
 
   const appBarRef = useRef<HTMLDivElement>(null);
   const { yOffset } = useScroll(window);
-  const [transparentAppBar, setTransparentAppBar] = useState(false);
+  const [opaqueAppBar, setOpaqueAppBar] = useState(!opaqueOffset);
 
   useEffect(() => {
-    if (!yOffset) return;
+    if (yOffset === null || opaqueOffset === null) return;
 
-    setTransparentAppBar(yOffset > transparentOffset);
-  }, [transparentOffset, yOffset]);
+    setOpaqueAppBar(yOffset >= opaqueOffset);
+  }, [opaqueOffset, yOffset]);
 
   return (
     <AppBar
       ref={appBarRef}
       position="fixed"
       sx={
-        transparentAppBar
+        opaqueAppBar
           ? undefined
           : {
               backgroundColor: 'rgba(75,75,75,0.0)',
-              boxShadow: 'none',
+              backdropFilter: 'blur(3px)',
             }
       }
     >
       <Toolbar>
-        <Fab size="medium" color="secondary" sx={{ mr: 2 }}>
-          <HomeIcon />
-        </Fab>
-        <Typography variant="h5" sx={{ mr: 2 }}>
-          Jeremy
-        </Typography>
-        <Box sx={{ flexGrow: 1 }} />
-        <Button
-          variant="contained"
-          color={transparentAppBar ? 'secondary' : 'primary'}
-        >
-          <FaceIcon sx={{ mr: 1 }} /> About Me
-        </Button>
+        <Hidden smDown>
+          <DesktopToolbarContents opaqueAppBar={opaqueAppBar} />
+        </Hidden>
+        <Hidden mdUp>
+          <MobileToolbarContents opaqueAppBar={opaqueAppBar} />
+        </Hidden>
       </Toolbar>
     </AppBar>
   );
