@@ -23,7 +23,8 @@ const LinearGradient = (props: LinearGradientProps): JSX.Element => {
 const HeroCardMedia = styled(CardMedia)`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 115vh;
+  padding-bottom: 15vh;
   background-size: auto;
   background-repeat: repeat;
   align-items: center;

@@ -69,9 +69,9 @@ const HomeHero = (): JSX.Element => (
 
     <FakeTerminal>
       <Typewriter
-        prompt="> "
+        prompt={'\u03BB '}
         cpm={1000}
-        cursorType="underscore"
+        cursorType="ibeam"
         fontFamily="Space Mono"
         actions={typewriterActions}
       />
