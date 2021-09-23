@@ -38,7 +38,15 @@ const dark = responsiveFontSizes(
   }),
 );
 
+const css = {
+  filters: {
+    raisedDropShadow:
+      'drop-shadow(0px 5px 0px rgba(0, 0, 0, 0.20)) drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.14)) drop-shadow(0px 3px 14px rgba(0, 0, 0, 0.12))',
+  },
+};
+
 export default {
   dark,
   light,
+  css,
 } as const;
