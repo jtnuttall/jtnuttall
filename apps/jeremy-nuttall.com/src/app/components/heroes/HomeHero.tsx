@@ -61,22 +61,33 @@ const FakeTerminal = styled(Box)`
   padding: 1.25rem 2rem 1.25rem 2rem;
 `;
 
-const HomeHero = (): JSX.Element => (
-  <HeroCard image={CircuitBoard} linearGradient={bluePurpleOrange}>
-    <Typography variant="h1" style={{ marginBottom: 10, textAlign: 'center' }}>
-      Jeremy Nuttall
-    </Typography>
+type HomeHeroProps = {
+  name: string;
+};
 
-    <FakeTerminal>
-      <Typewriter
-        prompt={'\u03BB '}
-        cpm={1000}
-        cursorType="ibeam"
-        fontFamily="Space Mono"
-        actions={typewriterActions}
-      />
-    </FakeTerminal>
-  </HeroCard>
-);
+const HomeHero = (props: HomeHeroProps): JSX.Element => {
+  const { name } = props;
+
+  return (
+    <HeroCard image={CircuitBoard} linearGradient={bluePurpleOrange}>
+      <Typography
+        variant="h1"
+        style={{ marginBottom: 10, textAlign: 'center' }}
+      >
+        Jeremy Nuttall
+      </Typography>
+
+      <FakeTerminal>
+        <Typewriter
+          prompt={'\u03BB '}
+          cpm={1000}
+          cursorType="ibeam"
+          fontFamily="Space Mono"
+          actions={typewriterActions}
+        />
+      </FakeTerminal>
+    </HeroCard>
+  );
+};
 
 export default HomeHero;

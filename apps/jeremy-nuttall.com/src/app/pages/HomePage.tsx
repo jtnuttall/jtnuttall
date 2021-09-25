@@ -5,21 +5,25 @@ import PersonalSummarySection from '../components/home-sections/PersonalSummaryS
 import ExpoSection from '../components/home-sections/ExpoSection';
 import FooterSection from '../components/home-sections/FooterSection';
 
-const HomePage = (): JSX.Element => (
-  <Askew sx={{ overflowX: 'hidden' }}>
-    <HomeHero key="homepage-hero" />
-    <PersonalSummarySection
-      headerTitle="About Me"
-      key="homepage-personal-summary-section"
-      sx={{ backgroundColor: '#E3E2DF', color: '#2c2e35' }}
-    />
-    <ExpoSection
-      headerTitle="Expo"
-      key="homepage-expo-section"
-      sx={{ backgroundColor: '#2c2e35' }}
-    />
-    <FooterSection headerTitle="You might like:" key="homepage-footer" />
-  </Askew>
-);
+const HomePage = (): JSX.Element => {
+  const { palette } = useTheme();
+
+  return (
+    <Askew sx={{ overflowX: 'hidden' }}>
+      <HomeHero name="homepage-hero" />
+      <PersonalSummarySection
+        headerTitle="About Me"
+        name="homepage-personal-summary-section"
+        sx={{ backgroundColor: '#E3E2DF', color: '#2c2e35' }}
+      />
+      <ExpoSection
+        headerTitle="Expo"
+        name="homepage-expo-section"
+        sx={{ backgroundColor: palette.primary.dark }}
+      />
+      <FooterSection headerTitle="You might like" name="homepage-footer" />
+    </Askew>
+  );
+};
 
 export default HomePage;

@@ -8,6 +8,7 @@ import {
   Button,
   Fab,
   Typography,
+  useTheme,
 } from '@mui/material';
 import {
   Code as CodeIcon,
@@ -24,6 +25,7 @@ type ToolbarContentsProps = {
 
 const DesktopToolbarContents = (props: ToolbarContentsProps): JSX.Element => {
   const { opaqueAppBar } = props;
+  const { palette } = useTheme();
 
   return (
     <>

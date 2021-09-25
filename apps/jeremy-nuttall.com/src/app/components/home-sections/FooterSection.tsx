@@ -26,7 +26,7 @@ const CopyrightBox = styled(Box)`
 `;
 
 const FooterSection = (
-  props: Pick<SectionBoxProps, 'headerTitle'>,
+  props: Pick<SectionBoxProps, 'headerTitle' | 'name'>,
 ): JSX.Element => {
   const { headerTitle } = props;
 

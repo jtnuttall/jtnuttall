@@ -1,15 +1,24 @@
-import React, { Children, ReactNode, useMemo } from 'react';
-import { Box, BoxProps, Card, CardProps, styled } from '@mui/material';
-import { v4 as uuid } from 'uuid';
+import React, { ReactElement } from 'react';
+import {
+  Box,
+  BoxProps,
+  Grid,
+  GridProps,
+  Card,
+  CardProps,
+  styled,
+} from '@mui/material';
 import theme from '../../style/theme';
 
 export const skewAmount = '90pt';
 
 export const CutBottomLeft = styled(Box)`
+  position: relative;
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% calc(100% - ${skewAmount}));
 `;
 
 export const CutLeft = styled(Box)`
+  position: relative;
   clip-path: polygon(
     0% 0%,
     100% ${skewAmount},
@@ -25,6 +34,7 @@ export const CutLeft = styled(Box)`
 `;
 
 export const CutTopLeft = styled(Box)`
+  position: relative;
   clip-path: polygon(0% 0%, 100% ${skewAmount}, 100% 100%, 0% 100%);
 
   & > * {
@@ -57,28 +67,49 @@ type AskewProps = {
   sx?: BoxProps['sx'];
   skewTop?: boolean;
   skewBottom?: boolean;
-  children: ReactNode;
+  children: ReactElement<{ name: string }>[];
 };
 
 const Askew = (props: AskewProps): JSX.Element => {
   const { sx, skewTop, skewBottom, children } = props;
 
-  const childArray = useMemo(() => Children.toArray(children), [children]);
-
   return (
     <Box sx={sx}>
-      {childArray.map((child, i) => {
+      {children.map((child, i) => {
+        const {
+          props: { name },
+        } = child;
+
         if (!skewTop && i === 0) {
-          return <CutBottomLeft>{child}</CutBottomLeft>;
+          return <CutBottomLeft key={name}>{child}</CutBottomLeft>;
         }
 
-        if (!skewBottom && i === childArray.length - 1) {
-          return <CutTopLeft>{child}</CutTopLeft>;
+        if (!skewBottom && i === children.length - 1) {
+          return <CutTopLeft key={name}>{child}</CutTopLeft>;
         }
 
-        return <CutLeft>{child}</CutLeft>;
+        return <CutLeft key={name}>{child}</CutLeft>;
       })}
     </Box>
+  );
+};
+
+type AskewGridProps = {
+  sx: GridProps['sx'];
+  skewTop?: boolean;
+  skewBottom?: boolean;
+  children: ReactElement<{ name: string }>[];
+};
+
+const AskewGrid = (props: AskewGridProps): JSX.Element => {
+  const { sx, skewTop, skewBottom, children } = props;
+
+  return (
+    <Grid container sx={sx}>
+      {children.map((child, i) => (
+        <Grid item>{child}</Grid>
+      ))}
+    </Grid>
   );
 };
 
