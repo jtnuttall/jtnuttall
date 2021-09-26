@@ -1,0 +1,26 @@
+fragment ProjectShortItem on Project {
+  name
+  blurb
+  preview {
+    url
+  }
+  priority
+  rating
+  exampleUrl
+  repositoryUrl
+}
+
+fragment ProjectItem on Project {
+  ...ProjectShortItem
+  description {
+    json
+  }
+}
+
+query AllProjects {
+  projectCollection {
+    items {
+      ...ProjectItem
+    }
+  }
+}

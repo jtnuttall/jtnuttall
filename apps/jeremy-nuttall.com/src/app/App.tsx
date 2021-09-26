@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/client';
+import { apolloClient } from '@jtnuttall/apollo-codegen';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from './style/theme';
@@ -13,22 +15,24 @@ const App = (): JSX.Element => {
   const [dark, setDark] = useState(true);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={dark ? theme.dark : theme.light}>
-        <CssBaseline />
-        <BrowserRouter>
-          <NavigationHeader opaqueOffset={500} />
-          <Switch>
-            <Route path="/projects">
-              <ProjectsPage />
-            </Route>
-            <Route path="/">
-              <HomePage />
-            </Route>
-          </Switch>
-        </BrowserRouter>
-      </ThemeProvider>
-    </QueryClientProvider>
+    <ApolloProvider client={apolloClient}>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={dark ? theme.dark : theme.light}>
+          <CssBaseline />
+          <BrowserRouter>
+            <NavigationHeader opaqueOffset={500} />
+            <Switch>
+              <Route path="/projects">
+                <ProjectsPage />
+              </Route>
+              <Route path="/">
+                <HomePage />
+              </Route>
+            </Switch>
+          </BrowserRouter>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </ApolloProvider>
   );
 };
 

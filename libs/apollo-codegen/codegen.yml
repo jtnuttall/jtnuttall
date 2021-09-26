@@ -1,0 +1,15 @@
+overwrite: true
+schema: 
+  "${NX_CONTENTFUL_URL}/${NX_CONTENTFUL_SPACE_ID}":
+    headers:
+      Authorization: "Bearer ${NX_CONTENTFUL_API_KEY}"
+documents: "libs/apollo-codegen/src/**/*.graphql"
+generates:
+  "libs/apollo-codegen/src/generated/index.ts":
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+hooks:
+  afterAllFileWrite:
+    - prettier --write

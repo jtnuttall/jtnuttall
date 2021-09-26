@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@jtnuttall/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@jtnuttall/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@jtnuttall/apollo-codegen": ["libs/apollo-codegen/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

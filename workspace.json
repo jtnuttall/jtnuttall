@@ -66,6 +66,38 @@
         }
       }
     },
+    "apollo-codegen": {
+      "root": "libs/apollo-codegen",
+      "sourceRoot": "libs/apollo-codegen/src",
+      "projectType": "library",
+      "targets": {
+        "prepare": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "yarn --cwd libs/apollo-codegen graphql-codegen --config libs/apollo-codegen/codegen.yml"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/apollo-codegen/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/apollo-codegen"],
+          "options": {
+            "jestConfig": "libs/apollo-codegen/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "jeremy-nuttall.com": {
       "root": "apps/jeremy-nuttall.com",
       "sourceRoot": "apps/jeremy-nuttall.com/src",
