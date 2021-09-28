@@ -94,23 +94,4 @@ const Askew = (props: AskewProps): JSX.Element => {
   );
 };
 
-type AskewGridProps = {
-  sx: GridProps['sx'];
-  skewTop?: boolean;
-  skewBottom?: boolean;
-  children: ReactElement<{ name: string }>[];
-};
-
-const AskewGrid = (props: AskewGridProps): JSX.Element => {
-  const { sx, skewTop, skewBottom, children } = props;
-
-  return (
-    <Grid container sx={sx}>
-      {children.map((child, i) => (
-        <Grid item>{child}</Grid>
-      ))}
-    </Grid>
-  );
-};
-
 export default Askew;
