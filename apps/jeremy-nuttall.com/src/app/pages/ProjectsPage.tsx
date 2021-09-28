@@ -1,11 +1,10 @@
-import { Box, Typography } from '@mui/material';
 import ProjectsGrid from '../components/projects/ProjectsGrid';
-import Askew from '../containers/layout/Askew';
+import PageWrapper from '../containers/layout/PageWrapper';
 
 const ProjectsPage = (): JSX.Element => (
-  <Box sx={{ mt: '65px' }}>
+  <PageWrapper>
     <ProjectsGrid />
-  </Box>
+  </PageWrapper>
 );
 
 export default ProjectsPage;
