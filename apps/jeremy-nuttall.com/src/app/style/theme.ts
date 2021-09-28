@@ -16,6 +16,7 @@ const dark = responsiveFontSizes(
   createTheme({
     typography,
     palette: {
+      mode: 'dark',
       primary: {
         main: '#5f67cb',
       },
