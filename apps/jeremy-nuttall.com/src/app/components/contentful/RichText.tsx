@@ -13,6 +13,11 @@ import documentNodeRenderer from './renderers/document';
 import paragraphNodeRenderer from './renderers/paragraph';
 import quoteRenderer from './renderers/quote';
 import textNodeRenderer from './renderers/text';
+import {
+  listItemRenderer,
+  orderedListRenderer,
+  unorderedListRenderer,
+} from './renderers/lists';
 
 const inlineRegex = new RegExp(Object.values(INLINES).join('|'));
 
@@ -27,6 +32,9 @@ const richTextOptions: RichTextOptions = {
     [BLOCKS.HEADING_5]: textNodeRenderer('h5'),
     [BLOCKS.HEADING_6]: textNodeRenderer('h6'),
     [BLOCKS.QUOTE]: quoteRenderer,
+    [BLOCKS.OL_LIST]: orderedListRenderer,
+    [BLOCKS.UL_LIST]: unorderedListRenderer,
+    [BLOCKS.LIST_ITEM]: listItemRenderer,
   },
 };
 
@@ -52,4 +60,4 @@ const RichText = React.forwardRef<HTMLDivElement, RichTextProps>(
   },
 );
 
-export default RichText;
+export default React.memo(RichText);

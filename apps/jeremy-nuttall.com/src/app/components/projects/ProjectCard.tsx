@@ -75,6 +75,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
         <CardMedia
           component="img"
           width="100%"
+          sx={{ aspectRatio: '16/9' }}
           src={
             project?.preview?.url ??
             'https://dummyimage.com/400x225/000/ffffff.png'
