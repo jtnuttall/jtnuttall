@@ -791,6 +791,7 @@ export type ProjectShortItemFragment = {
   rating?: Maybe<number>;
   exampleUrl?: Maybe<string>;
   repositoryUrl?: Maybe<string>;
+  sys: { __typename?: 'Sys'; id: string };
   preview?: Maybe<{ __typename?: 'Asset'; url?: Maybe<string> }>;
 };
 
@@ -803,12 +804,24 @@ export type ProjectItemFragment = {
   exampleUrl?: Maybe<string>;
   repositoryUrl?: Maybe<string>;
   description?: Maybe<{ __typename?: 'ProjectDescription'; json: any }>;
+  technologies?: Maybe<{
+    __typename?: 'ProjectTechnologiesCollection';
+    items: Array<
+      Maybe<{
+        __typename?: 'Technology';
+        name?: Maybe<string>;
+        sys: { __typename?: 'Sys'; id: string };
+        icon?: Maybe<{ __typename?: 'Asset'; url?: Maybe<string> }>;
+      }>
+    >;
+  }>;
+  sys: { __typename?: 'Sys'; id: string };
   preview?: Maybe<{ __typename?: 'Asset'; url?: Maybe<string> }>;
 };
 
-export type AllProjectsQueryVariables = Exact<{ [key: string]: never }>;
+export type ProjectsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type AllProjectsQuery = {
+export type ProjectsQuery = {
   __typename?: 'Query';
   projectCollection?: Maybe<{
     __typename?: 'ProjectCollection';
@@ -822,7 +835,56 @@ export type AllProjectsQuery = {
         exampleUrl?: Maybe<string>;
         repositoryUrl?: Maybe<string>;
         description?: Maybe<{ __typename?: 'ProjectDescription'; json: any }>;
+        technologies?: Maybe<{
+          __typename?: 'ProjectTechnologiesCollection';
+          items: Array<
+            Maybe<{
+              __typename?: 'Technology';
+              name?: Maybe<string>;
+              sys: { __typename?: 'Sys'; id: string };
+              icon?: Maybe<{ __typename?: 'Asset'; url?: Maybe<string> }>;
+            }>
+          >;
+        }>;
+        sys: { __typename?: 'Sys'; id: string };
         preview?: Maybe<{ __typename?: 'Asset'; url?: Maybe<string> }>;
+      }>
+    >;
+  }>;
+};
+
+export type TechnologyShortItemFragment = {
+  __typename?: 'Technology';
+  name?: Maybe<string>;
+  sys: { __typename?: 'Sys'; id: string };
+  icon?: Maybe<{ __typename?: 'Asset'; url?: Maybe<string> }>;
+};
+
+export type TechnologyItemFragment = {
+  __typename?: 'Technology';
+  categories?: Maybe<Array<Maybe<string>>>;
+  experienceRating?: Maybe<number>;
+  experienceBegin?: Maybe<any>;
+  name?: Maybe<string>;
+  sys: { __typename?: 'Sys'; id: string };
+  icon?: Maybe<{ __typename?: 'Asset'; url?: Maybe<string> }>;
+};
+
+export type TechnologiesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TechnologiesQuery = {
+  __typename?: 'Query';
+  technologyCollection?: Maybe<{
+    __typename?: 'TechnologyCollection';
+    items: Array<
+      Maybe<{
+        __typename?: 'Technology';
+        categories?: Maybe<Array<Maybe<string>>>;
+        experienceRating?: Maybe<number>;
+        experienceBegin?: Maybe<any>;
+        name?: Maybe<string>;
+        sys: { __typename?: 'Sys'; id: string };
+        icon?: Maybe<{ __typename?: 'Asset'; url?: Maybe<string> }>;
       }>
     >;
   }>;
@@ -830,15 +892,29 @@ export type AllProjectsQuery = {
 
 export const ProjectShortItemFragmentDoc = gql`
   fragment ProjectShortItem on Project {
+    sys {
+      id
+    }
     name
     blurb
     preview {
-      url
+      url(transform: { width: 400, height: 225, resizeStrategy: SCALE })
     }
     priority
     rating
     exampleUrl
     repositoryUrl
+  }
+`;
+export const TechnologyShortItemFragmentDoc = gql`
+  fragment TechnologyShortItem on Technology {
+    sys {
+      id
+    }
+    name
+    icon {
+      url
+    }
   }
 `;
 export const ProjectItemFragmentDoc = gql`
@@ -847,12 +923,27 @@ export const ProjectItemFragmentDoc = gql`
     description {
       json
     }
+    technologies: technologiesCollection(limit: 7) {
+      items {
+        ...TechnologyShortItem
+      }
+    }
   }
   ${ProjectShortItemFragmentDoc}
+  ${TechnologyShortItemFragmentDoc}
 `;
-export const AllProjectsDocument = gql`
-  query AllProjects {
-    projectCollection {
+export const TechnologyItemFragmentDoc = gql`
+  fragment TechnologyItem on Technology {
+    ...TechnologyShortItem
+    categories
+    experienceRating
+    experienceBegin
+  }
+  ${TechnologyShortItemFragmentDoc}
+`;
+export const ProjectsDocument = gql`
+  query Projects {
+    projectCollection(order: [priority_DESC, rating_DESC]) {
       items {
         ...ProjectItem
       }
@@ -862,49 +953,106 @@ export const AllProjectsDocument = gql`
 `;
 
 /**
- * __useAllProjectsQuery__
+ * __useProjectsQuery__
  *
- * To run a query within a React component, call `useAllProjectsQuery` and pass it any options that fit your needs.
- * When your component renders, `useAllProjectsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useProjectsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProjectsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useAllProjectsQuery({
+ * const { data, loading, error } = useProjectsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useAllProjectsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    AllProjectsQuery,
-    AllProjectsQueryVariables
-  >,
+export function useProjectsQuery(
+  baseOptions?: Apollo.QueryHookOptions<ProjectsQuery, ProjectsQueryVariables>,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<AllProjectsQuery, AllProjectsQueryVariables>(
-    AllProjectsDocument,
+  return Apollo.useQuery<ProjectsQuery, ProjectsQueryVariables>(
+    ProjectsDocument,
     options,
   );
 }
-export function useAllProjectsLazyQuery(
+export function useProjectsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    AllProjectsQuery,
-    AllProjectsQueryVariables
+    ProjectsQuery,
+    ProjectsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<AllProjectsQuery, AllProjectsQueryVariables>(
-    AllProjectsDocument,
+  return Apollo.useLazyQuery<ProjectsQuery, ProjectsQueryVariables>(
+    ProjectsDocument,
     options,
   );
 }
-export type AllProjectsQueryHookResult = ReturnType<typeof useAllProjectsQuery>;
-export type AllProjectsLazyQueryHookResult = ReturnType<
-  typeof useAllProjectsLazyQuery
+export type ProjectsQueryHookResult = ReturnType<typeof useProjectsQuery>;
+export type ProjectsLazyQueryHookResult = ReturnType<
+  typeof useProjectsLazyQuery
 >;
-export type AllProjectsQueryResult = Apollo.QueryResult<
-  AllProjectsQuery,
-  AllProjectsQueryVariables
+export type ProjectsQueryResult = Apollo.QueryResult<
+  ProjectsQuery,
+  ProjectsQueryVariables
+>;
+export const TechnologiesDocument = gql`
+  query Technologies {
+    technologyCollection {
+      items {
+        ...TechnologyItem
+      }
+    }
+  }
+  ${TechnologyItemFragmentDoc}
+`;
+
+/**
+ * __useTechnologiesQuery__
+ *
+ * To run a query within a React component, call `useTechnologiesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTechnologiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTechnologiesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTechnologiesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    TechnologiesQuery,
+    TechnologiesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<TechnologiesQuery, TechnologiesQueryVariables>(
+    TechnologiesDocument,
+    options,
+  );
+}
+export function useTechnologiesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TechnologiesQuery,
+    TechnologiesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<TechnologiesQuery, TechnologiesQueryVariables>(
+    TechnologiesDocument,
+    options,
+  );
+}
+export type TechnologiesQueryHookResult = ReturnType<
+  typeof useTechnologiesQuery
+>;
+export type TechnologiesLazyQueryHookResult = ReturnType<
+  typeof useTechnologiesLazyQuery
+>;
+export type TechnologiesQueryResult = Apollo.QueryResult<
+  TechnologiesQuery,
+  TechnologiesQueryVariables
 >;

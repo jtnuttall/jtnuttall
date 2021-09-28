@@ -1,0 +1,24 @@
+fragment TechnologyShortItem on Technology {
+  sys {
+    id
+  }
+  name
+  icon {
+    url
+  }
+}
+
+fragment TechnologyItem on Technology {
+  ...TechnologyShortItem
+  categories
+  experienceRating
+  experienceBegin
+}
+
+query Technologies {
+  technologyCollection {
+    items {
+      ...TechnologyItem
+    }
+  }
+}

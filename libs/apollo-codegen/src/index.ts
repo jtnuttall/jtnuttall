@@ -1,7 +1,5 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 
-console.log(process.env);
-
 export * from './generated';
 
 const {

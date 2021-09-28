@@ -1,8 +1,11 @@
 fragment ProjectShortItem on Project {
+  sys {
+    id
+  }
   name
   blurb
   preview {
-    url
+    url(transform: { width: 512, height: 288, resizeStrategy: SCALE })
   }
   priority
   rating
@@ -15,10 +18,15 @@ fragment ProjectItem on Project {
   description {
     json
   }
+  technologies: technologiesCollection(limit: 7) {
+    items {
+      ...TechnologyShortItem
+    }
+  }
 }
 
-query AllProjects {
-  projectCollection {
+query Projects {
+  projectCollection(order: [priority_DESC, rating_DESC]) {
     items {
       ...ProjectItem
     }
