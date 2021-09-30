@@ -1,0 +1,7 @@
+version: 0.0
+os: linux
+files:
+  - source: apps/jeremy-nuttall.com
+    destination: /usr/share/nginx/html
+  - source: apps/api
+    destination: /usr/share/node/api
