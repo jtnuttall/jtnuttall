@@ -9,14 +9,15 @@ type TechnologyButtonProps = {
 
 const TechnologyButton = (props: TechnologyButtonProps): JSX.Element => {
   const { technology, height = 30 } = props;
+  const { name = '', icon = { url: '' } } = technology;
 
   return (
-    <IconButton>
+    <IconButton title={name ?? ''}>
       <img
         draggable={false}
         height={height}
-        src={technology?.icon?.url ?? ''}
-        alt={technology?.name ?? 'Tech'}
+        src={icon?.url ?? ''}
+        alt={name ?? ''}
       />
     </IconButton>
   );
