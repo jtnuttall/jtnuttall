@@ -63,7 +63,7 @@ export const CutLeftCard = React.forwardRef<HTMLDivElement, CardProps>(
   },
 );
 
-type AskewProps = {
+export type AskewProps = {
   sx?: BoxProps['sx'];
   skewTop?: boolean;
   skewBottom?: boolean;

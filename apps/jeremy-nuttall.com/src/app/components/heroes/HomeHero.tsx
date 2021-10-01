@@ -61,7 +61,7 @@ const FakeTerminal = styled(Box)`
   padding: 1.25rem 2rem 1.25rem 2rem;
 `;
 
-type HomeHeroProps = {
+export type HomeHeroProps = {
   name: string;
 };
 

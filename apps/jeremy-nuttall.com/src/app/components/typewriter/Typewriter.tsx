@@ -178,7 +178,7 @@ const cursorMap: Record<
   },
 };
 
-type TypewriterProps = {
+export type TypewriterProps = {
   actions: TypewriterActions[];
   prompt?: string;
   cpm?: number;

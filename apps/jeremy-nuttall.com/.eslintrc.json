@@ -11,19 +11,27 @@
   "ignorePatterns": ["!**/*"],
   "rules": {
     "import/extensions": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": ["**/*.stories.tsx", "**/.storybook/**/*"]
+      }
+    ],
     "react/prop-types": "off",
     "react/require-default-props": "off",
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-props-no-spreading": "off",
     "@typescript-eslint/no-unused-vars": ["warn"],
-    // As of React 17, React no longer needs to be in scope when writing JSX
     "react/react-in-jsx-scope": "off"
   },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "parserOptions": {
-        "project": ["apps/jeremy-nuttall.com/tsconfig.*?.json"]
+        "project": [
+          "apps/jeremy-nuttall.com/tsconfig.*?.json",
+          "apps/jeremy-nuttall.com/.storybook/tsconfig.json"
+        ]
       },
       "rules": {}
     },

@@ -31,7 +31,8 @@ const HeroCardMedia = styled(CardMedia)`
   justify-content: center;
 `;
 
-type HeroCardProps = Parameters<typeof HeroCardMedia>[0] & LinearGradientProps;
+export type HeroCardProps = Parameters<typeof HeroCardMedia>[0] &
+  LinearGradientProps;
 
 const HeroCard = (props: HeroCardProps): JSX.Element => {
   const { linearGradient: gradient, ...cardMediaProps } = props;
