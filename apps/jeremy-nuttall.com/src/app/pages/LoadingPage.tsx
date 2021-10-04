@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 import { styled } from '@mui/material';
-import { animated, useSpring, useTransition } from '@react-spring/web';
+import { animated, useTransition } from '@react-spring/web';
+
+// const colors = [
+//   ['rgb(65, 88, 208)', 'rgb(208, 203, 65)', 'rgb(208, 65, 77)'],
+//   ['rgb(197, 99, 168)', 'rgb(99, 197, 158)', 'rgb(197, 163, 99)'],
+//   ['rgb(255, 204, 112)', 'rgb(255, 112, 214)', 'rgb(112, 255, 193)'],
+// ] as const;
 
 const FullScreenBase = styled('div')`
   display: flex;

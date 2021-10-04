@@ -1,24 +1,16 @@
-import { Suspense } from 'react';
-import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from '@jtnuttall/apollo-codegen';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import theme from './style/theme';
-import NavigationRoot from './containers/navigation/NavigationRoot';
+import React, { Suspense } from 'react';
 import LoadingPage from './pages/LoadingPage';
 
-const queryClient = new QueryClient();
+const NavigationRoot = React.lazy(
+  () => import('./containers/navigation/NavigationRoot'),
+);
+const Providers = React.lazy(() => import('./store/Providers'));
 
 const App = (): JSX.Element => (
   <Suspense fallback={<LoadingPage />}>
-    <ApolloProvider client={apolloClient}>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={theme.dark}>
-          <CssBaseline />
-          <NavigationRoot />
-        </ThemeProvider>
-      </QueryClientProvider>
-    </ApolloProvider>
+    <Providers>
+      <NavigationRoot />
+    </Providers>
   </Suspense>
 );
 
