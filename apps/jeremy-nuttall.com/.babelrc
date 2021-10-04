@@ -10,9 +10,10 @@
   ],
   "plugins": [
     "@emotion/babel-plugin",
+    "lodash",
     [
       "babel-plugin-direct-import",
-      { "modules": ["@mui/material", "@mui/icons-material", "lodash"] }
+      { "modules": ["@mui/material", "@mui/icons-material"] }
     ]
   ]
 }

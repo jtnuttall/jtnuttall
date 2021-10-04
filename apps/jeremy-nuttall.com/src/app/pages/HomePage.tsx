@@ -1,9 +1,17 @@
+import React from 'react';
 import { useTheme } from '@mui/material';
 import Askew from '../containers/layout/Askew';
 import HomeHero from '../components/heroes/HomeHero';
-import PersonalSummarySection from '../components/home-sections/PersonalSummarySection';
-import ExpoSection from '../components/home-sections/ExpoSection';
-import FooterSection from '../components/home-sections/FooterSection';
+
+const PersonalSummarySection = React.lazy(
+  () => import('../components/home-sections/PersonalSummarySection'),
+);
+const ExpoSection = React.lazy(
+  () => import('../components/home-sections/ExpoSection'),
+);
+const FooterSection = React.lazy(
+  () => import('../components/home-sections/FooterSection'),
+);
 
 const HomePage = (): JSX.Element => {
   const { palette } = useTheme();
