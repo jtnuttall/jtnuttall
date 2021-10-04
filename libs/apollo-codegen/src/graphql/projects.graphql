@@ -18,7 +18,7 @@ fragment ProjectItem on Project {
   description {
     json
   }
-  technologies: technologiesCollection(limit: 7) {
+  technologies: technologiesCollection(limit: 5) {
     items {
       ...TechnologyShortItem
     }
@@ -27,6 +27,14 @@ fragment ProjectItem on Project {
 
 query Projects {
   projectCollection(order: [priority_DESC, rating_DESC]) {
+    items {
+      ...ProjectItem
+    }
+  }
+}
+
+query ProjectsExpo {
+  projectCollection(order: [priority_DESC, rating_DESC], limit: 3) {
     items {
       ...ProjectItem
     }

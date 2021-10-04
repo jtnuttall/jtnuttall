@@ -853,6 +853,40 @@ export type ProjectsQuery = {
   }>;
 };
 
+export type ProjectsExpoQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ProjectsExpoQuery = {
+  __typename?: 'Query';
+  projectCollection?: Maybe<{
+    __typename?: 'ProjectCollection';
+    items: Array<
+      Maybe<{
+        __typename?: 'Project';
+        name?: Maybe<string>;
+        blurb?: Maybe<string>;
+        priority?: Maybe<number>;
+        rating?: Maybe<number>;
+        exampleUrl?: Maybe<string>;
+        repositoryUrl?: Maybe<string>;
+        description?: Maybe<{ __typename?: 'ProjectDescription'; json: any }>;
+        technologies?: Maybe<{
+          __typename?: 'ProjectTechnologiesCollection';
+          items: Array<
+            Maybe<{
+              __typename?: 'Technology';
+              name?: Maybe<string>;
+              sys: { __typename?: 'Sys'; id: string };
+              icon?: Maybe<{ __typename?: 'Asset'; url?: Maybe<string> }>;
+            }>
+          >;
+        }>;
+        sys: { __typename?: 'Sys'; id: string };
+        preview?: Maybe<{ __typename?: 'Asset'; url?: Maybe<string> }>;
+      }>
+    >;
+  }>;
+};
+
 export type TechnologyShortItemFragment = {
   __typename?: 'Technology';
   name?: Maybe<string>;
@@ -898,7 +932,7 @@ export const ProjectShortItemFragmentDoc = gql`
     name
     blurb
     preview {
-      url(transform: { width: 400, height: 225, resizeStrategy: SCALE })
+      url(transform: { width: 512, height: 288, resizeStrategy: SCALE })
     }
     priority
     rating
@@ -923,7 +957,7 @@ export const ProjectItemFragmentDoc = gql`
     description {
       json
     }
-    technologies: technologiesCollection(limit: 7) {
+    technologies: technologiesCollection(limit: 5) {
       items {
         ...TechnologyShortItem
       }
@@ -995,6 +1029,66 @@ export type ProjectsLazyQueryHookResult = ReturnType<
 export type ProjectsQueryResult = Apollo.QueryResult<
   ProjectsQuery,
   ProjectsQueryVariables
+>;
+export const ProjectsExpoDocument = gql`
+  query ProjectsExpo {
+    projectCollection(order: [priority_DESC, rating_DESC], limit: 3) {
+      items {
+        ...ProjectItem
+      }
+    }
+  }
+  ${ProjectItemFragmentDoc}
+`;
+
+/**
+ * __useProjectsExpoQuery__
+ *
+ * To run a query within a React component, call `useProjectsExpoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProjectsExpoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProjectsExpoQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useProjectsExpoQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    ProjectsExpoQuery,
+    ProjectsExpoQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ProjectsExpoQuery, ProjectsExpoQueryVariables>(
+    ProjectsExpoDocument,
+    options,
+  );
+}
+export function useProjectsExpoLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ProjectsExpoQuery,
+    ProjectsExpoQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ProjectsExpoQuery, ProjectsExpoQueryVariables>(
+    ProjectsExpoDocument,
+    options,
+  );
+}
+export type ProjectsExpoQueryHookResult = ReturnType<
+  typeof useProjectsExpoQuery
+>;
+export type ProjectsExpoLazyQueryHookResult = ReturnType<
+  typeof useProjectsExpoLazyQuery
+>;
+export type ProjectsExpoQueryResult = Apollo.QueryResult<
+  ProjectsExpoQuery,
+  ProjectsExpoQueryVariables
 >;
 export const TechnologiesDocument = gql`
   query Technologies {

@@ -16,7 +16,10 @@ export const SectionBoxBase = styled(Box)`
 
 const AnimatedSectionBoxBase = animated(SectionBoxBase);
 
-export type SectionBoxProps = Parameters<typeof AnimatedSectionBoxBase>[0] & {
+export type SectionBoxProps = Omit<
+  Parameters<typeof AnimatedSectionBoxBase>[0],
+  'css'
+> & {
   name: string;
   headerTitle?: string;
   animationDirection?: 'left' | 'right';
