@@ -187,6 +187,7 @@ export type TypewriterProps = {
   cursorType?: CursorType;
   variant?: TypographyVariant;
   fontFamily?: string;
+  minHeight?: number | string;
 };
 
 /**
@@ -224,6 +225,7 @@ const Typewriter = (props: TypewriterProps): JSX.Element => {
     cursorType = 'underscore',
     variant = 'h4',
     fontFamily,
+    minHeight,
   } = props;
 
   const cpmDelay = useMemo(() => cpmToMillis(cpm), [cpm]);
@@ -298,7 +300,12 @@ const Typewriter = (props: TypewriterProps): JSX.Element => {
   }, [runInternal, cursorActive, cursorAnimation]);
 
   return (
-    <Typography variant={variant} color={color} fontFamily={fontFamily}>
+    <Typography
+      variant={variant}
+      color={color}
+      fontFamily={fontFamily}
+      minHeight={minHeight}
+    >
       {prompt}
       {text}
       {cursor}

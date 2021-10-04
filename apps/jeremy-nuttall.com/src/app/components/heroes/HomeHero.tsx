@@ -1,4 +1,11 @@
-import { Box, styled, Typography, withTheme } from '@mui/material';
+import {
+  Box,
+  styled,
+  Typography,
+  useMediaQuery,
+  useTheme,
+  withTheme,
+} from '@mui/material';
 import CircuitBoard from '../../../assets/circuit-board.svg';
 import HeroCard from './HeroCard';
 import Typewriter, {
@@ -67,12 +74,17 @@ export type HomeHeroProps = {
 
 const HomeHero = (props: HomeHeroProps): JSX.Element => {
   const { name } = props;
+  const { breakpoints } = useTheme();
+
+  const sm = useMediaQuery(breakpoints.down('sm'));
 
   return (
     <HeroCard image={CircuitBoard} linearGradient={bluePurpleOrange}>
       <Typography
         variant="h1"
-        style={{ marginBottom: 10, textAlign: 'center' }}
+        minHeight={128}
+        marginBottom={10}
+        textAlign="center"
       >
         Jeremy Nuttall
       </Typography>
@@ -83,6 +95,7 @@ const HomeHero = (props: HomeHeroProps): JSX.Element => {
           cpm={1000}
           cursorType="ibeam"
           fontFamily="Space Mono"
+          minHeight={sm ? 70 : 35}
           actions={typewriterActions}
         />
       </FakeTerminal>
