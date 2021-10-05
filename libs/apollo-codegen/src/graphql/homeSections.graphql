@@ -1,0 +1,19 @@
+fragment BaseSection on HomeSection {
+  sys {
+    id
+  }
+  title
+  type
+  height
+  content {
+    json
+  }
+}
+
+query Sections {
+  homeSectionCollection(order: [position_ASC]) {
+    items {
+      ...BaseSection
+    }
+  }
+}

@@ -8,7 +8,7 @@ const ProjectsPage = React.lazy(() => import('../../pages/ProjectsPage'));
 
 const NavigationRoot = (): JSX.Element => (
   <BrowserRouter>
-    <TopNavigationBar opaqueOffset={500} />
+    <TopNavigationBar />
     <Switch>
       <Route path="/projects">
         <ProjectsPage />

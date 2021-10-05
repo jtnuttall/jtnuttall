@@ -1,36 +1,71 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useTheme } from '@mui/material';
-import Askew from '../containers/layout/Askew';
-import HomeHero from '../components/heroes/HomeHero';
+import _ from 'lodash';
+import {
+  BaseSectionFragment,
+  useSectionsQuery,
+} from '@jtnuttall/apollo-codegen';
+import Askew, { AskewList } from '../containers/layout/Askew';
+import { SectionProps } from '../components/home-sections/SectionBase';
 
-const PersonalSummarySection = React.lazy(
-  () => import('../components/home-sections/PersonalSummarySection'),
-);
-const ExpoSection = React.lazy(
-  () => import('../components/home-sections/ExpoSection'),
+const HomeHero = React.lazy(() => import('../components/heroes/HomeHero'));
+const CardSection = React.lazy(
+  () => import('../components/home-sections/CardSection'),
 );
 const FooterSection = React.lazy(
   () => import('../components/home-sections/FooterSection'),
 );
 
+type SectionFactoryReturn = React.LazyExoticComponent<
+  (props: SectionProps) => JSX.Element
+>;
+
+const sectionFactory = (type?: string | null): SectionFactoryReturn => {
+  switch (type) {
+    case 'home':
+      return HomeHero;
+    case 'footer':
+      return FooterSection;
+    default:
+      return CardSection;
+  }
+};
+
 const HomePage = (): JSX.Element => {
   const { palette } = useTheme();
 
+  const { data, loading, error } = useSectionsQuery();
+
+  const sections: BaseSectionFragment[] = [
+    { sys: { id: 'homepage-hero' }, type: 'home' },
+    ..._.compact(data?.homeSectionCollection?.items ?? []),
+    { sys: { id: 'footer-section' }, type: 'footer' },
+  ];
+
+  const evenStyles = {
+    backgroundColor: palette.primary.dark,
+  };
+
+  const oddStyles = {
+    backgroundColor: '#E3E2DF',
+    color: '#2C2E35',
+  };
+
   return (
-    <Askew sx={{ overflowX: 'hidden' }}>
-      <HomeHero name="homepage-hero" />
-      <PersonalSummarySection
-        headerTitle="About Me"
-        name="homepage-personal-summary-section"
-        sx={{ backgroundColor: '#E3E2DF', color: '#2c2e35' }}
-      />
-      <ExpoSection
-        headerTitle="Expo"
-        name="homepage-expo-section"
-        sx={{ backgroundColor: palette.primary.dark }}
-      />
-      <FooterSection headerTitle="You might like" name="homepage-footer" />
-    </Askew>
+    <AskewList
+      sx={{ overflowX: 'hidden' }}
+      items={sections}
+      keyExtractor={(item) => item?.sys?.id}
+      renderItem={(item, i) => {
+        const Section = sectionFactory(item?.type);
+        return (
+          <Section
+            section={item}
+            sx={i > 0 && i % 2 === 0 ? evenStyles : oddStyles}
+          />
+        );
+      }}
+    />
   );
 };
 

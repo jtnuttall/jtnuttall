@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import {
   Box,
   BoxProps,
@@ -8,6 +8,7 @@ import {
   CardProps,
   styled,
 } from '@mui/material';
+import _ from 'lodash';
 import theme from '../../style/theme';
 
 export const skewAmount = '90pt';
@@ -63,11 +64,48 @@ export const CutLeftCard = React.forwardRef<HTMLDivElement, CardProps>(
   },
 );
 
+export type AskewListItem = {
+  [K: string]: unknown;
+};
+
+export type AskewListProps<T extends AskewListItem> = {
+  sx?: BoxProps['sx'];
+  skewTop?: boolean;
+  skewBottom?: boolean;
+  items: T[];
+  renderItem: (item: T, index: number) => JSX.Element;
+  keyExtractor?: (item: T, index: number) => React.Key & T[keyof T];
+};
+
+export const AskewList = <T extends AskewListItem>(
+  props: AskewListProps<T>,
+): JSX.Element => {
+  const { sx, skewTop, skewBottom, items, renderItem, keyExtractor } = props;
+
+  return (
+    <Box sx={sx}>
+      {items.map((item, i) => {
+        const key = (keyExtractor?.(item, i) ?? i) as React.Key;
+
+        if (!skewTop && i === 0) {
+          return <CutBottomLeft key={key}>{renderItem(item, i)}</CutBottomLeft>;
+        }
+
+        if (!skewBottom && i === items.length - 1) {
+          return <CutTopLeft key={key}>{renderItem(item, i)}</CutTopLeft>;
+        }
+
+        return <CutLeft key={key}>{renderItem(item, i)}</CutLeft>;
+      })}
+    </Box>
+  );
+};
+
 export type AskewProps = {
   sx?: BoxProps['sx'];
   skewTop?: boolean;
   skewBottom?: boolean;
-  children: ReactElement<{ name: string }>[];
+  children: (ReactElement<{ name: string }> | undefined)[];
 };
 
 const Askew = (props: AskewProps): JSX.Element => {
@@ -76,6 +114,8 @@ const Askew = (props: AskewProps): JSX.Element => {
   return (
     <Box sx={sx}>
       {children.map((child, i) => {
+        if (!child) return undefined;
+
         const {
           props: { name },
         } = child;

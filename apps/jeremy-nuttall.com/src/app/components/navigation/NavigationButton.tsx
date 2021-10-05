@@ -47,7 +47,16 @@ const NavigationGroupedButton = React.forwardRef<
   HTMLButtonElement,
   NavigationGroupedButtonProps
 >((props, ref) => {
-  const { displayType, color, icon, label, route = '', link, ...rest } = props;
+  const {
+    displayType,
+    buttonType,
+    color,
+    icon,
+    label,
+    route = '',
+    link,
+    ...rest
+  } = props;
 
   return (
     <Button

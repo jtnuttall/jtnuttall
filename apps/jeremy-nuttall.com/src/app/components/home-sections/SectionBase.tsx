@@ -1,6 +1,7 @@
 import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { Box, styled, Typography } from '@mui/material';
 import { animated, useSpring } from '@react-spring/web';
+import { BaseSectionFragment, HomeSection } from '@jtnuttall/apollo-codegen';
 import useIntersection, {
   ScrollingDirection,
 } from '../../hooks/useIntersection';
@@ -20,7 +21,7 @@ export type SectionBoxProps = Omit<
   Parameters<typeof AnimatedSectionBoxBase>[0],
   'css'
 > & {
-  name: string;
+  name?: string;
   headerTitle?: string;
   animationDirection?: 'left' | 'right';
   intersectionThreshold?: number;
@@ -54,7 +55,9 @@ const IntersectionCanary = styled('div')`
 export type SectionProps = Pick<
   SectionBoxProps,
   'name' | 'sx' | 'style' | 'animationDirection' | 'headerTitle'
->;
+> & {
+  section: Omit<BaseSectionFragment, 'contentfulMetadata'>;
+};
 
 export const SectionBox = (props: SectionBoxProps): JSX.Element => {
   const {

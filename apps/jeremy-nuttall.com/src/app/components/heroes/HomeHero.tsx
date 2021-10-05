@@ -69,7 +69,7 @@ const FakeTerminal = styled(Box)`
 `;
 
 export type HomeHeroProps = {
-  name: string;
+  name?: string;
 };
 
 const HomeHero = (props: HomeHeroProps): JSX.Element => {
