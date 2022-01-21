@@ -9,8 +9,6 @@ import { CutLeftCard } from '../../containers/layout/Askew';
 
 export const SectionBoxBase = styled(Box)`
   position: relative;
-  height: 0;
-  min-height: 110vh;
   padding-left: 1rem;
   padding-right: 1rem;
 `;
@@ -133,7 +131,7 @@ export const SectionContentCard = styled(CutLeftCard)`
   padding-left: 2rem;
   padding-right: 2rem;
   margin-top: -7.5pt;
-  height: 100%;
+  min-height: 100%;
 
   ${({ theme }) => theme.breakpoints.up('sm')} {
     margin-right: 0.5rem;

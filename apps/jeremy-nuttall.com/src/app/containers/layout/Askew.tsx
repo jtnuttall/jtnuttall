@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement, useRef } from 'react';
 import {
   Box,
   BoxProps,
@@ -16,6 +16,13 @@ export const skewAmount = '90pt';
 export const CutBottomLeft = styled(Box)`
   position: relative;
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% calc(100% - ${skewAmount}));
+  shape-outside: polygon(
+    0% 0%,
+    100% 0%,
+    100% 100%,
+    0% calc(100% - ${skewAmount})
+  );
+  shape-margin: 20px;
 `;
 
 export const CutLeft = styled(Box)`
@@ -26,6 +33,13 @@ export const CutLeft = styled(Box)`
     100% 100%,
     0% calc(100% - ${skewAmount})
   );
+  shape-outside: polygon(
+    0% 0%,
+    100% ${skewAmount},
+    100% 100%,
+    0% calc(100% - ${skewAmount})
+  );
+  shape-margin: 20px;
 
   & > * {
     margin-top: -${skewAmount};
@@ -37,6 +51,8 @@ export const CutLeft = styled(Box)`
 export const CutTopLeft = styled(Box)`
   position: relative;
   clip-path: polygon(0% 0%, 100% ${skewAmount}, 100% 100%, 0% 100%);
+  shape-outside: polygon(0% 0%, 100% ${skewAmount}, 100% 100%, 0% 100%);
+  shape-margin: 20px;
 
   & > * {
     margin-top: -${skewAmount};
@@ -52,11 +68,10 @@ export const CutLeftCard = React.forwardRef<HTMLDivElement, CardProps>(
     return (
       <Box
         sx={{
-          height: '100%',
           filter: raised ? theme.css.filters.raisedDropShadow : undefined,
         }}
       >
-        <CutLeft sx={{ height: '100%' }}>
+        <CutLeft>
           <Card ref={ref} raised={raised} {...rest} />
         </CutLeft>
       </Box>

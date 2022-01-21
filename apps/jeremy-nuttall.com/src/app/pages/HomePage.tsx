@@ -58,12 +58,8 @@ const HomePage = (): JSX.Element => {
       keyExtractor={(item) => item?.sys?.id}
       renderItem={(item, i) => {
         const Section = sectionFactory(item?.type);
-        return (
-          <Section
-            section={item}
-            sx={i > 0 && i % 2 === 0 ? evenStyles : oddStyles}
-          />
-        );
+        const styles = i > 0 && i % 2 === 0 ? evenStyles : oddStyles;
+        return <Section section={item} sx={{ ...styles }} />;
       }}
     />
   );
