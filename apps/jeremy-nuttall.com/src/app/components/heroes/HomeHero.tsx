@@ -17,7 +17,7 @@ import { bluePurpleOrange } from '../../style/gradients';
 const typewriterActions: TypewriterActions[] = [
   {
     type: TypewriterAction.Write,
-    text: 'Lead Software Engineer',
+    text: 'Software Engineer',
   },
   {
     type: TypewriterAction.Pause,
@@ -39,7 +39,7 @@ const typewriterActions: TypewriterActions[] = [
   },
   {
     type: TypewriterAction.Write,
-    text: 'Software Architect',
+    text: 'FP Enthusiast',
   },
   {
     type: TypewriterAction.Pause,
@@ -50,7 +50,7 @@ const typewriterActions: TypewriterActions[] = [
   },
   {
     type: TypewriterAction.Write,
-    text: 'Programming Generalist',
+    text: 'Cat Enthusiast',
   },
   {
     type: TypewriterAction.Pause,
