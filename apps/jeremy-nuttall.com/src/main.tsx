@@ -12,6 +12,7 @@ const insightsId = process.env.NX_INSIGHTS_ID;
 
 if (insightsId) {
   init(insightsId);
+  trackPages();
 }
 
 const rootEl = document.getElementById('root');
