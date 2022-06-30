@@ -116,12 +116,14 @@ export const SectionBox = (props: SectionBoxProps): JSX.Element => {
         key={name}
         style={{ ...style, ...animatedStyles }}
       >
-        {headerTitle && (
-          <SectionHeaderBox sx={{ position: 'absolute', top: 0, left: 0 }}>
-            <Typography variant="h4">{headerTitle}</Typography>
-          </SectionHeaderBox>
-        )}
-        {children}
+        <>
+          {headerTitle && (
+            <SectionHeaderBox sx={{ position: 'absolute', top: 0, left: 0 }}>
+              <Typography variant="h4">{headerTitle}</Typography>
+            </SectionHeaderBox>
+          )}
+          {children}
+        </>
       </AnimatedSectionBoxBase>
     </>
   );

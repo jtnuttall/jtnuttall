@@ -2,12 +2,13 @@
   "version": 2,
   "projects": {
     "api": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "root": "apps/api",
       "sourceRoot": "apps/api/src",
       "projectType": "application",
       "targets": {
         "build": {
-          "executor": "@nrwl/node:build",
+          "executor": "@nrwl/node:webpack",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/api",
@@ -30,7 +31,7 @@
           }
         },
         "serve": {
-          "executor": "@nrwl/node:execute",
+          "executor": "@nrwl/node:node",
           "options": {
             "buildTarget": "api:build"
           }
@@ -46,13 +47,15 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/apps/api"],
           "options": {
-            "jestConfig": "apps/api/jest.config.js",
+            "jestConfig": "apps/api/jest.config.ts",
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "api-interfaces": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "root": "libs/api-interfaces",
       "sourceRoot": "libs/api-interfaces/src",
       "projectType": "library",
@@ -64,9 +67,11 @@
             "lintFilePatterns": ["libs/api-interfaces/**/*.ts"]
           }
         }
-      }
+      },
+      "tags": []
     },
     "apollo-codegen": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "root": "libs/apollo-codegen",
       "sourceRoot": "libs/apollo-codegen/src",
       "projectType": "library",
@@ -92,19 +97,21 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/apollo-codegen"],
           "options": {
-            "jestConfig": "libs/apollo-codegen/jest.config.js",
+            "jestConfig": "libs/apollo-codegen/jest.config.ts",
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "jeremy-nuttall.com": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "root": "apps/jeremy-nuttall.com",
       "sourceRoot": "apps/jeremy-nuttall.com/src",
       "projectType": "application",
       "targets": {
         "build": {
-          "executor": "@nrwl/web:build",
+          "executor": "@nrwl/web:webpack",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/jeremy-nuttall.com",
@@ -153,8 +160,12 @@
             "production": {
               "buildTarget": "jeremy-nuttall.com:build:production",
               "hmr": false
+            },
+            "development": {
+              "buildTarget": "jeremy-nuttall.com:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
@@ -167,7 +178,7 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/apps/jeremy-nuttall.com"],
           "options": {
-            "jestConfig": "apps/jeremy-nuttall.com/jest.config.js",
+            "jestConfig": "apps/jeremy-nuttall.com/jest.config.ts",
             "passWithNoTests": true
           }
         },
@@ -202,9 +213,12 @@
             }
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["apollo-codegen"]
     },
     "jeremy-nuttall.com-e2e": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "root": "apps/jeremy-nuttall.com-e2e",
       "sourceRoot": "apps/jeremy-nuttall.com-e2e/src",
       "projectType": "application",
@@ -229,27 +243,10 @@
             "lintFilePatterns": ["apps/jeremy-nuttall.com-e2e/**/*.{js,ts}"]
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["jeremy-nuttall.com"]
     }
   },
-  "cli": {
-    "defaultCollection": "@nrwl/react"
-  },
-  "generators": {
-    "@nrwl/react": {
-      "application": {
-        "style": "@emotion/styled",
-        "linter": "eslint",
-        "babel": true
-      },
-      "component": {
-        "style": "@emotion/styled"
-      },
-      "library": {
-        "style": "@emotion/styled",
-        "linter": "eslint"
-      }
-    }
-  },
-  "defaultProject": "jeremy-nuttall.com"
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }

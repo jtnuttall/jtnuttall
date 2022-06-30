@@ -11,7 +11,9 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
-    "strictFunctionTypes": true
+    "strictFunctionTypes": true,
+    "types": ["./ambient.d.ts", "@emotion/react"],
+    "jsxImportSource": "@emotion/react"
   },
   "files": [],
   "include": [],

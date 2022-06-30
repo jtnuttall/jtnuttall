@@ -18,7 +18,7 @@ const DesktopToolbar = React.forwardRef<HTMLDivElement, ToolbarProps>(
           buttonType="fab"
           displayType="desktop"
           icon={<HomeIcon />}
-          route="/"
+          to="/"
           label="Jeremy"
         />
         <Box sx={{ flexGrow: 1 }} />
@@ -26,7 +26,7 @@ const DesktopToolbar = React.forwardRef<HTMLDivElement, ToolbarProps>(
           <NavigationButton
             buttonType="grouped"
             displayType="desktop"
-            route="/projects"
+            to="/projects"
             icon={<CodeIcon />}
             label="Projects"
           />

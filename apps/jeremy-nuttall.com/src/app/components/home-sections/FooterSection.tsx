@@ -46,9 +46,6 @@ const FooterSection = (
       >
         <Stack spacing={1}>
           <Typography variant="h6">More from Jeremy</Typography>
-          <Link variant="button" color="secondary" underline="hover" href="/">
-            Projects
-          </Link>
           <Link
             variant="button"
             color="secondary"
@@ -71,26 +68,15 @@ const FooterSection = (
           </Link>
         </Stack>
         <Stack spacing={1} sx={{ ml: 10 }}>
-          <Typography variant="h6">Contact</Typography>
-          <Link variant="button" color="secondary" underline="hover" href="/">
-            Inquiries
-          </Link>
-          <Link variant="button" color="secondary" underline="hover" href="/">
-            Site Feedback
-          </Link>
-          <Link variant="button" color="secondary" underline="hover" href="/">
-            Alternatives
-          </Link>
-        </Stack>
-        <Stack spacing={1} sx={{ ml: 10 }}>
-          <Typography variant="h6">Disclosures</Typography>
-          <Link variant="button" color="secondary" underline="hover" href="/">
-            Licenses
-          </Link>
-          <Link variant="button" color="secondary" underline="hover" href="/">
-            Privacy
-          </Link>
-          <Link variant="button" color="secondary" underline="hover" href="/">
+          <Typography variant="h6">FYIs</Typography>
+          <Link
+            variant="button"
+            color="secondary"
+            underline="hover"
+            target="_blank"
+            rel="noopener"
+            href="https://github.com/jtnuttall/jtnuttall"
+          >
             Source Code
           </Link>
         </Stack>

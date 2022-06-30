@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import TopNavigationBar from '../../components/navigation/TopNavigationBar';
 import LoadingPage from '../../pages/LoadingPage';
 
@@ -9,14 +9,10 @@ const ProjectsPage = React.lazy(() => import('../../pages/ProjectsPage'));
 const NavigationRoot = (): JSX.Element => (
   <BrowserRouter>
     <TopNavigationBar />
-    <Switch>
-      <Route path="/projects">
-        <ProjectsPage />
-      </Route>
-      <Route path="/">
-        <HomePage />
-      </Route>
-    </Switch>
+    <Routes>
+      <Route path="/projects" element={<ProjectsPage />} />
+      <Route path="/" element={<HomePage />} />
+    </Routes>
   </BrowserRouter>
 );
 

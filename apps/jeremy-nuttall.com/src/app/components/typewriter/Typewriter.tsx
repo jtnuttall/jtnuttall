@@ -1,3 +1,4 @@
+import { clamp } from 'lodash';
 import {
   useState,
   useEffect,
@@ -10,6 +11,7 @@ import { Typography, TypographyVariant } from '@mui/material';
 import useInterval from '../../hooks/useInterval';
 
 export enum TypewriterAction {
+  MoveCursor = 'typewriter/move-cursor',
   Write = 'typewriter/write',
   Pause = 'typewriter/pause',
   Delete = 'typewriter/delete',
@@ -19,6 +21,12 @@ export enum TypewriterAction {
 export type TypewriterActionData<T extends TypewriterAction> = {
   type: T;
 };
+
+export type MoveCursorAction =
+  TypewriterActionData<TypewriterAction.MoveCursor> & {
+    by?: number;
+    direction: 'forward' | 'backward';
+  };
 
 export type WriteAction = TypewriterActionData<TypewriterAction.Write> & {
   text: string;
@@ -38,10 +46,12 @@ export type ResetAction = TypewriterActionData<TypewriterAction.Reset>;
 export type TypewriterActions =
   | WriteAction
   | PauseAction
+  | MoveCursorAction
   | DeleteAction
   | ResetAction;
 
 const enum TypewriterInternalAction {
+  MoveCursorOnce = 'typewriter/internal/move-cursor',
   WriteCharacter = 'typewriter/internal/write-char',
   DeleteCharacter = 'typewriter/internal/delete-char',
 }
@@ -52,18 +62,26 @@ type TypewriterInternalActionData<
   type: T;
 };
 
+type MoveCursorOnceAction =
+  TypewriterInternalActionData<TypewriterInternalAction.MoveCursorOnce>;
+
 type WriteCharacterAction =
   TypewriterInternalActionData<TypewriterInternalAction.WriteCharacter>;
 
 type DeleteCharacterAction =
   TypewriterInternalActionData<TypewriterInternalAction.DeleteCharacter>;
 
-type TypewriterInternalActions = WriteCharacterAction | DeleteCharacterAction;
+type TypewriterInternalActions =
+  | MoveCursorOnceAction
+  | WriteCharacterAction
+  | DeleteCharacterAction;
 
 type TypewriterCombinedActions = TypewriterActions | TypewriterInternalActions;
 
 type TypewriterState = {
   text: string;
+  writeIndex: number;
+  moveDirection?: 'forward' | 'backward';
   color?: string;
   targetIndex: number;
   targetText?: string;
@@ -72,6 +90,7 @@ type TypewriterState = {
 
 const typewriterInitialState: TypewriterState = {
   text: '',
+  writeIndex: 0,
   targetIndex: 0,
   actionCompleted: true,
 };
@@ -102,13 +121,30 @@ const typewriterReducer = (
         actionCompleted: false,
       };
     }
+    case TypewriterAction.MoveCursor: {
+      const { text, writeIndex } = state;
+      const { by, direction } = action;
+
+      const moveBy = direction === 'forward' ? by ?? text.length : by ?? 0;
+
+      return {
+        ...state,
+        targetIndex: clamp(
+          direction === 'forward' ? writeIndex + moveBy : writeIndex - moveBy,
+          0,
+          text.length - 1,
+        ),
+        actionCompleted: false,
+        moveDirection: direction,
+      };
+    }
     case TypewriterAction.Reset: {
       return {
         ...typewriterInitialState,
       };
     }
     case TypewriterInternalAction.WriteCharacter: {
-      const { text, targetText, targetIndex } = state;
+      const { text, targetText, writeIndex, targetIndex } = state;
 
       if (!targetText || targetIndex >= targetText.length) {
         return {
@@ -119,23 +155,54 @@ const typewriterReducer = (
 
       return {
         ...state,
-        text: text + targetText[targetIndex],
+        text:
+          text.slice(0, writeIndex) +
+          targetText[targetIndex] +
+          text.slice(writeIndex, text.length),
         targetIndex: targetIndex + 1,
+        writeIndex: writeIndex + 1,
       };
     }
     case TypewriterInternalAction.DeleteCharacter: {
-      const { text, targetText = '' } = state;
+      const { text, targetText = '', writeIndex } = state;
 
-      if (!text || targetText.length > text.length) {
+      if (!text || targetText.length >= text.length) {
         return {
           ...state,
           actionCompleted: true,
         };
       }
 
+      const deleteIndex = clamp(writeIndex - 1, 0, text.length);
+
       return {
         ...state,
-        text: text.slice(0, -1),
+        text:
+          text.slice(0, deleteIndex) + text.slice(deleteIndex + 1, text.length),
+        writeIndex: writeIndex - 1 > 0 ? writeIndex - 1 : 0,
+      };
+    }
+    case TypewriterInternalAction.MoveCursorOnce: {
+      const { moveDirection, writeIndex, targetIndex } = state;
+
+      const end =
+        !moveDirection ||
+        (moveDirection === 'forward'
+          ? writeIndex > targetIndex
+          : writeIndex <= targetIndex);
+
+      if (end) {
+        return {
+          ...state,
+          actionCompleted: true,
+          moveDirection: undefined,
+        };
+      }
+
+      return {
+        ...state,
+        writeIndex:
+          moveDirection === 'forward' ? writeIndex + 1 : writeIndex - 1,
       };
     }
     default: {
@@ -152,8 +219,11 @@ const cpmToMillis = (cpm: number) => 60_000 / cpm;
 const hzToMillis = (hz: number) => 1_000 / hz;
 
 const internalActionsMap: {
-  [key in TypewriterAction & string]?: TypewriterInternalActions;
+  [key in TypewriterAction]?: TypewriterInternalActions;
 } = {
+  [TypewriterAction.MoveCursor]: {
+    type: TypewriterInternalAction.MoveCursorOnce,
+  },
   [TypewriterAction.Write]: { type: TypewriterInternalAction.WriteCharacter },
   [TypewriterAction.Delete]: { type: TypewriterInternalAction.DeleteCharacter },
 };
@@ -189,6 +259,12 @@ export type TypewriterProps = {
   fontFamily?: string;
   minHeight?: number | string;
 };
+
+const renderTypewriter = (
+  cursor: string,
+  { text, writeIndex }: TypewriterState,
+): string =>
+  text.slice(0, writeIndex) + cursor + text.slice(writeIndex, text.length);
 
 /**
  * Component that mimicks a typewriter effect.
@@ -249,7 +325,7 @@ const Typewriter = (props: TypewriterProps): JSX.Element => {
     typewriterInitialState,
   );
 
-  const { actionCompleted, color, text } = typewriterState;
+  const { actionCompleted, color, writeIndex, text } = typewriterState;
 
   useInterval(
     () => {
@@ -307,8 +383,7 @@ const Typewriter = (props: TypewriterProps): JSX.Element => {
       minHeight={minHeight}
     >
       {prompt}
-      {text}
-      {cursor}
+      {renderTypewriter(cursor, typewriterState)}
     </Typography>
   );
 };

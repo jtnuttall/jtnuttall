@@ -1,33 +1,42 @@
-import React, { ReactElement } from 'react';
-import { Button, ButtonProps, Fab, FabProps, Typography } from '@mui/material';
-import { Link, useRouteMatch } from 'react-router-dom';
+import React, { ReactElement, useMemo } from 'react';
+import {
+  Button,
+  ButtonProps,
+  Fab,
+  FabProps,
+  Typography,
+  useTheme,
+} from '@mui/material';
+import { Link, useMatch } from 'react-router-dom';
+import { css } from '@emotion/react';
 
 type DisplayType = 'desktop' | 'mobile';
 type ButtonType = 'fab' | 'grouped';
 
 export type NavigationButtonProps = {
   link?: string;
-  route?: string;
+  to?: string;
   icon?: ReactElement;
   label?: string;
   displayType?: DisplayType;
   buttonType?: ButtonType;
+  selected?: boolean;
 };
 
 type NavigationFabProps = NavigationButtonProps & Pick<FabProps, 'color'>;
 
 const NavigationFab = React.forwardRef<HTMLButtonElement, NavigationFabProps>(
   (props, ref) => {
-    const { displayType, color, icon, label, route = '' } = props;
+    const { displayType, icon, label, to = '', selected } = props;
 
     return (
       <Fab
         ref={ref}
         size={displayType === 'desktop' ? 'medium' : 'large'}
-        color={color}
+        color={selected ? 'primary' : 'secondary'}
         variant={displayType === 'desktop' ? 'extended' : 'circular'}
-        component={route ? Link : 'button'}
-        to={route}
+        component={to ? Link : 'button'}
+        to={to}
       >
         {icon}
         {displayType === 'desktop' && label && (
@@ -40,34 +49,60 @@ const NavigationFab = React.forwardRef<HTMLButtonElement, NavigationFabProps>(
   },
 );
 
-type NavigationGroupedButtonProps = NavigationButtonProps &
-  Pick<ButtonProps, 'color'>;
+type GroupedNavButtonProps = NavigationButtonProps &
+  Partial<Pick<ButtonProps, 'color'>>;
 
-const NavigationGroupedButton = React.forwardRef<
+const useMobileCss = (selected = false) => {
+  const { palette } = useTheme();
+
+  const mobileCss = useMemo(
+    () => css`
+      color: ${selected
+        ? palette.primary.light
+        : palette.getContrastText(palette.background.paper)};
+    `,
+    [selected, palette],
+  );
+
+  return mobileCss;
+};
+
+const GroupedNavButton = React.forwardRef<
   HTMLButtonElement,
-  NavigationGroupedButtonProps
+  GroupedNavButtonProps
 >((props, ref) => {
   const {
     displayType,
     buttonType,
-    color,
     icon,
     label,
-    route = '',
     link,
+    to = '',
+    selected,
     ...rest
   } = props;
 
+  const color = useMemo(() => {
+    if (displayType !== 'desktop') {
+      return undefined;
+    }
+
+    return selected ? 'primary' : 'secondary';
+  }, [displayType, selected]);
+
+  const mobileCss = useMobileCss(selected);
+
   return (
     <Button
+      {...rest}
       ref={ref}
       color={color}
-      component={route ? Link : 'button'}
-      to={route}
-      href={!route && link ? link : undefined}
-      target={!route && link ? '_blank' : undefined}
-      rel={!route && link ? 'noopener' : undefined}
-      {...rest}
+      css={displayType === 'mobile' && mobileCss}
+      component={to ? Link : 'button'}
+      to={to}
+      href={!to && link ? link : undefined}
+      target={!to && link ? '_blank' : undefined}
+      rel={!to && link ? 'noopener' : undefined}
     >
       {icon}
       {label && (
@@ -83,22 +118,21 @@ const NavigationButton = React.forwardRef<
   HTMLButtonElement,
   NavigationButtonProps
 >((props, ref) => {
-  const { route, displayType = 'desktop', buttonType = 'grouped' } = props;
+  const { to, link, buttonType = 'grouped' } = props;
 
-  const routeMatch = useRouteMatch({
-    path: route,
-    exact: true,
-    strict: true,
-    sensitive: true,
+  const routeMatch = useMatch({
+    path: to || 'noroute',
+    end: true,
+    caseSensitive: true,
   });
 
-  const color = routeMatch ? 'secondary' : 'primary';
+  const selected = !!to && !link && !!routeMatch;
 
   if (buttonType === 'fab') {
-    return <NavigationFab ref={ref} {...props} color={color} />;
+    return <NavigationFab ref={ref} {...props} selected={selected} />;
   }
 
-  return <NavigationGroupedButton ref={ref} {...props} color={color} />;
+  return <GroupedNavButton ref={ref} {...props} selected={selected} />;
 });
 
 export default NavigationButton;

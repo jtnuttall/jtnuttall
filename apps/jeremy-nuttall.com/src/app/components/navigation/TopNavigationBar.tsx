@@ -10,7 +10,6 @@ const MobileToolbar = React.lazy(() => import('./MobileToolbar'));
 const TopNavigationBar = (props: NavigationBarProps): JSX.Element => {
   const { opaqueOffset = null } = props;
 
-  const location = useLocation();
   const appBarRef = useRef<HTMLDivElement>(null);
   const { yOffset } = useScroll(window);
   const [opaqueAppBar, setOpaqueAppBar] = useState(!opaqueOffset);

@@ -1,8 +1,8 @@
 import { createTheme, responsiveFontSizes } from '@mui/material';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
 
-const typography: TypographyOptions = {
-  fontSize: 16,
+const typography = {
+  fontSize: 15,
   fontFamily: 'Space Grotesk',
 } as const;
 

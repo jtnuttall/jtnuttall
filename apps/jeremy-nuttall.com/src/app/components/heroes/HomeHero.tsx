@@ -46,15 +46,26 @@ const typewriterActions: TypewriterActions[] = [
     milliseconds: 1000,
   },
   {
-    type: TypewriterAction.Delete,
+    type: TypewriterAction.MoveCursor,
+    by: 'Enthusiast'.length,
+    direction: 'backward',
   },
   {
+    type: TypewriterAction.Delete,
+    characters: 'FP '.length,
+  },
+  { type: TypewriterAction.Pause, milliseconds: 500 },
+  {
     type: TypewriterAction.Write,
-    text: 'Cat Enthusiast',
+    text: 'Cat ',
   },
   {
     type: TypewriterAction.Pause,
     milliseconds: 1000,
+  },
+  {
+    type: TypewriterAction.MoveCursor,
+    direction: 'forward',
   },
   {
     type: TypewriterAction.Delete,
