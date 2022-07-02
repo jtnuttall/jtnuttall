@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { Block, Inline } from '@contentful/rich-text-types';
-import { Box, Typography, styled } from '@mui/material';
-import _ from 'lodash';
+import { styled } from '@mui/material';
 
 export const orderedListRenderer = (
   node: Inline | Block,

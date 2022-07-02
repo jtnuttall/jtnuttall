@@ -1,24 +1,22 @@
-import React, { ReactElement } from 'react';
+import { FC, lazy } from 'react';
 import { useTheme } from '@mui/material';
 import _ from 'lodash';
 import {
   BaseSectionFragment,
   useSectionsQuery,
 } from '@jtnuttall/apollo-codegen';
-import Askew, { AskewList } from '../containers/layout/Askew';
+import { AskewList } from '../containers/layout/Askew';
 import { SectionProps } from '../components/home-sections/SectionBase';
 
-const HomeHero = React.lazy(() => import('../components/heroes/HomeHero'));
-const CardSection = React.lazy(
+const HomeHero = lazy(() => import('../components/heroes/HomeHero'));
+const CardSection = lazy(
   () => import('../components/home-sections/CardSection'),
 );
-const FooterSection = React.lazy(
+const FooterSection = lazy(
   () => import('../components/home-sections/FooterSection'),
 );
 
-type SectionFactoryReturn = React.LazyExoticComponent<
-  (props: SectionProps) => JSX.Element
->;
+type SectionFactoryReturn = React.LazyExoticComponent<FC<SectionProps>>;
 
 const sectionFactory = (type?: string | null): SectionFactoryReturn => {
   switch (type) {
@@ -34,7 +32,7 @@ const sectionFactory = (type?: string | null): SectionFactoryReturn => {
 const HomePage = (): JSX.Element => {
   const { palette } = useTheme();
 
-  const { data, loading, error } = useSectionsQuery();
+  const { data } = useSectionsQuery();
 
   const sections: BaseSectionFragment[] = [
     { sys: { id: 'homepage-hero' }, type: 'home' },

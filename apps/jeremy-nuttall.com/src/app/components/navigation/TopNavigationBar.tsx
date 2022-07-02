@@ -1,15 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { FC, lazy, useEffect, useRef, useState } from 'react';
 import { AppBar, Hidden } from '@mui/material';
-import { useLocation } from 'react-router-dom';
 import useScroll from '../../hooks/useScroll';
 import { NavigationBarProps } from './types';
 
-const DesktopToolbar = React.lazy(() => import('./DesktopToolbar'));
-const MobileToolbar = React.lazy(() => import('./MobileToolbar'));
+const DesktopToolbar = lazy(() => import('./DesktopToolbar'));
+const MobileToolbar = lazy(() => import('./MobileToolbar'));
 
-const TopNavigationBar = (props: NavigationBarProps): JSX.Element => {
-  const { opaqueOffset = null } = props;
-
+const TopNavigationBar: FC<NavigationBarProps> = ({ opaqueOffset = null }) => {
   const appBarRef = useRef<HTMLDivElement>(null);
   const { yOffset } = useScroll(window);
   const [opaqueAppBar, setOpaqueAppBar] = useState(!opaqueOffset);

@@ -9,38 +9,34 @@ import { ToolbarProps } from './types';
 import NavigationButton from './NavigationButton';
 
 const DesktopToolbar = React.forwardRef<HTMLDivElement, ToolbarProps>(
-  (props, ref): JSX.Element => {
-    const { opaqueAppBar } = props;
-
-    return (
-      <Toolbar ref={ref}>
+  (_props, ref): JSX.Element => (
+    <Toolbar ref={ref}>
+      <NavigationButton
+        buttonType="fab"
+        displayType="desktop"
+        icon={<HomeIcon />}
+        to="/"
+        label="Jeremy"
+      />
+      <Box sx={{ flexGrow: 1 }} />
+      <ButtonGroup variant="contained">
         <NavigationButton
-          buttonType="fab"
+          buttonType="grouped"
           displayType="desktop"
-          icon={<HomeIcon />}
-          to="/"
-          label="Jeremy"
+          to="/projects"
+          icon={<CodeIcon />}
+          label="Projects"
         />
-        <Box sx={{ flexGrow: 1 }} />
-        <ButtonGroup variant="contained">
-          <NavigationButton
-            buttonType="grouped"
-            displayType="desktop"
-            to="/projects"
-            icon={<CodeIcon />}
-            label="Projects"
-          />
-          <NavigationButton
-            buttonType="grouped"
-            displayType="desktop"
-            link="https://github.com/jtnuttall/jtnuttall"
-            icon={<GitHubIcon />}
-            label="GitHub"
-          />
-        </ButtonGroup>
-      </Toolbar>
-    );
-  },
+        <NavigationButton
+          buttonType="grouped"
+          displayType="desktop"
+          link="https://github.com/jtnuttall/jtnuttall"
+          icon={<GitHubIcon />}
+          label="GitHub"
+        />
+      </ButtonGroup>
+    </Toolbar>
+  ),
 );
 
 export default DesktopToolbar;

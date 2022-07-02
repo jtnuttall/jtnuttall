@@ -1,7 +1,8 @@
-import React, { RefObject, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
+import { track } from 'insights-js';
 import { Box, styled, Typography } from '@mui/material';
 import { animated, useSpring } from '@react-spring/web';
-import { BaseSectionFragment, HomeSection } from '@jtnuttall/apollo-codegen';
+import { BaseSectionFragment } from '@jtnuttall/apollo-codegen';
 import useIntersection, {
   ScrollingDirection,
 } from '../../hooks/useIntersection';
@@ -57,18 +58,16 @@ export type SectionProps = Pick<
   section: Omit<BaseSectionFragment, 'contentfulMetadata'>;
 };
 
-export const SectionBox = (props: SectionBoxProps): JSX.Element => {
-  const {
-    name,
-    style,
-    ref,
-    children,
-    headerTitle,
-    animationDirection = 'right',
-    intersectionThreshold = 0.085,
-    ...rest
-  } = props;
-
+export const SectionBox: FC<SectionBoxProps> = ({
+  name,
+  style,
+  ref,
+  children,
+  headerTitle,
+  animationDirection = 'right',
+  intersectionThreshold = 0.085,
+  ...rest
+}) => {
   const [slideIn, setSlideIn] = useState(true);
 
   const out = animationDirection === 'left' ? '100%' : '-100%';
@@ -101,12 +100,24 @@ export const SectionBox = (props: SectionBoxProps): JSX.Element => {
   );
 
   useEffect(() => {
+    if (intersecting) {
+      track({
+        id: 'section-loaded',
+        parameters: {
+          name: name ?? 'unknown',
+          headerTitle: headerTitle ?? 'none',
+        },
+      });
+    }
+  }, [headerTitle, intersecting, name]);
+
+  useEffect(() => {
     if (intersecting || scrollingDirection === ScrollingDirection.None) {
       setSlideIn(true);
     } else if (scrollingDirection === ScrollingDirection.LeaveUp) {
       setSlideIn(false);
     }
-  }, [intersecting]);
+  }, [intersecting]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

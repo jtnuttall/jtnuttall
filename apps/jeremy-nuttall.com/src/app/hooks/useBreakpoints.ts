@@ -8,7 +8,7 @@ type UseBreakpointsProps<T> = Partial<Record<Breakpoint, T>>;
  * This is a really inefficient hook, but for non-mui components that can't be styled using standard CSS
  * media queries, there's not much of another option.
  */
-const useBreakpoints = <T extends unknown>(
+const useBreakpoints = <T>(
   breapointMap: UseBreakpointsProps<T>,
 ): T | undefined => {
   const { breakpoints } = useTheme();

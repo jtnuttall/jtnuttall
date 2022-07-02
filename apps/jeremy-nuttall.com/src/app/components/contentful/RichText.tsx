@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { forwardRef, memo, useMemo } from 'react';
 import {
   documentToReactComponents,
   Options as RichTextOptions,
@@ -6,7 +6,6 @@ import {
 import {
   BLOCKS,
   Document as RichTextDocument,
-  INLINES,
 } from '@contentful/rich-text-types';
 import { Box, BoxProps } from '@mui/material';
 import documentNodeRenderer from './renderers/document';
@@ -18,8 +17,6 @@ import {
   orderedListRenderer,
   unorderedListRenderer,
 } from './renderers/lists';
-
-const inlineRegex = new RegExp(Object.values(INLINES).join('|'));
 
 const richTextOptions: RichTextOptions = {
   renderNode: {
@@ -43,10 +40,8 @@ type RichTextProps = {
   sx?: BoxProps['sx'];
 };
 
-const RichText = React.forwardRef<HTMLDivElement, RichTextProps>(
-  (props, ref): JSX.Element => {
-    const { document, sx } = props;
-
+const RichText = forwardRef<HTMLDivElement, RichTextProps>(
+  ({ document, sx }, ref) => {
     const elements = useMemo(
       () => documentToReactComponents(document, richTextOptions),
       [document],
@@ -60,4 +55,4 @@ const RichText = React.forwardRef<HTMLDivElement, RichTextProps>(
   },
 );
 
-export default React.memo(RichText);
+export default memo(RichText);

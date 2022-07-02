@@ -5,15 +5,7 @@ import '@fontsource/space-grotesk/400.css';
 import '@fontsource/space-grotesk/500.css';
 import '@fontsource/space-grotesk/700.css';
 import '@fontsource/space-mono';
-import { init, trackPages } from 'insights-js';
 import App from './app/App';
-
-const insightsId = process.env.NX_INSIGHTS_ID;
-
-if (insightsId) {
-  init(insightsId);
-  trackPages();
-}
 
 const rootEl = document.getElementById('root');
 

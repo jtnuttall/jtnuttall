@@ -5,7 +5,7 @@ const useTimeout = (callback: () => void, delay?: number) => {
 
   useEffect(() => {
     savedCallback.current = callback;
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const tick = () => {

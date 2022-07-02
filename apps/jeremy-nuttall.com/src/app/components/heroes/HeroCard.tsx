@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import { Box, CardMedia, styled } from '@mui/material';
 
 type LinearGradientProps = {
@@ -6,9 +6,10 @@ type LinearGradientProps = {
   children: ReactNode;
 };
 
-const LinearGradient = (props: LinearGradientProps): JSX.Element => {
-  const { linearGradient, children } = props;
-
+const LinearGradient: FC<LinearGradientProps> = ({
+  linearGradient,
+  children,
+}) => {
   if (linearGradient) {
     return (
       <Box sx={{ background: `linear-gradient(${linearGradient.join(',')})` }}>
@@ -34,14 +35,10 @@ const HeroCardMedia = styled(CardMedia)`
 export type HeroCardProps = Parameters<typeof HeroCardMedia>[0] &
   LinearGradientProps;
 
-const HeroCard = (props: HeroCardProps): JSX.Element => {
-  const { linearGradient: gradient, ...cardMediaProps } = props;
-
-  return (
-    <LinearGradient linearGradient={gradient}>
-      <HeroCardMedia {...cardMediaProps} />
-    </LinearGradient>
-  );
-};
+const HeroCard: FC<HeroCardProps> = ({ linearGradient, ...cardMediaProps }) => (
+  <LinearGradient linearGradient={linearGradient}>
+    <HeroCardMedia {...cardMediaProps} />
+  </LinearGradient>
+);
 
 export default HeroCard;

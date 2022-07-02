@@ -26,27 +26,23 @@ export type NavigationButtonProps = {
 type NavigationFabProps = NavigationButtonProps & Pick<FabProps, 'color'>;
 
 const NavigationFab = React.forwardRef<HTMLButtonElement, NavigationFabProps>(
-  (props, ref) => {
-    const { displayType, icon, label, to = '', selected } = props;
-
-    return (
-      <Fab
-        ref={ref}
-        size={displayType === 'desktop' ? 'medium' : 'large'}
-        color={selected ? 'primary' : 'secondary'}
-        variant={displayType === 'desktop' ? 'extended' : 'circular'}
-        component={to ? Link : 'button'}
-        to={to}
-      >
-        {icon}
-        {displayType === 'desktop' && label && (
-          <Typography component="span" variant="h5" sx={{ ml: 1 }}>
-            {label}
-          </Typography>
-        )}
-      </Fab>
-    );
-  },
+  ({ displayType, icon, label, to = '', selected }, ref) => (
+    <Fab
+      ref={ref}
+      size={displayType === 'desktop' ? 'medium' : 'large'}
+      color={selected ? 'primary' : 'secondary'}
+      variant={displayType === 'desktop' ? 'extended' : 'circular'}
+      component={to ? Link : 'button'}
+      to={to}
+    >
+      {icon}
+      {displayType === 'desktop' && label && (
+        <Typography component="span" variant="h5" sx={{ ml: 1 }}>
+          {label}
+        </Typography>
+      )}
+    </Fab>
+  ),
 );
 
 type GroupedNavButtonProps = NavigationButtonProps &
@@ -119,7 +115,6 @@ const NavigationButton = React.forwardRef<
   NavigationButtonProps
 >((props, ref) => {
   const { to, link, buttonType = 'grouped' } = props;
-
   const routeMatch = useMatch({
     path: to || 'noroute',
     end: true,

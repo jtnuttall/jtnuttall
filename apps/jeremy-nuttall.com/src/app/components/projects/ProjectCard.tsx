@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, forwardRef, memo, useState } from 'react';
 import { ProjectItemFragment } from '@jtnuttall/apollo-codegen';
 import {
   Card,
@@ -24,9 +24,7 @@ type ExpandButtonProps = {
   onClick?: () => void;
 };
 
-const ExpandButton = (props: ExpandButtonProps): JSX.Element => {
-  const { expanded, onClick } = props;
-
+const ExpandButton: FC<ExpandButtonProps> = ({ expanded, onClick }) => {
   const animatedStyles = useSpring({
     loop: false,
     from: {
@@ -58,9 +56,8 @@ type ProjectCardProps = {
   project: ProjectItemFragment;
 };
 
-const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
-  (props, ref) => {
-    const { project, sx } = props;
+const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
+  ({ project, sx }, ref) => {
     const technologies = _.compact(project?.technologies?.items ?? []);
 
     const [expanded, setExpanded] = useState(false);
@@ -101,4 +98,4 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
   },
 );
 
-export default React.memo(ProjectCard);
+export default memo(ProjectCard);

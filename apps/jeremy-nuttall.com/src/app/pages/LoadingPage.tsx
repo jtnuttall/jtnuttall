@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { styled } from '@mui/material';
 
 const FullScreen = styled('div')`
@@ -72,12 +71,10 @@ const SimpleSpinner = styled('div')`
   }
 `;
 
-const LoadingPage = (): JSX.Element => {
-  return (
-    <FullScreen style={{ backgroundColor: '#4d4a4a' }}>
-      <SimpleSpinner />
-    </FullScreen>
-  );
-};
+const LoadingPage = (): JSX.Element => (
+  <FullScreen style={{ backgroundColor: '#4d4a4a' }}>
+    <SimpleSpinner />
+  </FullScreen>
+);
 
 export default LoadingPage;

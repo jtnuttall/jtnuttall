@@ -1,10 +1,10 @@
+import { FC } from 'react';
 import {
   Box,
   styled,
   Typography,
   useMediaQuery,
   useTheme,
-  withTheme,
 } from '@mui/material';
 import CircuitBoard from '../../../assets/circuit-board.svg';
 import HeroCard from './HeroCard';
@@ -83,8 +83,7 @@ export type HomeHeroProps = {
   name?: string;
 };
 
-const HomeHero = (props: HomeHeroProps): JSX.Element => {
-  const { name } = props;
+const HomeHero: FC<HomeHeroProps> = () => {
   const { breakpoints } = useTheme();
 
   const sm = useMediaQuery(breakpoints.down('sm'));

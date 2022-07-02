@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { TechnologyShortItemFragment } from '@jtnuttall/apollo-codegen';
 import { IconButton } from '@mui/material';
 
@@ -7,8 +7,10 @@ type TechnologyButtonProps = {
   height?: number;
 };
 
-const TechnologyButton = (props: TechnologyButtonProps): JSX.Element => {
-  const { technology, height = 30 } = props;
+const TechnologyButton: FC<TechnologyButtonProps> = ({
+  technology,
+  height = 30,
+}) => {
   const { name = '', icon = { url: '' } } = technology;
 
   return (

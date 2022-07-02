@@ -1,7 +1,8 @@
+import { FC } from 'react';
 import ProjectsGrid from '../components/projects/ProjectsGrid';
 import PageWrapper from '../containers/layout/PageWrapper';
 
-const ProjectsPage = (): JSX.Element => (
+const ProjectsPage: FC = () => (
   <PageWrapper>
     <ProjectsGrid />
   </PageWrapper>

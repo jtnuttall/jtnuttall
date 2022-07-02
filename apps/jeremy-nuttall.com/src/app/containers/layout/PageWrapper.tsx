@@ -1,11 +1,7 @@
-import { ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import { Toolbar } from '@mui/material';
 
-type PageWrapperProps = {
-  children: ReactNode;
-};
-
-const PageWrapper = ({ children }: PageWrapperProps): JSX.Element => (
+const PageWrapper: FC<{ children: ReactNode }> = ({ children }) => (
   <>
     <Toolbar sx={{ mb: '5px' }} />
     {children}

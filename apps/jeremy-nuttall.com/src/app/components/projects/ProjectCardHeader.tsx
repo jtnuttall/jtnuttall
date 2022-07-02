@@ -1,4 +1,11 @@
-import React, { ReactNode, SyntheticEvent, useState } from 'react';
+import {
+  FC,
+  forwardRef,
+  memo,
+  ReactNode,
+  SyntheticEvent,
+  useState,
+} from 'react';
 import { ProjectItemFragment } from '@jtnuttall/apollo-codegen';
 import {
   MoreVert as MoreVertIcon,
@@ -12,32 +19,28 @@ type MenuLinkProps = {
   children?: ReactNode;
 };
 
-const MenuLink = React.forwardRef<HTMLLIElement, MenuLinkProps>(
-  (props, ref) => {
-    const { href, onClick, children } = props;
-
-    return (
-      <Link
-        color="inherit"
-        underline="none"
-        onClick={onClick}
-        href={href}
-        target="_blank"
-        rel="noopener"
-      >
-        <MenuItem ref={ref}>{children}</MenuItem>
-      </Link>
-    );
-  },
+const MenuLink = forwardRef<HTMLLIElement, MenuLinkProps>(
+  ({ href, onClick, children }, ref) => (
+    <Link
+      color="inherit"
+      underline="none"
+      onClick={onClick}
+      href={href}
+      target="_blank"
+      rel="noopener"
+    >
+      <MenuItem ref={ref}>{children}</MenuItem>
+    </Link>
+  ),
 );
 
 type ProjectCardHeaderProps = {
   project: ProjectItemFragment;
 };
 
-const ProjectCardHeader = (props: ProjectCardHeaderProps): JSX.Element => {
-  const { project } = props;
-
+const ProjectCardHeader: FC<ProjectCardHeaderProps> = ({
+  project,
+}: ProjectCardHeaderProps) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<Element | null>(null);
   const open = !!menuAnchorEl;
 
@@ -49,15 +52,10 @@ const ProjectCardHeader = (props: ProjectCardHeaderProps): JSX.Element => {
     setMenuAnchorEl(null);
   };
 
-  const openUrl = (url?: string | null) => {
-    handleClose();
-  };
-
   return (
     <>
       <CardHeader
         title={project.name}
-        // subheader={project?.}
         action={
           (project.exampleUrl || project.repositoryUrl) && (
             <IconButton onClick={handleClick} aria-label="quick links">
@@ -89,4 +87,4 @@ const ProjectCardHeader = (props: ProjectCardHeaderProps): JSX.Element => {
   );
 };
 
-export default React.memo(ProjectCardHeader);
+export default memo(ProjectCardHeader);

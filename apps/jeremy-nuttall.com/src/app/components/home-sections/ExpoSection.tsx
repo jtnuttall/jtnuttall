@@ -1,9 +1,5 @@
-import {
-  useProjectsExpoQuery,
-  useProjectsQuery,
-} from '@jtnuttall/apollo-codegen';
+import { useProjectsExpoQuery } from '@jtnuttall/apollo-codegen';
 import { Card, Grid, styled, Typography } from '@mui/material';
-import { useEffect } from 'react';
 import { SectionBox, SectionProps } from './SectionBase';
 
 const Item = styled(Card)`
@@ -11,21 +7,18 @@ const Item = styled(Card)`
 `;
 
 const ExpoSection = (props: SectionProps) => {
-  const { data, error, loading } = useProjectsExpoQuery();
+  const { data } = useProjectsExpoQuery();
 
   return (
     <SectionBox {...props}>
       <Grid container spacing="5rem">
-        <Grid item xs={6}>
-          <Item>
-            <Typography variant="h6">This is 1</Typography>
-          </Item>
-        </Grid>
-        <Grid item xs={6}>
-          <Item>
-            <Typography variant="h6">This is 2</Typography>
-          </Item>
-        </Grid>
+        {data?.projectCollection?.items?.map((item) => (
+          <Grid item xs={6}>
+            <Item>
+              <Typography variant="h6">{item?.name}</Typography>
+            </Item>
+          </Grid>
+        ))}
       </Grid>
     </SectionBox>
   );

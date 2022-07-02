@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { Box, Link, Stack, styled, Typography, useTheme } from '@mui/material';
 import {
   SectionBoxBase,
@@ -25,11 +26,9 @@ const CopyrightBox = styled(Box)`
   padding-bottom: inherit;
 `;
 
-const FooterSection = (
-  props: Pick<SectionBoxProps, 'headerTitle' | 'name'>,
-): JSX.Element => {
-  const { headerTitle } = props;
-
+const FooterSection: FC<Pick<SectionBoxProps, 'headerTitle' | 'name'>> = ({
+  headerTitle,
+}) => {
   const { palette } = useTheme();
 
   return (

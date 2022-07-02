@@ -1,16 +1,19 @@
-import React, { useMemo, useRef } from 'react';
-import { Box, CardContent, Collapse, Slide } from '@mui/material';
+import React, { FC, useRef } from 'react';
+import { Document } from '@contentful/rich-text-types';
+import { CardContent } from '@mui/material';
 import { animated, useSpring } from '@react-spring/web';
+
 import RichText from '../contentful/RichText';
 
 type ProjectDescriptionProps = {
   expanded: boolean;
-  document: Record<string, any>;
+  document: Document;
 };
 
-const ProjectDescription = (props: ProjectDescriptionProps): JSX.Element => {
-  const { expanded, document } = props;
-
+const ProjectDescription: FC<ProjectDescriptionProps> = ({
+  expanded,
+  document,
+}) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const expandedHeight = contentRef.current?.clientHeight ?? 0;
@@ -36,7 +39,7 @@ const ProjectDescription = (props: ProjectDescriptionProps): JSX.Element => {
   return (
     <animated.div style={{ ...animatedStyles }}>
       <CardContent ref={contentRef}>
-        <RichText document={document as any} />
+        <RichText document={document} />
       </CardContent>
     </animated.div>
   );

@@ -1,14 +1,5 @@
-import React, { ReactElement, useRef } from 'react';
-import {
-  Box,
-  BoxProps,
-  Grid,
-  GridProps,
-  Card,
-  CardProps,
-  styled,
-} from '@mui/material';
-import _ from 'lodash';
+import { forwardRef, FC, memo, ReactElement } from 'react';
+import { Box, BoxProps, Card, CardProps, styled } from '@mui/material';
 import theme from '../../style/theme';
 
 export const skewAmount = '90pt';
@@ -61,22 +52,18 @@ export const CutTopLeft = styled(Box)`
   }
 `;
 
-export const CutLeftCard = React.forwardRef<HTMLDivElement, CardProps>(
-  (props, ref) => {
-    const { raised, ...rest } = props;
-
-    return (
-      <Box
-        sx={{
-          filter: raised ? theme.css.filters.raisedDropShadow : undefined,
-        }}
-      >
-        <CutLeft>
-          <Card ref={ref} raised={raised} {...rest} />
-        </CutLeft>
-      </Box>
-    );
-  },
+export const CutLeftCard = forwardRef<HTMLDivElement, CardProps>(
+  ({ raised, ...rest }, ref) => (
+    <Box
+      sx={{
+        filter: raised ? theme.css.filters.raisedDropShadow : undefined,
+      }}
+    >
+      <CutLeft>
+        <Card ref={ref} raised={raised} {...rest} />
+      </CutLeft>
+    </Box>
+  ),
 );
 
 export type AskewListItem = {
@@ -92,29 +79,30 @@ export type AskewListProps<T extends AskewListItem> = {
   keyExtractor?: (item: T, index: number) => React.Key & T[keyof T];
 };
 
-export const AskewList = <T extends AskewListItem>(
-  props: AskewListProps<T>,
-): JSX.Element => {
-  const { sx, skewTop, skewBottom, items, renderItem, keyExtractor } = props;
+export const AskewList = <T extends AskewListItem>({
+  sx,
+  skewTop,
+  skewBottom,
+  items,
+  renderItem,
+  keyExtractor,
+}: AskewListProps<T>): JSX.Element => (
+  <Box sx={sx}>
+    {items.map((item, i) => {
+      const key = (keyExtractor?.(item, i) ?? i) as React.Key;
 
-  return (
-    <Box sx={sx}>
-      {items.map((item, i) => {
-        const key = (keyExtractor?.(item, i) ?? i) as React.Key;
+      if (!skewTop && i === 0) {
+        return <CutBottomLeft key={key}>{renderItem(item, i)}</CutBottomLeft>;
+      }
 
-        if (!skewTop && i === 0) {
-          return <CutBottomLeft key={key}>{renderItem(item, i)}</CutBottomLeft>;
-        }
+      if (!skewBottom && i === items.length - 1) {
+        return <CutTopLeft key={key}>{renderItem(item, i)}</CutTopLeft>;
+      }
 
-        if (!skewBottom && i === items.length - 1) {
-          return <CutTopLeft key={key}>{renderItem(item, i)}</CutTopLeft>;
-        }
-
-        return <CutLeft key={key}>{renderItem(item, i)}</CutLeft>;
-      })}
-    </Box>
-  );
-};
+      return <CutLeft key={key}>{renderItem(item, i)}</CutLeft>;
+    })}
+  </Box>
+);
 
 export type AskewProps = {
   sx?: BoxProps['sx'];
@@ -123,30 +111,26 @@ export type AskewProps = {
   children: (ReactElement<{ name: string }> | undefined)[];
 };
 
-const Askew = (props: AskewProps): JSX.Element => {
-  const { sx, skewTop, skewBottom, children } = props;
+const Askew: FC<AskewProps> = ({ sx, skewTop, skewBottom, children }) => (
+  <Box sx={sx}>
+    {children.map((child, i) => {
+      if (!child) return undefined;
 
-  return (
-    <Box sx={sx}>
-      {children.map((child, i) => {
-        if (!child) return undefined;
+      const {
+        props: { name },
+      } = child;
 
-        const {
-          props: { name },
-        } = child;
+      if (!skewTop && i === 0) {
+        return <CutBottomLeft key={name}>{child}</CutBottomLeft>;
+      }
 
-        if (!skewTop && i === 0) {
-          return <CutBottomLeft key={name}>{child}</CutBottomLeft>;
-        }
+      if (!skewBottom && i === children.length - 1) {
+        return <CutTopLeft key={name}>{child}</CutTopLeft>;
+      }
 
-        if (!skewBottom && i === children.length - 1) {
-          return <CutTopLeft key={name}>{child}</CutTopLeft>;
-        }
+      return <CutLeft key={name}>{child}</CutLeft>;
+    })}
+  </Box>
+);
 
-        return <CutLeft key={name}>{child}</CutLeft>;
-      })}
-    </Box>
-  );
-};
-
-export default Askew;
+export default memo(Askew);

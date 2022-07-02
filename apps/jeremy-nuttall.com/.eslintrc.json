@@ -14,15 +14,27 @@
     "import/no-extraneous-dependencies": [
       "error",
       {
-        "devDependencies": ["**/*.stories.tsx", "**/.storybook/**/*"]
+        "devDependencies": [
+          "**/*.stories.tsx",
+          "**/.storybook/**/*",
+          "**/*.spec.tsx"
+        ]
       }
     ],
     "react/prop-types": "off",
+    "react/no-unused-prop-types": "off", // false positives on shared prop types
     "react/require-default-props": "off",
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-props-no-spreading": "off",
     "@typescript-eslint/no-unused-vars": ["warn"],
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "react/function-component-definition": [
+      "warn",
+      {
+        "namedComponents": ["arrow-function"],
+        "unnamedComponents": ["arrow-function"]
+      }
+    ]
   },
   "overrides": [
     {

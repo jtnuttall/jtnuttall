@@ -11,7 +11,7 @@ import NavigationButton from './NavigationButton';
 import { ToolbarProps } from './types';
 
 const MobileToolbarContents = React.forwardRef<HTMLDivElement, ToolbarProps>(
-  (props, ref) => {
+  (_props, ref) => {
     const [open, setOpen] = useState(false);
 
     return (

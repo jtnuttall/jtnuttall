@@ -1,5 +1,6 @@
 import { clamp } from 'lodash';
 import {
+  FC,
   useState,
   useEffect,
   useReducer,
@@ -291,19 +292,17 @@ const renderTypewriter = (
  * This should minimize unnecessary rerenders and keep the memory usage very low (since the bulk of
  * reducer state transformation actions are purely transient)
  */
-const Typewriter = (props: TypewriterProps): JSX.Element => {
-  const {
-    actions,
-    prompt = '',
-    cpm = 425,
-    cursorAnimation = 'blink',
-    cursorBlinkFrequency = 5,
-    cursorType = 'underscore',
-    variant = 'h4',
-    fontFamily,
-    minHeight,
-  } = props;
-
+const Typewriter: FC<TypewriterProps> = ({
+  actions,
+  prompt = '',
+  cpm = 425,
+  cursorAnimation = 'blink',
+  cursorBlinkFrequency = 5,
+  cursorType = 'underscore',
+  variant = 'h4',
+  fontFamily,
+  minHeight,
+}) => {
   const cpmDelay = useMemo(() => cpmToMillis(cpm), [cpm]);
   const blinkDelay = useMemo(
     () => hzToMillis(cursorBlinkFrequency),
@@ -325,7 +324,7 @@ const Typewriter = (props: TypewriterProps): JSX.Element => {
     typewriterInitialState,
   );
 
-  const { actionCompleted, color, writeIndex, text } = typewriterState;
+  const { actionCompleted, color } = typewriterState;
 
   useInterval(
     () => {

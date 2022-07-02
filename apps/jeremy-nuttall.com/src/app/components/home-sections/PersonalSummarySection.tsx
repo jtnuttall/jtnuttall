@@ -1,7 +1,8 @@
+import { FC } from 'react';
 import { Typography } from '@mui/material';
 import { SectionBox, SectionContentCard, SectionProps } from './SectionBase';
 
-const PersonalSummarySection = (props: SectionProps): JSX.Element => (
+const PersonalSummarySection: FC<SectionProps> = (props) => (
   <SectionBox {...props}>
     <SectionContentCard raised>
       <Typography variant="h2" sx={{ mb: 3 }}>
