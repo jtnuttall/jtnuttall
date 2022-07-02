@@ -1,4 +1,5 @@
-import { FC, forwardRef, memo, useState } from 'react';
+import { FC, forwardRef, memo, useEffect, useState } from 'react';
+import { track } from 'insights-js';
 import { ProjectItemFragment } from '@jtnuttall/apollo-codegen';
 import {
   Card,
@@ -65,6 +66,16 @@ const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
     const handleExpand = () => {
       setExpanded(!expanded);
     };
+
+    useEffect(() => {
+      track({
+        id: 'project-expand',
+        parameters: {
+          expanded: expanded.toString(),
+          name: project.name ? project.name : 'unknown',
+        },
+      });
+    }, [expanded, project]);
 
     return (
       <StyledCard raised ref={ref} sx={sx}>
