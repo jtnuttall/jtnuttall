@@ -68,13 +68,14 @@ const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
     };
 
     useEffect(() => {
-      track({
-        id: 'project-expand',
-        parameters: {
-          expanded: expanded.toString(),
-          name: project.name ? project.name : 'unknown',
-        },
-      });
+      if (expanded) {
+        track({
+          id: 'project-expand',
+          parameters: {
+            name: project.name ? project.name : 'unknown',
+          },
+        });
+      }
     }, [expanded, project]);
 
     return (
