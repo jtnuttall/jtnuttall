@@ -28,7 +28,7 @@
     "axios": "^0.21.4",
     "core-js": "^3.17.3",
     "dotenv": "^10.0.0",
-    "express": "4.17.2",
+    "express": "4.17.3",
     "insights-js": "^1.2.11",
     "lodash": "^4.17.21",
     "masonic": "^3.6.5",
