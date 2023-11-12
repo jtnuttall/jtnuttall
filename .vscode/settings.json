@@ -1,0 +1,13 @@
+{
+  // other settings
+  "tailwindCSS.includeLanguages": {
+    "javascript": "javascript",
+    "html": "HTML"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "explorer.sortOrder": "default",
+  "editor.tabSize": 2,
+  "editor.rulers": [80, 120]
+}

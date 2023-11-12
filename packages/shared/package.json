@@ -1,0 +1,27 @@
+{
+  "name": "@jtnuttall/shared",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shared functionality",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "exports": {
+    "./hooks": "./src/hooks/index.ts"
+  },
+  "keywords": [],
+  "author": "Jeremy Nuttall",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "vite": "^4.5.0",
+    "vitest": "^0.34.6"
+  }
+}
