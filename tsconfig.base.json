@@ -1,23 +1,13 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
-    "rootDir": ".",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "es2015",
-    "module": "esnext",
-    "lib": ["es2017", "dom"],
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@jtnuttall/api-interfaces": ["libs/api-interfaces/src/index.ts"],
-      "@jtnuttall/apollo-codegen": ["libs/apollo-codegen/src/index.ts"]
-    }
-  },
-  "exclude": ["node_modules", "tmp"]
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  }
 }
