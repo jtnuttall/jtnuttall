@@ -82,12 +82,14 @@ export default async function Home() {
           <div className="flex flex-row mt-5 lg:mt-0 lg:justify-end gap-5 lg:px-24 lg:py-12 text-neutral-content">
             <IconAnchor
               icon={LuLinkedin as IconType}
+              aria-label="My Linkedin"
               href="https://linkedin.com/in/jeremy-nuttall"
               rel="noreferrer"
               target="_blank"
             />
             <IconAnchor
               icon={LuGithub as IconType}
+              aria-label="My Github"
               href="https://github.com/jtnuttall"
               rel="noreferrer"
               target="_blank"
@@ -220,7 +222,7 @@ export default async function Home() {
               </div>
             ))}
           </section>
-          <section className="mt-24 text-sm opacity-40 prose">
+          <section className="mt-24 text-sm font-extralight prose">
             Inspired by Brittany Chiang&apos;s excellent{' '}
             <a
               href="https://brittanychiang.com/"
