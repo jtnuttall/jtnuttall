@@ -107,7 +107,7 @@ export default async function Home() {
                 Hi! I&apos;m Jeremy.
               </div>
               <div className="prose mt-4">
-                <p>once upon a time, an autistic boy found a computer...</p>
+                <p>Working on healthcare applications to improve our health!</p>
               </div>
             </div>
           </section>
