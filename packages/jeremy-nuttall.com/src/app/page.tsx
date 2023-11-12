@@ -219,13 +219,6 @@ export default async function Home() {
                 </div>
               </div>
             ))}
-            <Link
-              href="/projects"
-              className="mt-5 link link-accent hover:link-primary flex items-center gap-2 self-end transition-colors"
-            >
-              All projects
-              <LuArrowBigRightDash />
-            </Link>
           </section>
           <section className="mt-24 text-sm opacity-40 prose">
             Inspired by Brittany Chiang&apos;s excellent{' '}
