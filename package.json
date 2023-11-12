@@ -27,9 +27,5 @@
     "ts-node": "^10.9.1",
     "type-fest": "^4.6.0",
     "typescript": "^5.2.2"
-  },
-  "dependencies": {
-    "@graphql-typed-document-node/core": "^3.2.0",
-    "graphql": "^16.8.1"
   }
 }
