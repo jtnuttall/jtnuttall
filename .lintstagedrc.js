@@ -1,6 +1,6 @@
 module.exports = {
-  '*.{json,md,ya?ml}': 'prettier --write',
-  '*.{ts,js}x?': [
+  '*.{json,md,yml,yaml}': 'prettier --write',
+  '*.{ts,js,tsx,jsx}': [
     () => 'pnpm -r typecheck',
     () => 'pnpm -r lint',
     'prettier --write',
