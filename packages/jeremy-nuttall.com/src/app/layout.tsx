@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import { Space_Grotesk, Space_Mono } from 'next/font/google';
 import './globals.css';
 
@@ -26,7 +27,10 @@ export default function RootLayout({
       lang="en"
       className={`scroll-smooth bg-circuit-board ${sans.variable} ${mono.variable} font-sans`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

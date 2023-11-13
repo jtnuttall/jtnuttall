@@ -232,15 +232,15 @@ export default async function Home() {
             >
               online resume
             </a>
-            . Built with Next.js, TailwindCSS, and daisyUI. Deployed on AWS
-            amplify. Content is managed with{' '}
+            . Built with Next.js, TailwindCSS, and daisyUI. Deployed on Vercel.
+            Content is managed with{' '}
             <a
               href="https://www.sanity.io/"
               className="link"
               rel="noreferrer"
               target="_blank"
             >
-              Sanity CMS
+              Sanity
             </a>
             .
           </section>

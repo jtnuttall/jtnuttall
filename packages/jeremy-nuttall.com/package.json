@@ -13,6 +13,7 @@
     "@jtnuttall/react-typewriter": "workspace:^",
     "@sanity/image-url": "1",
     "@sanity/vision": "3",
+    "@vercel/analytics": "^1.1.1",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
     "groqd": "^0.15.10",
