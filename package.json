@@ -7,8 +7,6 @@
   "license": "Apache-2.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate": "graphql-codegen --config ./gql-codegen.ts",
-    "generate:dev": "graphql-codegen --config ./gql-codegen.ts --watch",
     "prepare": "husky install"
   },
   "devDependencies": {
