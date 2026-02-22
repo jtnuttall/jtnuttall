@@ -1,8 +1,6 @@
 %!TEX TS-program = xelatex
 %!TEX encoding = UTF-8 Unicode
-% Awesome CV LaTeX Template for Resume
-% Main file for Jeremy Nuttall
-% Based on template provided by user (github.com/posquit0/Awesome-CV)
+% Awesome CV LaTeX Template for Cover Letter
 
 %-------------------------------------------------------------------------------
 % CONFIGURATIONS
@@ -13,16 +11,15 @@
 % Configure page margins with geometry
 \geometry{left=1.4cm, top=.8cm, right=1.4cm, bottom=1.8cm, footskip=.5cm}
 
-% Specify the location of the included fonts (if using custom bundled fonts)
-\fontdir[fonts/] % Keep this if your Overleaf template uses a local /fonts/ directory
+% Specify the location of the included fonts
+\fontdir[fonts/]
 
 % Color for highlights
 % Awesome Colors: awesome-emerald, awesome-skyblue, awesome-red, awesome-pink, awesome-orange
 %                 awesome-nephritis, awesome-concrete, awesome-darknight
-\colorlet{awesome}{awesome-emerald} % From example, you can change this (e.g., awesome-skyblue)
-% \definecolor{awesome}{HTML}{CA63A8} % Example for custom color
+\colorlet{awesome}{awesome-emerald}
 
-% Colors for text (usually not needed to change from awesome-cv defaults)
+% Colors for text
 % \definecolor{darktext}{HTML}{414141}
 % \definecolor{text}{HTML}{333333}
 % \definecolor{graytext}{HTML}{5D5D5D}
@@ -35,52 +32,88 @@
 \renewcommand{\acvHeaderSocialSep}{\quad\textbar\quad}
 
 % Other common packages (many are loaded by awesome-cv already)
-\usepackage[utf8]{inputenc} % Already standard in modern LaTeX, but good practice
-% \usepackage[T1]{fontenc}    % Font encoding
-\usepackage{xurl}          % For better URL line breaking
-\usepackage{textcomp}      % For symbols like \textasciitilde
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{xurl}
+\usepackage{textcomp} % For \textasciitilde
 
 %-------------------------------------------------------------------------------
 %   PERSONAL INFORMATION
 %   Comment any of the lines below if they are not required
 %-------------------------------------------------------------------------------
 \name{Jeremy}{Nuttall}
-\position{Principal Software Engineer \& Tech Lead} % Concise title for the sidebar header
-% \address{Street and Number}{Postcode City}{Country} % Optional
-% \mobile{(123) 456-7890} % Optional
+\position{Principal Software Engineer \& Tech Lead} % Using "&" as an example, use "\&" for LaTeX ampersand
+
+% \photo[circle,noedge,left]{./examples/profile} % Photo not used in resume, omitting here
+% \address{42-8, Bangbae-ro 15-gil, Seocho-gu, Seoul, 00681, Rep. of KOREA} % Address not used
+% \mobile{(+82) 10-9030-1843} % Mobile not used
 
 \email{jeremy@jeremy-nuttall.com}
 \homepage{jeremy-nuttall.com}
 \github{jtnuttall}
-\linkedin{jeremy-nuttall} % Usually just the profile ID/vanity name
+\linkedin{jeremy-nuttall}
+% \gitlab{gitlab-id}
+% \stackoverflow{SO-id}{SO-name}
+% \twitter{@twit}
+% \skype{skype-id}
+% \reddit{reddit-id}
+% \medium{madium-id}
+% \googlescholar{googlescholar-id}{name-to-display}
+% \extrainfo{extra informations}
 
-% \extrainfo{Additional information can go here} % Optional
+\quote{QUOTE}
 
-\quote{Principal Software Engineer \& Tech Lead with 6 years of experience architecting and delivering impactful, scalable full-stack solutions (React, Ruby on Rails, Node.js) with deep expertise in AWS backend systems. Passionate about driving technical excellence, leading cross-functional initiatives from conception to deployment, fostering collaborative and productive development environments, mentoring engineers, and leveraging technology to improve health outcomes. Proven ability to set technical direction, navigate ambiguity, and align engineering efforts with business goals in fast-paced, mission-driven environments.} % Your refined summary
+
+%-------------------------------------------------------------------------------
+%   LETTER INFORMATION
+%   All of the below lines must be filled out
+%-------------------------------------------------------------------------------
+% The company being applied to
+\recipient
+  {RECIPIENT}
+  {ENTITY}
+% The date on the letter, default is the date of compilation
+\letterdate{\today}
+% The title of the letter
+\lettertitle{TITLE}
+% How the letter is opened - leaving empty as per user request
+\letteropening{}
+% How the letter is closed
+\letterclosing{Sincerely,}
+% Any enclosures with the letter
+\letterenclosure[Attached]{Resume}
+
 
 %-------------------------------------------------------------------------------
 \begin{document}
 
 % Print the header with above personal informations
 % Give optional argument to change alignment(C: center, L: left, R: right)
-\makecvheader[C] % Example: Left-align content in header, default is usually fine
+\makecvheader[C] % Centered, consistent with resume
 
 % Print the footer with 3 arguments(<left>, <center>, <right>)
 % Leave any of these blank if they are not needed
 \makecvfooter
   {\today}
-  {Jeremy Nuttall~~~·~~~Resume} % Adapted from example
+  {Jeremy Nuttall~~~·~~~Cover Letter}
   {\thepage}
 
+% Print the title with above letter informations
+\makelettertitle
 
 %-------------------------------------------------------------------------------
-%   RESUME CONTENT
-%   Each section is imported separately, open each file in turn to modify content
+%   LETTER CONTENT
 %-------------------------------------------------------------------------------
-\input{resume/experience.tex}
-\input{resume/skills.tex}
-\input{resume/projects.tex}
-\input{resume/education.tex}
+\begin{cvletter}
+
+% \lettersection{About Me} % Using a more direct approach without these section titles
+
+% content
+
+\end{cvletter}
 
 %-------------------------------------------------------------------------------
+% Print the signature and enclosures with above letter informations
+\makeletterclosing
+
 \end{document}

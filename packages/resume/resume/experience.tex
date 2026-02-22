@@ -1,0 +1,98 @@
+%-------------------------------------------------------------------------------
+%   SECTION TITLE
+%-------------------------------------------------------------------------------
+\cvsection{Experience}
+
+%-------------------------------------------------------------------------------
+%   CONTENT
+%-------------------------------------------------------------------------------
+\begin{cventries}
+
+%---------------------------------------------------------
+\cventry
+  {Well} % Organization
+  {Principal Software Engineer / Tech Lead} % Job Title (Emphasized)
+  {Remote} % Location
+  {June 2024--Present} % Date(s)
+  { % Description
+    \begin{cvitems}
+      \item{Post-promotion, strategically reshaped the technical roadmap by successfully advocating to leadership (directors, C-level) to cancel a planned monolithization, instead championing and accelerating monorepo adoption to address critical productivity bottlenecks with minimal disruption.}
+      \item{Spearheaded the unification of 21 services/libraries into a monorepo within 2 months; authored and implemented a comprehensive migration playbook, \textbf{empowering team members of all seniorities to execute delegated tasks efficiently and fostering broader team adoption of new development workflows.}}
+      \item{Engineered a custom CI/CD pipeline for the monorepo (Turborepo, pnpm) with CI cache integration (slashing pipeline times by up to 60\%), Terraform for Lambda deployments, and advanced GitLab CI conditional child pipelines for optimized targeted testing.}
+      \item{Architected and led the technical implementation of critical Single Sign-On (SSO) solutions (Amazon Cognito, SAML 2.0) as a trio lead (product, delivery, engineering) for B2B enterprise customers; delivered hands-on coding (TypeScript, Terraform, Haskell) and \textbf{provided a React POC to guide frontend SSO integration.}}
+      \item{Defined and managed the collaborative process with customer IT teams for SAML 2.0 setup, creating reusable documentation and streamlined procedures. Successfully delivered SSO for key B2B enterprise clients, including a financial services firm (supporting \textasciitilde{}30,000 users) where SSO was a \textbf{critical deal requirement}, and a multinational bank (supporting thousands of US-based employees) where SSO was \textbf{vital for continued customer satisfaction.}}
+      \item{Led high-stakes resolution of a critical Amazon Cognito SAML bug threatening a major B2B product launch, providing definitive SAML assertion analysis (xmlsec, HAR files) and orchestrating multi-party communications (customer, AWS, internal) to secure the launch.}
+      \item{Led cross-functional security initiatives responding to external penetration tests, coordinating remediation across mobile, web, DevOps, and Haskell teams; notably negotiated a 1-month mobile app autologout solution, averting a projected 6-month Cognito migration project.}
+      \item{Spearheaded the architecture for a globally scalable, timezone-aware notification system \textbf{by analyzing existing usage data and projected growth patterns to select an optimal, cost-efficient AWS serverless stack} (DynamoDB streams, Lambda, Kinesis), featuring GSI optimization and robust rate limiting.}
+      \item{Instrumental in scaling the engineering team to 10 members (contributing to 6 hires including Senior Engineers \& an Engineering Manager via 15+ interviews), expertly assessing architectural reasoning for distributed, high-load environments.}
+      \item{Presented and refined architectural designs for critical new systems (e.g., SSO) in direct collaboration with the CTO, leveraging deep Cognito expertise to shape key technical decisions and proactively mitigate risks.}
+    \end{cvitems}
+  }
+
+%---------------------------------------------------------
+\cventry
+  {Well} % Organization
+  {Senior Software Engineer} % Job Title (Emphasized)
+  {Remote} % Location
+  {September 2022--May 2024} % Date(s)
+  { % Description
+    \begin{cvitems}
+      \item{\textbf{Utilizing developer feedback, code quality insights, and burndown metrics, led the strategic migration of 200K+ LoC} from legacy JavaScript to TypeScript, defining an iterative strategy, orchestrating the conversion, and selecting Zod for schema validation.}
+      \item{This pivotal migration significantly boosted code reliability and developer confidence—critical for subsequent large-scale efforts like monorepo adoption—while streamlining new engineer onboarding. The initiative earned widespread praise for marked improvements to developer experience and code quality.}
+      \item{Mentored 5 engineers in TypeScript, accelerating their ramp-up to support the migration and measurably improving code quality through targeted didactic sessions and rigorous code reviews.}
+      \item{\textbf{Leveraged application performance monitoring (APM) data (p90/p99 latency, bundle sizes) to drive critical backend optimizations}, such as esbuild integration (reducing bundle sizes by up to 99.8\% for \textasciitilde{}18 microservices), and \textbf{to lead strategic discussions on service containerization.}}
+      \item{Contributed to the maintenance and enhancement of critical internal \textbf{React-based admin tools, focusing on improving state management (memoization, reducing re-renders, optimizing data fetching).}}
+      \item{Implemented comprehensive testing (unit, integration, functional) for Lambda functions and backend services using Jest and Supertest.}
+      \item{Facilitated organization-wide adoption of standardized ESLint, TypeScript, and Jest configurations, \textbf{driving improvements in code consistency, accelerating new engineer onboarding, and reducing cross-team friction.}}
+      \item{Developed and maintained HIPAA-compliant applications and infrastructure.}
+    \end{cvitems}
+  }
+
+%---------------------------------------------------------
+\cventry
+  {Triplebyte} % Organization
+  {Senior Software Engineer} % Job Title (Emphasized)
+  {Remote} % Location
+  {November 2021--September 2022} % Date(s)
+  { % Description
+    \begin{cvitems}
+      \item{Engineered a high-precision cheating detection system: designed and implemented the \textbf{Ruby on Rails backend, created frontend components in React (TypeScript) for flagging submissions, and designed the PostgreSQL schema from scratch} for storing and correlating submission fingerprints (O(n) generation time). This system achieved an effective 0\% false positive rate on verified cases, ensuring assessment integrity.}
+      \item{Developed and maintained full-stack applicant screening features (processing tens of thousands of applications monthly): \textbf{built responsive frontend components using React, Redux, and TailwindCSS (TypeScript), hydrated by a server-side rendered Ruby on Rails backend,} and managed Heroku deployments.}
+      \item{Collaborated with 4 other senior engineers on the \textbf{Ruby on Rails backend governing the job applicant screening platform,} contributing to core feature development and maintenance.}
+      \item{Worked closely with product and design teams to \textbf{translate complex Figma designs into functional, responsive React components,} providing critical technical feedback to refine UI/UX for feasibility and improved user interaction.}
+      \item{Ensured application reliability by writing comprehensive tests with Cypress, Jest, and RSpec, achieving over 80\% test coverage for owned features.}
+      \item{Improved database query performance by identifying and indexing frequently accessed columns in PostgreSQL.}
+    \end{cvitems}
+  }
+
+%---------------------------------------------------------
+\cventry
+  {Appstem} % Organization
+  {Software Engineer (Project Lead)} % Job Title (Emphasized)
+  {Remote} % Location
+  {June 2021--November 2021} % Date(s)
+  { % Description
+    \begin{cvitems}
+      \item{As Project Lead for a key client, served as the primary customer-facing technical contact, responsible for scoping requirements, timeline planning (T-shirt sizing), and hands-on development of a custom full-stack React Native mobile application with a Google Firebase backend.}
+      \item{Developed 30+ custom React Native (TypeScript) components and resolved numerous bugs for KFC's mobile e-commerce application during a 2-month subcontract.}
+      \item{Implemented functional tests for mobile/web applications and their backends using Jest and Detox.}
+      \item{Successfully launched an integrated in-app store for a React Native fitness application using Google Firebase and Stripe.}
+    \end{cvitems}
+  }
+
+%---------------------------------------------------------
+\cventry
+  {eQ Technologic} % Organization
+  {Software Engineer} % Job Title (Emphasized)
+  {Costa Mesa, CA (initially) / Remote} % Location
+  {July 2019--June 2021} % Date(s)
+  { % Description
+    \begin{cvitems}
+      \item{Designed and developed over 20 distinct custom client-specified web applications, leveraging common templates and vanilla ES5 JavaScript with Backbone.js for rapid frontend deployment.}
+      \item{Contributed to the integration of custom applications with enterprise PLM orchestration platforms, gaining expertise in data mapping.}
+      \item{Utilized Spring framework (Java) and Oracle PL/SQL to develop backends capable of managing HIPAA-compliant internal employee healthcare data.}
+    \end{cvitems}
+  }
+
+%---------------------------------------------------------
+\end{cventries}

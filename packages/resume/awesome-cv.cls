@@ -75,7 +75,7 @@
 % Needed to use icons from font-awesome
 % (https://github.com/posquit0/latex-fontawesome)
 \RequirePackage{fontawesome}
-% \RequirePackage[default,opentype]{sourcesanspro}
+\RequirePackage[default,opentype]{sourcesanspro}
 % Needed for the photo ID
 \RequirePackage[skins]{tcolorbox}
 % Needed to deal a paragraphs
@@ -156,74 +156,31 @@
   \ifbool{acvSectionColorHighlight}{\color{awesome}}{}%
 }
 
-
 %-------------------------------------------------------------------------------
 %                Configuration for fonts
 %-------------------------------------------------------------------------------
 % Set the FontAwesome font to be up-to-date.
 % \newfontfamily\FA[Path=\@fontdir]{FontAwesome}
 % Set font for header (default is Roboto)
-% \newfontfamily\headerfont[
-%   Path=\@fontdir,
-%   UprightFont=*-Regular,
-%   ItalicFont=*-Italic,
-%   BoldFont=*-Bold,
-%   BoldItalicFont=*-BoldItalic,
-% ]{Roboto}
-
-% \newfontfamily\headerfontlight[
-%   Path=\@fontdir,
-%   UprightFont=*-Thin,
-%   ItalicFont=*-ThinItalic,
-%   BoldFont=*-Medium,
-%   BoldItalicFont=*-MediumItalic,
-% ]{Roboto}
-
 \newfontfamily\headerfont[
   Path=\@fontdir,
   UprightFont=*-Regular,
   ItalicFont=*-Italic,
   BoldFont=*-Bold,
   BoldItalicFont=*-BoldItalic,
-]{Lato}
+]{Roboto}
 
 \newfontfamily\headerfontlight[
   Path=\@fontdir,
   UprightFont=*-Thin,
   ItalicFont=*-ThinItalic,
-  BoldFont=*-Black,
-  BoldItalicFont=*-BlackItalic,
-]{Lato}
+  BoldFont=*-Medium,
+  BoldItalicFont=*-MediumItalic,
+]{Roboto}
 
-
-\newfontfamily\footerfont[
-  Path=\@fontdir,
-  UprightFont=*-Regular,
-  ItalicFont=*-Italic,
-  BoldFont=*-Bold,
-  BoldItalicFont=*-BoldItalic,
-]{Lato}
-
-
-\newfontfamily\bodyfont[
-  Path=\@fontdir,
-  UprightFont=*-Regular,
-  ItalicFont=*-Italic,
-  BoldFont=*-Bold,
-  BoldItalicFont=*-BoldItalic,
-]{Lato}
-
-\newfontfamily\bodyfontlight[
-  Path=\@fontdir,
-  UprightFont=*-Light,
-  ItalicFont=*-LightItalic,
-  BoldFont=*-Black,
-  BoldItalicFont=*-BlackItalic,
-]{Lato}
-
-% \newcommand*{\footerfont}{\lato}
-% \newcommand*{\bodyfont}{\lato}
-% \newcommand*{\bodyfontlight}{\latolight}
+\newcommand*{\footerfont}{\sourcesanspro}
+\newcommand*{\bodyfont}{\sourcesanspro}
+\newcommand*{\bodyfontlight}{\sourcesansprolight}
 
 %-------------------------------------------------------------------------------
 %                Configuration for styles
@@ -237,7 +194,7 @@
 \newcommand*{\headersocialstyle}[1]{{\fontsize{6.8pt}{1em}\headerfont\color{text} #1}}
 \newcommand*{\headerquotestyle}[1]{{\fontsize{9pt}{1em}\bodyfont\itshape\color{darktext} #1}}
 \newcommand*{\footerstyle}[1]{{\fontsize{8pt}{1em}\footerfont\scshape\color{lighttext} #1}}
-\newcommand*{\sectionstyle}[1]{{\fontsize{14pt}{1em}\bodyfont\bfseries\color{text}\@sectioncolor #1}}
+\newcommand*{\sectionstyle}[1]{{\fontsize{16pt}{1em}\bodyfont\bfseries\color{text}\@sectioncolor #1}}
 \newcommand*{\subsectionstyle}[1]{{\fontsize{12pt}{1em}\bodyfont\scshape\textcolor{text}{#1}}}
 \newcommand*{\paragraphstyle}{\fontsize{9pt}{1em}\bodyfontlight\upshape\color{text}}
 
@@ -386,7 +343,7 @@
 
 % Defines writer's quote (optional)
 % Usage: \quote{<quote>}
-% \renewcommand*{\quote}[1]{\def\@quote{#1}}
+\renewcommand*{\quote}[1]{\def\@quote{#1}}
 
 % Defines recipient's information (cover letter only)
 % Usage: \recipient{<recipient name>}{<recipient address>}
@@ -437,8 +394,8 @@
 \newcommand{\acvHeaderAfterQuoteSkip}{5mm}
 
 % Others
-\newcommand{\acvSectionTopSkip}{2mm}
-\newcommand{\acvSectionContentTopSkip}{1.5mm}
+\newcommand{\acvSectionTopSkip}{3mm}
+\newcommand{\acvSectionContentTopSkip}{2.5mm}
 
 
 %-------------------------------------------------------------------------------
@@ -720,7 +677,7 @@
 }{%
   \end{itemize}
   \end{justify}
-  \vspace{-4.0mm}
+  % \vspace{-2.0mm}
 }
 
 
