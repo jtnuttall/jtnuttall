@@ -1,7 +1,7 @@
 %-------------------------------------------------------------------------------
 %   SECTION TITLE
 %-------------------------------------------------------------------------------
-\cvsection{Projects}
+\cvsection{Open Source}
 
 %-------------------------------------------------------------------------------
 %   CONTENT
@@ -9,16 +9,28 @@
 \begin{cventries}
 
 %---------------------------------------------------------
-\cventry
-  {pure-noise (Haskell Package)} % Project Title
-  {Maintainer} % Role
-  {} % Location/Link
-  {} % Date (optional, left empty)
-  { % Description
+\projentry
+  {Author \& Maintainer} % Role
+  {pure-noise} % Project Title
+  {\href{https://hackage.haskell.org/package/pure-noise}{Hackage}} % Link
+  {Haskell} % Date
+  {https://hackage.haskell.org/package/pure-noise} % URL
+  {
     \begin{cvitems}
-      \item{Maintainer of pure-noise, a Haskell library for Perlin, Simplex, Worley, and Value noise generation. This project serves as an exploration of high-performance Haskell, optimized through Haskell Core analysis for demanding applications like procedural generation in game development.}
-      \item{Achieved benchmark performance of \textasciitilde{}130M Perlin noise values/sec with constant heap overhead (no boxing).}
-      \item{Hackage: \href{https://hackage.haskell.org/package/pure-noise}{https://hackage.haskell.org/package/pure-noise}}
+      \item{High-performance noise generation library achieving 84--95\% of C++ FastNoiseLite performance through LLVM-targeted optimization. Features algebraic composition of noise functions via standard Haskell abstractions with minimal dependencies.}
+    \end{cvitems}
+  }
+
+%---------------------------------------------------------
+\projentry
+  {Author \& Maintainer} % Role
+  {heph-aligned-storable} % Project Title
+  {\href{https://hackage.haskell.org/package/heph-aligned-storable}{Hackage}} % Link
+  {Haskell} % Date
+  {https://hackage.haskell.org/package/heph-aligned-storable} % URL
+  {
+    \begin{cvitems}
+      \item{Generic derivation of Storable instances conforming to GPU memory layout specifications (std140/std430/scalar) for safe, high-performance CPU-GPU transfers in a custom rendering engine.}
     \end{cvitems}
   }
 

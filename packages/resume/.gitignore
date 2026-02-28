@@ -309,4 +309,8 @@ TSWLatexianTemp*
 # glossaries
 *.glstex
 
+# Transient Non-Tex Documents
 *.pdf
+*.txt
+*.md
+*.html

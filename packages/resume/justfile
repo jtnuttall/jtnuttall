@@ -1,28 +1,27 @@
-# Variables
 docker_tag := "jnuttall-resume-texlive"
 docker_cmd := "docker run --rm -i --user=\"$(id -u):$(id -g)\" -v \"$PWD:/data\" -w /data " + docker_tag
 
-# By default, build the image and both PDFs
 @default: prepare (build "resume.tex") (build "coverletter.tex")
 
-# Build the Docker image
 prepare:
     docker build -t {{docker_tag}} .
 
-# Standard build for any tex file
-# Usage: just build resume.tex
 build file:
-    {{docker_cmd}} latexmk -xelatex -interaction=nonstopmode {{file}}
+    {{docker_cmd}} latexmk -lualatex -interaction=nonstopmode {{file}}
 
-# Watch mode for any tex file
-# Usage: just watch coverletter.tex
 watch file:
-    {{docker_cmd}} latexmk -xelatex -pvc -interaction=nonstopmode {{file}}
+    #!/usr/bin/env bash
+    set -eo pipefail
+    TEX_FILE="{{file}}"
+    PDF_FILE="${TEX_FILE%.tex}.pdf"
+    if [ ! -f "$PDF_FILE" ]; then
+        {{docker_cmd}} latexmk -lualatex -interaction=nonstopmode "$TEX_FILE"
+    fi
+    zathura "$PDF_FILE" > /dev/null 2>&1 &
+    {{docker_cmd}} latexmk -lualatex -pvc -view=none -interaction=nonstopmode "$TEX_FILE"
 
-# Clean intermediate files
 purge:
     {{docker_cmd}} latexmk -c resume.tex coverletter.tex
 
-# Clean everything, including PDFs
 clean:
     {{docker_cmd}} latexmk -C resume.tex coverletter.tex

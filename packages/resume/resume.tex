@@ -8,10 +8,10 @@
 % CONFIGURATIONS
 %-------------------------------------------------------------------------------
 % A4 paper size by default, use 'letterpaper' for US letter
-\documentclass[11pt, a4paper]{awesome-cv}
+\documentclass[11pt, letterpaper]{awesome-cv}
 
 % Configure page margins with geometry
-\geometry{left=1.4cm, top=.8cm, right=1.4cm, bottom=1.8cm, footskip=.5cm}
+\geometry{left=1.4cm, top=.8cm, right=1.4cm, bottom=1.4cm, footskip=.5cm}
 
 % Specify the location of the included fonts (if using custom bundled fonts)
 \fontdir[fonts/] % Keep this if your Overleaf template uses a local /fonts/ directory
@@ -31,14 +31,46 @@
 % Set false if you don't want to highlight section with awesome color
 \setbool{acvSectionColorHighlight}{true}
 
-% If you would like to change the social information separator from a pipe (|) to something else
-\renewcommand{\acvHeaderSocialSep}{\quad\textbar\quad}
-
 % Other common packages (many are loaded by awesome-cv already)
-\usepackage[utf8]{inputenc} % Already standard in modern LaTeX, but good practice
-% \usepackage[T1]{fontenc}    % Font encoding
 \usepackage{xurl}          % For better URL line breaking
 \usepackage{textcomp}      % For symbols like \textasciitilde
+\usepackage{hyperref}
+
+% Single keyword list shared between PDF metadata and ATS text layer
+\newcommand{\resumeKeywords}{%
+    TypeScript, JavaScript, JS, TS, Haskell, Ruby, SQL, Java, PL/SQL, Oracle PL/SQL,
+    React, React.js, React Native, Next.js, Redux, GraphQL,
+    Node.js, Fastify, Ruby on Rails, Rails, Spring,
+    OAuth 2.0, OAuth, OIDC, OpenID Connect, SAML 2.0, SAML, SSO, Single Sign-On,
+    MFA, Multi-Factor Authentication, authentication, authorization, security,
+    HIPAA, security auditing,
+    AWS, Amazon Web Services, Lambda, AWS Lambda, ECS, Amazon ECS,
+    Cognito, Amazon Cognito, S3, Amazon S3, SQS, Amazon SQS, SNS, Amazon SNS,
+    Kinesis, Amazon Kinesis, Terraform, Docker, Nix,
+    serverless, microservices, cloud infrastructure, infrastructure as code,
+    PostgreSQL, Postgres, DynamoDB, Amazon DynamoDB, MongoDB, Redis, Elasticsearch,
+    GitLab CI, GitHub Actions, CI/CD, Turborepo, Datadog, Linux, esbuild,
+    Cypress, end-to-end testing, E2E testing, test automation,
+    Zod, Firebase, Google Firebase, Salesforce,
+    monorepo, APM, performance optimization, cost optimization,
+    incident response, incident management,
+    technical leadership, tech lead, engineering leadership, mentoring, code review, hiring,
+    full stack, full-stack, backend, frontend, front-end, back-end,
+    LLVM, functional programming,
+    Principal Software Engineer, Senior Software Engineer, Software Engineer,
+    healthcare, health tech, digital health, enterprise, B2B, SaaS,
+    REST, API, RESTful,
+    mobile development, cross-platform,
+    computer science%
+}
+
+\hypersetup{
+  pdftitle={Jeremy Nuttall - Resume},
+  pdfauthor={Jeremy Nuttall},
+  pdfsubject={Principal Software Engineer - jeremy@jeremy-nuttall.com - https://jeremy-nuttall.com - https://github.com/jtnuttall - https://www.linkedin.com/in/jeremy-nuttall},
+  pdfkeywords={\resumeKeywords},
+}
+% \atsKeywords{\resumeKeywords}
 
 %-------------------------------------------------------------------------------
 %   PERSONAL INFORMATION
@@ -56,7 +88,11 @@
 
 % \extrainfo{Additional information can go here} % Optional
 
-\quote{Principal Software Engineer \& Tech Lead with 6 years of experience architecting and delivering impactful, scalable full-stack solutions (React, Ruby on Rails, Node.js) with deep expertise in AWS backend systems. Passionate about driving technical excellence, leading cross-functional initiatives from conception to deployment, fostering collaborative and productive development environments, mentoring engineers, and leveraging technology to improve health outcomes. Proven ability to set technical direction, navigate ambiguity, and align engineering efforts with business goals in fast-paced, mission-driven environments.} % Your refined summary
+% \quote{Leading platform architecture, security, and infrastructure for a digital health platform serving Fortune 100 clients, driving a 10-engineer team across TypeScript, Haskell, and AWS.}
+
+% Tighten vertical spacing to fit on 2 pages
+\renewcommand{\acvHeaderAfterSocialSkip}{3.5mm}
+\renewcommand{\acvSectionContentTopSkip}{1.0mm}
 
 %-------------------------------------------------------------------------------
 \begin{document}
@@ -68,10 +104,9 @@
 % Print the footer with 3 arguments(<left>, <center>, <right>)
 % Leave any of these blank if they are not needed
 \makecvfooter
-  {\today}
-  {Jeremy Nuttall~~~·~~~Resume} % Adapted from example
+  {}
+  {Jeremy Nuttall~~~·~~~Resume}
   {\thepage}
-
 
 %-------------------------------------------------------------------------------
 %   RESUME CONTENT

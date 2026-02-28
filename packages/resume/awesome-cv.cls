@@ -75,18 +75,46 @@
 % Needed to use icons from font-awesome
 % (https://github.com/posquit0/latex-fontawesome)
 \RequirePackage{fontawesome}
-\RequirePackage[default,opentype]{sourcesanspro}
+% \RequirePackage[default,opentype]{sourcesanspro}
 % Needed for the photo ID
 \RequirePackage[skins]{tcolorbox}
 % Needed to deal a paragraphs
 \RequirePackage{parskip}
 % Needed to deal hyperlink
 \RequirePackage[hidelinks,unicode]{hyperref}
+% Needed for ATS-friendly text extraction metadata
+\RequirePackage{accsupp}
+% Define safe expansions for commands that may appear inside AccSupp ActualText
+\pdfstringdefDisableCommands{%
+  \def\href#1#2{#2}%
+  \def\textm#1{#1}%
+  \def\textsb#1{#1}%
+  \def\textbf#1{#1}%
+  \def\texttt#1{#1}%
+  \def\textendash{-}%
+  \def\textemdash{--}%
+  \def\textasciitilde{~}%
+}
 \hypersetup{%
   pdftitle={},
   pdfauthor={},
   pdfsubject={},
   pdfkeywords={}
+}
+% Remap tounicode entries so pdftotext extracts ASCII for ligature glyphs.
+% luaotfload sets tounicode from the font's cmap (e.g. endash -> U+2013),
+% so \pdfglyphtounicode won't override it. Instead, patch each font's
+% character table after luaotfload loads it.
+\directlua{
+  luatexbase.add_to_callback("luaotfload.patch_font", function(fontdata)
+    local chars = fontdata.characters
+    if chars then
+      if chars[0x2013] then chars[0x2013].tounicode = "002D" end
+      if chars[0x2014] then chars[0x2014].tounicode = "002D002D" end
+      if chars[0x2019] then chars[0x2019].tounicode = "0027" end
+    end
+    return fontdata
+  end, "ats-tounicode-remap")
 }
 
 
@@ -133,6 +161,7 @@
 \definecolor{blue}{HTML}{6CE0F1}
 % Text colors
 \definecolor{darktext}{HTML}{414141}
+\definecolor{entrytitletext}{HTML}{5D5D5D}
 \colorlet{text}{darkgray}
 \colorlet{graytext}{gray}
 \colorlet{lighttext}{lightgray}
@@ -161,55 +190,81 @@
 %-------------------------------------------------------------------------------
 % Set the FontAwesome font to be up-to-date.
 % \newfontfamily\FA[Path=\@fontdir]{FontAwesome}
-% Set font for header (default is Roboto)
+% Space Mono for headings
 \newfontfamily\headerfont[
   Path=\@fontdir,
   UprightFont=*-Regular,
   ItalicFont=*-Italic,
   BoldFont=*-Bold,
   BoldItalicFont=*-BoldItalic,
-]{Roboto}
+]{SpaceMono}
 
 \newfontfamily\headerfontlight[
   Path=\@fontdir,
-  UprightFont=*-Thin,
-  ItalicFont=*-ThinItalic,
-  BoldFont=*-Medium,
-  BoldItalicFont=*-MediumItalic,
-]{Roboto}
+  UprightFont=*-Regular,
+  ItalicFont=*-Italic,
+  BoldFont=*-Bold,
+  BoldItalicFont=*-BoldItalic,
+]{SpaceMono}
 
-\newcommand*{\footerfont}{\sourcesanspro}
-\newcommand*{\bodyfont}{\sourcesanspro}
-\newcommand*{\bodyfontlight}{\sourcesansprolight}
+% Space Grotesk for body text
+\newfontfamily\spacegrotesk[
+  Path=\@fontdir,
+  UprightFont=*-Regular,
+  BoldFont=*-Bold,
+  FontFace={l}{n}{Font=*-Light},
+  FontFace={sb}{n}{Font=*-SemiBold},
+  FontFace={m}{n}{Font=*-Medium},
+]{SpaceGrotesk}
+
+\newfontfamily\spacegrotesklight[
+  Path=\@fontdir,
+  UprightFont=*-Light,
+  BoldFont=*-Medium,
+]{SpaceGrotesk}
+
+\newcommand*{\footerfont}{\spacegrotesk}
+\newcommand*{\bodyfont}{\spacegrotesk}
+\newcommand*{\bodyfontlight}{\spacegrotesklight}
+
+\DeclareTextFontCommand{\textsb}{\spacegrotesk\fontseries{sb}\selectfont}
+\DeclareTextFontCommand{\textm}{\spacegrotesk\fontseries{m}\selectfont}
+
+%%% To revert to Source Sans Pro, uncomment the RequirePackage above
+%%% and replace the above block with:
+% \newcommand*{\footerfont}{\sourcesanspro}
+% \newcommand*{\bodyfont}{\sourcesanspro}
+% \newcommand*{\bodyfontlight}{\sourcesansprolight}
+% \DeclareTextFontCommand{\textsb}{\sourcesanspro}
 
 %-------------------------------------------------------------------------------
 %                Configuration for styles
 %-------------------------------------------------------------------------------
 % Configure styles for each CV elements
 % For fundamental structures
-\newcommand*{\headerfirstnamestyle}[1]{{\fontsize{32pt}{1em}\headerfontlight\color{graytext} #1}}
-\newcommand*{\headerlastnamestyle}[1]{{\fontsize{32pt}{1em}\headerfont\bfseries\color{text} #1}}
-\newcommand*{\headerpositionstyle}[1]{{\fontsize{7.6pt}{1em}\bodyfont\scshape\color{awesome} #1}}
-\newcommand*{\headeraddressstyle}[1]{{\fontsize{8pt}{1em}\headerfont\itshape\color{lighttext} #1}}
-\newcommand*{\headersocialstyle}[1]{{\fontsize{6.8pt}{1em}\headerfont\color{text} #1}}
-\newcommand*{\headerquotestyle}[1]{{\fontsize{9pt}{1em}\bodyfont\itshape\color{darktext} #1}}
+\newcommand*{\headerfirstnamestyle}[1]{{\fontsize{26pt}{1em}\headerfontlight\color{graytext} #1}}
+\newcommand*{\headerlastnamestyle}[1]{{\fontsize{26pt}{1em}\headerfont\bfseries\color{text} #1}}
+\newcommand*{\headerpositionstyle}[1]{{\fontsize{12pt}{1em}\headerfont\scshape\color{awesome} #1}}
+\newcommand*{\headeraddressstyle}[1]{{\fontsize{8pt}{1em}\headerfont\color{lighttext} #1}}
+\newcommand*{\headersocialstyle}[1]{{\fontsize{8pt}{1em}\headerfont\color{text} #1}}
+\newcommand*{\headerquotestyle}[1]{{\fontsize{9pt}{1em}\headerfont\color{darktext} #1}}
 \newcommand*{\footerstyle}[1]{{\fontsize{8pt}{1em}\footerfont\scshape\color{lighttext} #1}}
-\newcommand*{\sectionstyle}[1]{{\fontsize{16pt}{1em}\bodyfont\bfseries\color{text}\@sectioncolor #1}}
-\newcommand*{\subsectionstyle}[1]{{\fontsize{12pt}{1em}\bodyfont\scshape\textcolor{text}{#1}}}
+\newcommand*{\sectionstyle}[1]{{\fontsize{16pt}{1em}\headerfont\bfseries\color{text}\@sectioncolor #1}}
+\newcommand*{\subsectionstyle}[1]{{\fontsize{12pt}{1em}\headerfont\scshape\textcolor{text}{#1}}}
 \newcommand*{\paragraphstyle}{\fontsize{9pt}{1em}\bodyfontlight\upshape\color{text}}
 
 % For elements of entry
-\newcommand*{\entrytitlestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{darktext} #1}}
-\newcommand*{\entrypositionstyle}[1]{{\fontsize{8pt}{1em}\bodyfont\scshape\color{graytext} #1}}
-\newcommand*{\entrydatestyle}[1]{{\fontsize{8pt}{1em}\bodyfontlight\slshape\color{graytext} #1}}
-\newcommand*{\entrylocationstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{awesome} #1}}
-\newcommand*{\descriptionstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\upshape\color{text} #1}}
+\newcommand*{\entrytitlestyle}[1]{{\fontsize{10pt}{1em}\headerfont\bfseries\color{darktext} #1}}
+\newcommand*{\entrypositionstyle}[1]{{\fontsize{9pt}{1em}\headerfont\bfseries\itshape\color{entrytitletext} #1}}
+\newcommand*{\entrydatestyle}[1]{{\fontsize{9pt}{1em}\headerfontlight\slshape\color{graytext} #1}}
+\newcommand*{\entrylocationstyle}[1]{{\fontsize{9pt}{1em}\headerfontlight\slshape\color{awesome} #1}}
+\newcommand*{\descriptionstyle}[1]{{\fontsize{9pt}{1.1em}\bodyfontlight\upshape\color{text} #1}}
 
 % For elements of subentry
-\newcommand*{\subentrytitlestyle}[1]{{\fontsize{8pt}{1em}\bodyfont\mdseries\color{graytext} #1}}
-\newcommand*{\subentrypositionstyle}[1]{{\fontsize{7pt}{1em}\bodyfont\scshape\color{graytext} #1}}
-\newcommand*{\subentrydatestyle}[1]{{\fontsize{7pt}{1em}\bodyfontlight\slshape\color{graytext} #1}}
-\newcommand*{\subentrylocationstyle}[1]{{\fontsize{7pt}{1em}\bodyfontlight\slshape\color{awesome} #1}}
+\newcommand*{\subentrytitlestyle}[1]{{\fontsize{8pt}{1em}\headerfont\mdseries\color{graytext} #1}}
+\newcommand*{\subentrypositionstyle}[1]{{\fontsize{7pt}{1em}\headerfont\scshape\color{graytext} #1}}
+\newcommand*{\subentrydatestyle}[1]{{\fontsize{7pt}{1em}\headerfontlight\slshape\color{graytext} #1}}
+\newcommand*{\subentrylocationstyle}[1]{{\fontsize{7pt}{1em}\headerfontlight\slshape\color{awesome} #1}}
 \newcommand*{\subdescriptionstyle}[1]{{\fontsize{8pt}{1em}\bodyfontlight\upshape\color{text} #1}}
 
 % For elements of honor
@@ -219,8 +274,8 @@
 \newcommand*{\honorlocationstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{awesome} #1}}
 
 % For elements of skill
-\newcommand*{\skilltypestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{darktext} #1}}
-\newcommand*{\skillsetstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\color{text} #1}}
+\newcommand*{\skilltypestyle}[1]{{\fontsize{9pt}{1em}\headerfont\bfseries\color{darktext} #1}}
+\newcommand*{\skillsetstyle}[1]{{\fontsize{9pt}{1.1em}\bodyfontlight\color{text} #1}}
 
 % For elements of the cover letter
 \newcommand*{\lettersectionstyle}[1]{{\fontsize{14pt}{1em}\bodyfont\bfseries\color{text}\@sectioncolor #1}}
@@ -345,6 +400,10 @@
 % Usage: \quote{<quote>}
 \renewcommand*{\quote}[1]{\def\@quote{#1}}
 
+% Defines ATS keywords injected into the text layer via AccSupp on the quote.
+% Usage: \atsKeywords{<comma-separated keywords>}
+\newcommand*{\atsKeywords}[1]{\def\@atsKeywords{#1}}
+
 % Defines recipient's information (cover letter only)
 % Usage: \recipient{<recipient name>}{<recipient address>}
 % Usage: \recipientname{<recipient name>}
@@ -385,17 +444,17 @@
 %% Define helper macros a user can change easily
 % Header
 \newcommand{\acvHeaderNameDelim}{\space}
-\newcommand{\acvHeaderAfterNameSkip}{.4mm}
-\newcommand{\acvHeaderAfterPositionSkip}{.4mm}
+\newcommand{\acvHeaderAfterNameSkip}{2.0mm}
+\newcommand{\acvHeaderAfterPositionSkip}{2.0mm}
 \newcommand{\acvHeaderAfterAddressSkip}{-.5mm}
 \newcommand{\acvHeaderIconSep}{\space}
-\newcommand{\acvHeaderSocialSep}{\quad\textbar\quad}
-\newcommand{\acvHeaderAfterSocialSkip}{6mm}
-\newcommand{\acvHeaderAfterQuoteSkip}{5mm}
+\newcommand{\acvHeaderSocialSep}{\BeginAccSupp{ActualText={}}\quad\textbar\quad\EndAccSupp{}}
+\newcommand{\acvHeaderAfterSocialSkip}{7mm}
+\newcommand{\acvHeaderAfterQuoteSkip}{3.5mm}
 
 % Others
-\newcommand{\acvSectionTopSkip}{3mm}
-\newcommand{\acvSectionContentTopSkip}{2.5mm}
+\newcommand{\acvSectionTopSkip}{4mm}
+\newcommand{\acvSectionContentTopSkip}{2.0mm}
 
 
 %-------------------------------------------------------------------------------
@@ -447,9 +506,15 @@
   \end{minipage}
   \begin{minipage}[c]{\headertextwidth}
     \ifthenelse{\equal{#1}{L}}{\raggedright}{\ifthenelse{\equal{#1}{R}}{\raggedleft}{\centering}}
+    \BeginAccSupp{ActualText={Name: \@firstname\space\@lastname}}%
     \headerfirstnamestyle{\@firstname}\headerlastnamestyle{{}\acvHeaderNameDelim\@lastname}%
+    \EndAccSupp{}%
     \\[\acvHeaderAfterNameSkip]%
-    \ifthenelse{\isundefined{\@position}}{}{\headerpositionstyle{\@position\\[\acvHeaderAfterPositionSkip]}}%
+    \ifthenelse{\isundefined{\@position}}{}{%
+      \BeginAccSupp{method=pdfstringdef, ActualText={Title: \@position}}%
+      \headerpositionstyle{\@position\\[\acvHeaderAfterPositionSkip]}%
+      \EndAccSupp{}%
+    }%
     \ifthenelse{\isundefined{\@address}}{}{\headeraddressstyle{\@address\\[\acvHeaderAfterAddressSkip]}}%
     \headersocialstyle{%
       \newbool{isstart}%
@@ -464,19 +529,25 @@
         {}%
         {%
           \ifbool{isstart}{\setbool{isstart}{false}}{\acvHeaderSocialSep}%
+          \BeginAccSupp{ActualText={Email: \@email}}%
           \href{mailto:\@email}{\faEnvelope\acvHeaderIconSep\@email}%
+          \EndAccSupp{}%
         }%
       \ifthenelse{\isundefined{\@homepage}}%
         {}%
         {%
           \ifbool{isstart}{\setbool{isstart}{false}}{\acvHeaderSocialSep}%
-          \href{http://\@homepage}{\faHome\acvHeaderIconSep\@homepage}%
+          \BeginAccSupp{ActualText={Website: https://\@homepage}}%
+          \href{https://\@homepage}{\faHome\acvHeaderIconSep\@homepage}%
+          \EndAccSupp{}%
         }%
       \ifthenelse{\isundefined{\@github}}%
         {}%
         {%
           \ifbool{isstart}{\setbool{isstart}{false}}{\acvHeaderSocialSep}%
+          \BeginAccSupp{ActualText={GitHub: https://github.com/\@github}}%
           \href{https://github.com/\@github}{\faGithubSquare\acvHeaderIconSep\@github}%
+          \EndAccSupp{}%
         }%
       \ifthenelse{\isundefined{\@gitlab}}%
         {}%
@@ -494,7 +565,9 @@
         {}%
         {%
           \ifbool{isstart}{\setbool{isstart}{false}}{\acvHeaderSocialSep}%
+          \BeginAccSupp{ActualText={LinkedIn: https://www.linkedin.com/in/\@linkedin}}%
           \href{https://www.linkedin.com/in/\@linkedin}{\faLinkedinSquare\acvHeaderIconSep\@linkedin}%
+          \EndAccSupp{}%
         }%
       \ifthenelse{\isundefined{\@twitter}}%
         {}%
@@ -541,7 +614,20 @@
     } \\[\acvHeaderAfterSocialSkip]%
     \ifthenelse{\isundefined{\@quote}}%
       {}%
-      {\headerquotestyle{\@quote\\}\vspace{\acvHeaderAfterQuoteSkip}}%
+      {%
+        \ifthenelse{\isundefined{\@atsKeywords}}%
+          {%
+            \BeginAccSupp{method=pdfstringdef, ActualText={Summary: \@quote}}%
+            \headerquotestyle{\@quote\\}%
+            \EndAccSupp{}%
+          }%
+          {%
+            \BeginAccSupp{method=pdfstringdef, ActualText={Summary: \@quote\space Keywords: \@atsKeywords}}%
+            \headerquotestyle{\@quote\\}%
+            \EndAccSupp{}%
+          }%
+        \vspace{\acvHeaderAfterQuoteSkip}%
+      }%
   \end{minipage}%
   \begin{minipage}[c]{\headerphotowidth}%
     \ifthenelse{\equal{\@photoalign}{right}}{\raggedleft\drawphoto}{}
@@ -550,18 +636,21 @@
 
 % Define a footer for CV
 % Usage: \makecvfooter{<left>}{<center>}{<right>}
+% Wrapped in AccSupp so pdftotext omits footer content.
 \newcommand*{\makecvfooter}[3]{%
   \fancyfoot{}
-  \fancyfoot[L]{\footerstyle{#1}}
-  \fancyfoot[C]{\footerstyle{#2}}
-  \fancyfoot[R]{\footerstyle{#3}}
+  \fancyfoot[L]{\BeginAccSupp{ActualText={}}\footerstyle{#1}\EndAccSupp{}}
+  \fancyfoot[C]{\BeginAccSupp{ActualText={}}\footerstyle{#2}\EndAccSupp{}}
+  \fancyfoot[R]{\BeginAccSupp{ActualText={}}\footerstyle{#3}\EndAccSupp{}}
 }
 
 % Define a section for CV
 % Usage: \cvsection{<section-title>}
 \newcommand{\cvsection}[1]{%
   \vspace{\acvSectionTopSkip}
+  \BeginAccSupp{ActualText={Section: #1}}%
   \sectionstyle{#1}
+  \EndAccSupp{}%
   \phantomsection
   \color{gray}\vhrulefill{0.9pt}
 }
@@ -592,20 +681,53 @@
 }{%
   \end{center}
 }
+% Default ATS labels for cventry fields
+\def\@cvlabelTitle{Title}
+\def\@cvlabelSubtitle{Subtitle}
+\def\@cvlabelDate{Date}
+\def\@cvlabelLocation{Location}
+
 % Define an entry of cv information
-% Usage: \cventry{<position>}{<title>}{<location>}{<date>}{<description>}
-\newcommand*{\cventry}[5]{%
-  \vspace{-2.0mm}
+% Usage: \cventry{<title>}{<subtitle>}{<location>}{<date>}{<url>}{<description>}
+% ATS labels are controlled by \@cvlabel* macros; use \newcventry to create
+% typed entry commands with pre-bound labels (partial application).
+% When <url> is non-empty, the title and subtitle become clickable hyperlinks
+% and the URL is included in the ActualText layer for pdftotext extraction.
+\newcommand*{\cventry}[6]{%
+  \vspace{0.5mm}
   \setlength\tabcolsep{0pt}
   \setlength{\extrarowheight}{0pt}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 8.0cm} R{8.0cm}}
     \ifempty{#2#3}
-      {\entrypositionstyle{#1} & \entrydatestyle{#4} \\}
-      {\entrytitlestyle{#2} & \entrylocationstyle{#3} \\
-      \entrypositionstyle{#1} & \entrydatestyle{#4} \\}
-    \multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}}
+      {\BeginAccSupp{method=pdfstringdef, ActualText={\@cvlabelTitle: #2}}\entrytitlestyle{#2}\EndAccSupp{} & \BeginAccSupp{method=pdfstringdef, ActualText={\@cvlabelDate: #4}}\entrydatestyle{#4}\EndAccSupp{} \\}
+      {\ifempty{#5}%
+        {\BeginAccSupp{method=pdfstringdef, ActualText={\@cvlabelTitle: #2}}\entrytitlestyle{#2}\EndAccSupp{}}%
+        {\BeginAccSupp{method=pdfstringdef, ActualText={\@cvlabelTitle: #2}}\entrytitlestyle{\href{#5}{#2}}\EndAccSupp{}}%
+      & \BeginAccSupp{method=pdfstringdef, ActualText={\@cvlabelDate: #4}}\entrydatestyle{#4}\EndAccSupp{} \\[0.5mm]
+      \ifempty{#5}%
+        {\BeginAccSupp{method=pdfstringdef, ActualText={\@cvlabelSubtitle: #1}}\entrypositionstyle{#1}\EndAccSupp{}}%
+        {\BeginAccSupp{method=pdfstringdef, ActualText={\@cvlabelSubtitle: #1 | URL: #5}}\entrypositionstyle{\href{#5}{#1}}\EndAccSupp{}}%
+      & \BeginAccSupp{method=pdfstringdef, ActualText={\@cvlabelLocation: #3}}\entrylocationstyle{#3}\EndAccSupp{} \\}
+    \multicolumn{2}{L{\textwidth}}{\descriptionstyle{#6}}
   \end{tabular*}%
 }
+
+% Factory for creating typed CV entry commands with semantic ATS labels.
+% Binds label names at definition time (partial application over \cventry).
+% Usage: \newcventry{<cmdname>}{<title label>}{<subtitle label>}{<date label>}{<location label>}
+\newcommand{\newcventry}[5]{%
+  \expandafter\newcommand\expandafter*\csname #1\endcsname[6]{%
+    \def\@cvlabelTitle{#2}%
+    \def\@cvlabelSubtitle{#3}%
+    \def\@cvlabelDate{#4}%
+    \def\@cvlabelLocation{#5}%
+    \cventry{##1}{##2}{##3}{##4}{##5}{##6}%
+  }%
+}
+
+\newcventry{jobentry}{Job Title}{Company}{Date}{Location}
+\newcventry{projentry}{Project}{Role}{Language}{Link}
+\newcventry{eduentry}{Institution}{Degree}{Date}{Location}
 
 % Define an environment for cvsubentry
 \newenvironment{cvsubentries}{%
@@ -618,7 +740,7 @@
 \newcommand*{\cvsubentry}[4]{%
   \setlength\tabcolsep{0pt}
   \setlength{\extrarowheight}{0pt}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 8.0cm} R{8.0cm}}
     \setlength\leftskip{0.2cm}
     \subentrytitlestyle{#2} & \ifthenelse{\equal{#1}{}}
       {\subentrydatestyle{#3}}{}
@@ -664,16 +786,16 @@
 % Define a line of cv information(skill)
 % Usage: \cvskill{<type>}{<skillset>}
 \newcommand*{\cvskill}[2]{%
-	\skilltypestyle{#1} & \skillsetstyle{#2} \\
+	\BeginAccSupp{ActualText={Skill Category: #1}}\skilltypestyle{#1}\EndAccSupp{} & \BeginAccSupp{ActualText={Skills: #2}}\skillsetstyle{#2}\EndAccSupp{} \\
 }
 
 % Define an environment for cvitems(for cventry)
 \newenvironment{cvitems}{%
-  \vspace{-4.0mm}
+  \vspace{-3.0mm}
   \begin{justify}
-  \begin{itemize}[leftmargin=2ex, nosep, noitemsep]
+  \begin{itemize}[leftmargin=2ex, nosep, itemsep=1mm]
     \setlength{\parskip}{0pt}
-    \renewcommand{\labelitemi}{\bullet}
+    \renewcommand{\labelitemi}{\BeginAccSupp{ActualText={-}}\bullet\EndAccSupp{}}
 }{%
   \end{itemize}
   \end{justify}
@@ -706,7 +828,7 @@
   \vspace{8.4mm}
   \setlength\tabcolsep{0pt}
   \setlength{\extrarowheight}{0pt}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 8.0cm} R{8.0cm}}
     \recipienttitlestyle{\@recipientname} & \letterdatestyle{\@letterdate}
   \end{tabular*}
   \begin{singlespace}

@@ -3,21 +3,6 @@
 %-------------------------------------------------------------------------------
 \cvsection{Skills}
 
-\newlength{\category}
-\settowidth{\category}{Database \& query languages} % Category with longer text 
-\renewenvironment{cvskills}{%
-    \vspace{\acvSectionContentTopSkip}
-    \vspace{-2.0mm}
-    \begin{center}
-        \setlength\tabcolsep{1ex}
-        \setlength{\extrarowheight}{0pt}
-        \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} R{\category-2\tabcolsep} L{\textwidth -\category -2\tabcolsep}}
-        }{%
-        \end{tabular*}
-    \end{center}
-}
-
-
 %-------------------------------------------------------------------------------
 %   CONTENT
 %-------------------------------------------------------------------------------
@@ -25,35 +10,28 @@
 
 %---------------------------------------------------------
   \cvskill
-    {Programming Languages} % Type
-    {TypeScript/JavaScript, Ruby, Java, Haskell} % Skillset
-%---------------------------------------------------------
+    {Languages}
+    {Haskell, TypeScript/JavaScript, Ruby, SQL}
+
   \cvskill
     {Frontend}
-    {React, React Native, Next.js, Redux, TailwindCSS, SASS/LESS, AWS Amplify, Webpack, Vite}
-%---------------------------------------------------------
+    {React, React Native, Next.js, Redux, GraphQL}
+
   \cvskill
     {Backend}
-    {Node.js (Express), AWS Lambda, AWS SQS, AWS SNS, AWS Kinesis, AWS API Gateway, AWS ECS, AWS Fargate, Ruby on Rails, Spring (Java), Google Cloud (Cloud Functions, Firestore), REST APIs}
-%---------------------------------------------------------
+    {Node.js, Fastify, Ruby on Rails, OAuth 2.0/OIDC, SAML 2.0}
+
   \cvskill
-    {Databases}
-    {PostgreSQL, AWS DynamoDB, Redis, Elasticsearch}
-%---------------------------------------------------------
+    {Cloud}
+    {AWS (Lambda, ECS, Cognito, S3, SQS, SNS, Kinesis), Terraform, Docker}
+
   \cvskill
-    {DevOps \& Cloud}
-    {AWS (Comprehensive: EC2, S3, IAM, VPC, CloudFormation, etc.), Terraform, Docker, Serverless Framework, esbuild, Turborepo, pnpm, GitLab CI, CircleCI, Datadog, Sentry}
-%---------------------------------------------------------
+    {Data}
+    {PostgreSQL, DynamoDB, MongoDB, Redis, Elasticsearch}
+
   \cvskill
-    {Security \& Authentication}
-    {Amazon Cognito, SAML 2.0, OAuth 2.0, OWASP principles, Secure Coding Practices, Zod (validation \& type inference)}
-%---------------------------------------------------------
-  \cvskill
-    {Testing}
-    {Jest, Supertest, Cypress, RSpec, Detox, @fast-check/jest, Hedgehog (Haskell)}
-%---------------------------------------------------------
-  \cvskill
-    {Other}
-    {Git, Agile Methodologies, Jira, Confluence, System Design, Microservice Architecture}
+    {DevOps}
+    {GitLab CI, GitHub Actions, Turborepo, Datadog, Linux, Nix}
+
 %---------------------------------------------------------
 \end{cvskills}
