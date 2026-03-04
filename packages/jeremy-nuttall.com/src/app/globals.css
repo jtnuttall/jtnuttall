@@ -1,17 +1,22 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@plugin "daisyui" {
+  themes: synthwave --default;
+}
 
-@layer components {
-  .bg-circuit-board:before {
-    content: '';
-    background-image: url('/static/circuit-board.svg');
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: 0.15;
-    z-index: -1;
-  }
+@theme {
+  --font-sans: var(--next-font-sans);
+  --font-mono: var(--next-font-mono);
+}
+
+.bg-circuit-board:before {
+  content: '';
+  background-image: url('/static/circuit-board.svg');
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.15;
+  z-index: -1;
 }

@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useState } from 'react';
+import { RefObject, useEffect, useState } from 'react';
 
 type UseScrollReturn = {
   xOffset: number | null;
@@ -6,7 +6,7 @@ type UseScrollReturn = {
 };
 
 const useScroll = (
-  targetElement: Window | Document | MutableRefObject<HTMLElement | null>,
+  targetElement: Window | Document | RefObject<HTMLElement | null>,
 ): UseScrollReturn => {
   const target =
     'current' in targetElement ? targetElement.current : targetElement;

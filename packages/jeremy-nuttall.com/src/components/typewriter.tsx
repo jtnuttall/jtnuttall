@@ -44,7 +44,7 @@ const Typewriter: FC = () => {
         cursorType="ibeam"
         actions={typewriterActions}
         render={(text) => (
-          <code className="block p-5 bg-gray-950 bg-opacity-80 rounded-lg">
+          <code className="block p-5 bg-gray-950/80 rounded-lg">
             {text}
           </code>
         )}

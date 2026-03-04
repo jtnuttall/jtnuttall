@@ -12,7 +12,7 @@ export const IconAnchor: FC<IconAnchorProps> = ({
 }) => (
   <a
     {...anchorProps}
-    className="flex justify-center items-center h-12 w-12 rounded-full text-accent transition-colors hover:bg-neutral-focus hover:text-primary"
+    className="flex justify-center items-center h-12 w-12 rounded-full text-accent transition-colors hover:bg-neutral/80 hover:text-primary"
   >
     <Icon size={24} />
   </a>

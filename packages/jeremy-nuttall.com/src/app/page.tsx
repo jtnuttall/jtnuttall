@@ -1,12 +1,11 @@
 import { client } from '@/../sanity/lib/client';
 import { IconAnchor } from '@/components/icon-buttons';
 import Typewriter from '@/components/typewriter';
+import { q } from '@/lib/groqd-client';
 import clsx from 'clsx';
-import formatDate from 'date-fns/format';
-import { q, sanityImage } from 'groqd';
+import { format as formatDate } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
-import { IconType } from 'react-icons';
 import {
   LuArrowBigRightDash,
   LuExternalLink,
@@ -17,42 +16,39 @@ import {
 const formatCVDate = (date?: string | null) =>
   date ? formatDate(new Date(date), 'MMM. yyyy') : 'present';
 
-const CVEntry = q('*')
+const CVEntry = q.star
   .filterByType('cvEntry')
-  .grab({
-    _id: q.string(),
-    company: q.string(),
-    jobTitle: q.string(),
-    description: q.string().nullish(),
-    highlights: q.array(q.string()),
-    startDate: q.string().transform(formatCVDate),
-    endDate: q.string().nullish().transform(formatCVDate),
-    technologies: q('technologies')
-      .filter()
+  .project((sub) => ({
+    _id: true,
+    company: true,
+    jobTitle: true,
+    description: true,
+    highlights: true,
+    startDate: true,
+    endDate: true,
+    technologies: sub
+      .field('technologies[]')
       .deref()
-      .grab({ name: q.string() })
-      .order('name asc'),
-  })
-  .order('startDate desc');
+      .project({ name: true }),
+  }));
 
-const Project = q('*')
+const Project = q.star
   .filterByType('project')
-  .filter('priority >= 0')
-  .grab({
-    _id: q.string(),
-    title: q.string(),
-    image: sanityImage('image', { withAsset: ['base'] }).grab({
-      asset: q.object({ url: q.string().url() }),
-    }),
-    repository: q.string().url().nullish(),
-    description: q.string(),
-  })
-  .order('priority desc')
+  .filterRaw('priority >= 0')
+  .project((sub) => ({
+    _id: true,
+    title: true,
+    image: sub.field('image').project((imgSub) => ({
+      asset: imgSub.field('asset').deref().project({ url: true }),
+    })),
+    repository: true,
+    description: true,
+  }))
   .slice(0, 7);
 
 export default async function Home() {
-  const cvEntries = CVEntry.schema.parse(await client.fetch(CVEntry.query));
-  const projects = Project.schema.parse(await client.fetch(Project.query));
+  const cvEntries = CVEntry.parse(await client.fetch(CVEntry.query));
+  const projects = Project.parse(await client.fetch(Project.query));
 
   return (
     <div className="mx-auto min-h-screen max-w-screen-2xl px-6 py-12 md:px-12 md:py-20 lg:px-24 lg:py-0">
@@ -81,14 +77,14 @@ export default async function Home() {
           </div>
           <div className="flex flex-row mt-5 lg:mt-0 lg:justify-end gap-5 lg:px-24 lg:py-12 text-neutral-content">
             <IconAnchor
-              icon={LuLinkedin as IconType}
+              icon={LuLinkedin}
               aria-label="My Linkedin"
               href="https://linkedin.com/in/jeremy-nuttall"
               rel="noreferrer"
               target="_blank"
             />
             <IconAnchor
-              icon={LuGithub as IconType}
+              icon={LuGithub}
               aria-label="My Github"
               href="https://github.com/jtnuttall"
               rel="noreferrer"
@@ -147,18 +143,18 @@ export default async function Home() {
                   <input
                     type="checkbox"
                     name="work-experience-accordion"
-                    aria-label={`Toggle collapse for experience at ${company}`}
+                    aria-label={`Toggle collapse for experience at ${company ?? ''}`}
                   />
                   <div className="collapse-title">
                     <div className="flex flex-col md:flex-row md:items-center justify-between">
                       <h3 className="text-2xl font-semibold">{company}</h3>
                       <div className="opacity-50">
-                        {startDate} – {endDate}
+                        {formatCVDate(startDate)} – {formatCVDate(endDate)}
                       </div>
                     </div>
                     <h4 className="mt-2 font-light">{jobTitle}</h4>
                     <div className="flex flex-wrap gap-1 mt-2">
-                      {technologies.map(({ name }) => (
+                      {technologies?.map(({ name }) => (
                         <div key={name} className="badge badge-secondary">
                           {name}
                         </div>
@@ -167,7 +163,7 @@ export default async function Home() {
                   </div>
                   <div className="collapse-content prose font-thin pb-2">
                     <ul>
-                      {highlights.map((highlight) => (
+                      {highlights?.map((highlight) => (
                         <li key={highlight}>{highlight}</li>
                       ))}
                     </ul>
@@ -196,8 +192,8 @@ export default async function Home() {
                 <figure className="min-w-fit">
                   <Image
                     className="rounded-2xl"
-                    alt={`Demo of ${title}`}
-                    src={`${image.asset.url}?max-w=100`}
+                    alt={`Demo of ${title ?? ''}`}
+                    src={`${image?.asset?.url ?? ''}?max-w=100`}
                     width={100}
                     height={100}
                   />

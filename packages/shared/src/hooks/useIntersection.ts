@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 
 export type ScrollingDirection =
   | 'none'
@@ -38,11 +38,11 @@ const getIntersectionDirection = (
 };
 
 const useIntersection = (
-  elementRef: MutableRefObject<HTMLElement | null>,
+  elementRef: RefObject<HTMLElement | null>,
   options?: IntersectionObserverInit,
 ): UseIntersectionReturn => {
   const lastElementRef = elementRef.current;
-  const intersectionObserverRef = useRef<IntersectionObserver>();
+  const intersectionObserverRef = useRef<IntersectionObserver | undefined>(undefined);
   const previousRect = useRef<BoundingRectMeta>({ y: 0, ratio: 0 });
 
   const [intersecting, setIntersecting] = useState<boolean | null>(null);

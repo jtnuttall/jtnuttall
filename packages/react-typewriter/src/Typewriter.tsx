@@ -265,7 +265,7 @@ export const Typewriter: FC<TypewriterProps> = ({
 
   const [actionPtr, setActionPtr] = useState(0);
   const [runInternal, setRunInternal] = useState(false);
-  const internalActionRef = useRef<TypewriterInternalAction>();
+  const internalActionRef = useRef<TypewriterInternalAction | undefined>(undefined);
 
   const [typewriterState, dispatch] = useReducer(
     typewriterReducer,
