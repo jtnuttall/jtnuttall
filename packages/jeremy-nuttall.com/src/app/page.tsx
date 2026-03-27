@@ -10,20 +10,24 @@ import { LuArrowBigRightDash, LuExternalLink, LuGithub, LuLinkedin } from 'react
 
 const formatCVDate = (date?: string | null) => (date ? formatDate(new Date(date), 'MMM. yyyy') : 'present');
 
-const CVEntry = q.star.filterByType('cvEntry').project((sub) => ({
-  _id: true,
-  company: true,
-  jobTitle: true,
-  description: true,
-  highlights: true,
-  startDate: true,
-  endDate: true,
-  technologies: sub.field('technologies[]').deref().project({ name: true }),
-}));
+const CVEntry = q.star
+  .filterByType('cvEntry')
+  .order('startDate desc')
+  .project((sub) => ({
+    _id: true,
+    company: true,
+    jobTitle: true,
+    description: true,
+    highlights: true,
+    startDate: true,
+    endDate: true,
+    technologies: sub.field('technologies[]').deref().project({ name: true }),
+  }));
 
 const Project = q.star
   .filterByType('project')
   .filterRaw('priority >= 0')
+  .order('priority desc')
   .project((sub) => ({
     _id: true,
     title: true,
@@ -46,7 +50,7 @@ export default async function Home() {
           <div className="lg:pt-24">
             <div>
               <h1 className="text-5xl font-black sm:text-6xl">Jeremy Nuttall</h1>
-              <h2 className="mt-5 text-xl font-semibold sm:text-2xl">Tech Lead ✕ Senior Software Engineer</h2>
+              <h2 className="mt-5 text-xl font-semibold sm:text-2xl">Prinicpal Software Engineer ✕ Tech Lead</h2>
             </div>
             <ul className="mt-5 menu md:menu-lg">
               <li>
