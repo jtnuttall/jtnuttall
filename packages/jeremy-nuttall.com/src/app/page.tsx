@@ -50,7 +50,7 @@ export default async function Home() {
           <div className="lg:pt-24">
             <div>
               <h1 className="text-5xl font-black sm:text-6xl">Jeremy Nuttall</h1>
-              <h2 className="mt-5 text-xl font-semibold sm:text-2xl">Prinicpal Software Engineer ✕ Tech Lead</h2>
+              <h2 className="mt-5 text-xl font-semibold sm:text-2xl">Principal Software Engineer ✕ Tech Lead</h2>
             </div>
             <ul className="mt-5 menu md:menu-lg">
               <li>
