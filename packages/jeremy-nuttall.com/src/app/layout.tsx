@@ -1,5 +1,6 @@
 import { Analytics } from '@vercel/analytics/react';
 import { Space_Grotesk, Space_Mono } from 'next/font/google';
+
 import './globals.css';
 
 const sans = Space_Grotesk({
@@ -17,16 +18,9 @@ export const metadata = {
   description: 'Software Engineer',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`scroll-smooth bg-circuit-board ${sans.variable} ${mono.variable} font-sans`}
-    >
+    <html lang="en" className={`scroll-smooth bg-circuit-board ${sans.variable} ${mono.variable} font-sans`}>
       <body>
         {children}
         <Analytics />

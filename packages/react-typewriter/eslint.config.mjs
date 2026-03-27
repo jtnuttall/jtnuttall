@@ -1,6 +1,3 @@
 import { baseConfig } from '@jtnuttall/eslint-config';
 
-export default [
-  { ignores: ['dist/**'] },
-  ...baseConfig,
-];
+export default [{ ignores: ['dist/**'] }, ...baseConfig];

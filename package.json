@@ -1,20 +1,18 @@
 {
   "name": "jtnuttall",
   "version": "1.0.0",
-  "description": "Personal websites, web projects",
   "private": true,
-  "author": "Jeremy Nuttall",
+  "description": "Personal websites, web projects",
   "license": "Apache-2.0",
+  "author": "Jeremy Nuttall",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "oxfmt --write .",
     "prepare": "husky"
   },
   "devDependencies": {
     "husky": "^9.1.7",
     "lint-staged": "^16.3.2",
     "oxfmt": "^0.41.0",
-    "prettier": "^3.0.3",
-    "prettier-plugin-organize-imports": "^4.3.0",
     "type-fest": "^5.4.4",
     "typescript": "^5.9.3"
   }

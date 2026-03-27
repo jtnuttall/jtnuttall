@@ -1,14 +1,7 @@
+import { FC, ReactNode, useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+
 import { useInterval } from '@jtnuttall/shared/hooks';
-import {
-  FC,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer,
-  useRef,
-  useState,
-} from 'react';
+
 import { TypewriterAction, TypewriterActionType } from './actions';
 
 interface MoveCursorOnceAction {
@@ -23,10 +16,7 @@ interface DeleteCharacterAction {
   type: 'delete-char';
 }
 
-type TypewriterInternalAction =
-  | MoveCursorOnceAction
-  | WriteCharacterAction
-  | DeleteCharacterAction;
+type TypewriterInternalAction = MoveCursorOnceAction | WriteCharacterAction | DeleteCharacterAction;
 
 interface TypewriterState {
   text: string;
@@ -74,15 +64,11 @@ const typewriterReducer = (
       const { text, writeIndex } = state;
       const { by, direction } = action;
 
-      const moveBy = direction === 'forward' ? by ?? text.length : by ?? 0;
+      const moveBy = direction === 'forward' ? (by ?? text.length) : (by ?? 0);
 
       return {
         ...state,
-        targetIndex: clamp(
-          direction === 'forward' ? writeIndex + moveBy : writeIndex - moveBy,
-          0,
-          text.length - 1,
-        ),
+        targetIndex: clamp(direction === 'forward' ? writeIndex + moveBy : writeIndex - moveBy, 0, text.length - 1),
         actionCompleted: false,
         moveDirection: direction,
       };
@@ -110,10 +96,7 @@ const typewriterReducer = (
 
       return {
         ...state,
-        text:
-          text.slice(0, writeIndex) +
-          targetText[targetIndex] +
-          text.slice(writeIndex, text.length),
+        text: text.slice(0, writeIndex) + targetText[targetIndex] + text.slice(writeIndex, text.length),
         targetIndex: targetIndex + 1,
         writeIndex: writeIndex + 1,
       };
@@ -132,8 +115,7 @@ const typewriterReducer = (
 
       return {
         ...state,
-        text:
-          text.slice(0, deleteIndex) + text.slice(deleteIndex + 1, text.length),
+        text: text.slice(0, deleteIndex) + text.slice(deleteIndex + 1, text.length),
         writeIndex: writeIndex - 1 > 0 ? writeIndex - 1 : 0,
       };
     }
@@ -141,10 +123,7 @@ const typewriterReducer = (
       const { moveDirection, writeIndex, targetIndex } = state;
 
       const end =
-        !moveDirection ||
-        (moveDirection === 'forward'
-          ? writeIndex > targetIndex
-          : writeIndex <= targetIndex);
+        !moveDirection || (moveDirection === 'forward' ? writeIndex > targetIndex : writeIndex <= targetIndex);
 
       if (end) {
         return {
@@ -156,8 +135,7 @@ const typewriterReducer = (
 
       return {
         ...state,
-        writeIndex:
-          moveDirection === 'forward' ? writeIndex + 1 : writeIndex - 1,
+        writeIndex: moveDirection === 'forward' ? writeIndex + 1 : writeIndex - 1,
       };
     }
   }
@@ -167,9 +145,7 @@ const cpmToMillis = (cpm: number) => 60_000 / cpm;
 
 const hzToMillis = (hz: number) => 1_000 / hz;
 
-const internalActionsMap: Partial<
-  Record<TypewriterActionType, TypewriterInternalAction>
-> = {
+const internalActionsMap: Partial<Record<TypewriterActionType, TypewriterInternalAction>> = {
   'move-cursor': {
     type: 'move-cursor-once',
   },
@@ -183,10 +159,7 @@ const internalActionsMap: Partial<
 
 export type CursorType = 'block' | 'underscore' | 'ibeam';
 
-const cursorMap: Record<
-  CursorType,
-  { cursorActive: string; cursorInactive: string }
-> = {
+const cursorMap: Record<CursorType, { cursorActive: string; cursorInactive: string }> = {
   underscore: {
     cursorActive: '_',
     cursorInactive: '\u00A0',
@@ -211,10 +184,7 @@ export type TypewriterProps = {
   render: (text: string) => ReactNode;
 };
 
-const renderTypewriter = (
-  cursor: string,
-  { text, writeIndex }: TypewriterState,
-): string =>
+const renderTypewriter = (cursor: string, { text, writeIndex }: TypewriterState): string =>
   text.slice(0, writeIndex) + cursor + text.slice(writeIndex, text.length);
 
 /**
@@ -252,14 +222,8 @@ export const Typewriter: FC<TypewriterProps> = ({
   render,
 }) => {
   const cpmDelay = useMemo(() => cpmToMillis(cpm), [cpm]);
-  const blinkDelay = useMemo(
-    () => hzToMillis(cursorBlinkFrequency),
-    [cursorBlinkFrequency],
-  );
-  const { cursorActive, cursorInactive } = useMemo(
-    () => cursorMap[cursorType],
-    [cursorType],
-  );
+  const blinkDelay = useMemo(() => hzToMillis(cursorBlinkFrequency), [cursorBlinkFrequency]);
+  const { cursorActive, cursorInactive } = useMemo(() => cursorMap[cursorType], [cursorType]);
 
   const [cursor, setCursor] = useState(cursorActive);
 
@@ -267,10 +231,7 @@ export const Typewriter: FC<TypewriterProps> = ({
   const [runInternal, setRunInternal] = useState(false);
   const internalActionRef = useRef<TypewriterInternalAction | undefined>(undefined);
 
-  const [typewriterState, dispatch] = useReducer(
-    typewriterReducer,
-    typewriterInitialState,
-  );
+  const [typewriterState, dispatch] = useReducer(typewriterReducer, typewriterInitialState);
 
   const { actionCompleted } = typewriterState;
 
@@ -325,5 +286,4 @@ export const Typewriter: FC<TypewriterProps> = ({
   return render(`${prompt}${renderTypewriter(cursor, typewriterState)}`);
 };
 
-const clamp = (value: number, min: number, max: number) =>
-  Math.min(Math.max(value, min), max);
+const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);

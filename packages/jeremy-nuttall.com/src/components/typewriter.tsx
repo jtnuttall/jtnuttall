@@ -1,9 +1,8 @@
 'use client';
 
-import ReactTypewriter, {
-  typewriterBuilder,
-} from '@jtnuttall/react-typewriter';
 import { FC } from 'react';
+
+import ReactTypewriter, { typewriterBuilder } from '@jtnuttall/react-typewriter';
 
 const typewriterActions = typewriterBuilder()
   .write("Hi! I'm Jeremy.")
@@ -43,11 +42,7 @@ const Typewriter: FC = () => {
         cpm={750}
         cursorType="ibeam"
         actions={typewriterActions}
-        render={(text) => (
-          <code className="block p-5 bg-gray-950/80 rounded-lg">
-            {text}
-          </code>
-        )}
+        render={(text) => <code className="block p-5 bg-gray-950/80 rounded-lg">{text}</code>}
       />
     </div>
   );

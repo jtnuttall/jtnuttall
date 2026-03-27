@@ -1,12 +1,11 @@
 import { fixupPluginRules } from '@eslint/compat';
 import eslint from '@eslint/js';
-import eslintConfigPrettier from 'eslint-config-prettier';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import tseslint from 'typescript-eslint';
 
-/** TypeScript + Prettier config (no React plugins). */
+/** TypeScript (no React plugins). */
 export const tsConfig = tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
@@ -28,10 +27,9 @@ export const tsConfig = tseslint.config(
     files: ['**/*.cjs'],
     languageOptions: { sourceType: 'commonjs' },
   },
-  eslintConfigPrettier,
 );
 
-/** Full config: TypeScript + React + a11y + Prettier. */
+/** Full config: TypeScript + React + a11y */
 export const baseConfig = tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
@@ -70,5 +68,4 @@ export const baseConfig = tseslint.config(
     files: ['**/*.cjs'],
     languageOptions: { sourceType: 'commonjs' },
   },
-  eslintConfigPrettier,
 );

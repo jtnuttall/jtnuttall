@@ -1,7 +1,10 @@
 {
   "name": "@jtnuttall/react-typewriter",
-  "license": "Apache-2.0",
   "version": "0.0.1",
+  "license": "Apache-2.0",
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "main": "./dist/react-typewriter.umd.cjs",
   "module": "./dist/react-typewriter.js",
@@ -12,9 +15,6 @@
       "require": "./dist/react-typewriter.umd.cjs"
     }
   },
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "vite build",
     "test": "vitest",
@@ -26,10 +26,6 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
-  "peerDependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
   "devDependencies": {
     "@jtnuttall/eslint-config": "workspace:^",
     "@types/react": "^19.2.14",
@@ -40,5 +36,9 @@
     "vite": "^7.3.1",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^4.0.18"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }

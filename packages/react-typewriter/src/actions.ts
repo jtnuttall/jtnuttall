@@ -23,12 +23,7 @@ export interface ResetAction {
   type: 'reset';
 }
 
-export type TypewriterAction =
-  | WriteAction
-  | PauseAction
-  | MoveCursorAction
-  | DeleteAction
-  | ResetAction;
+export type TypewriterAction = WriteAction | PauseAction | MoveCursorAction | DeleteAction | ResetAction;
 
 export type TypewriterActionType = TypewriterAction['type'];
 

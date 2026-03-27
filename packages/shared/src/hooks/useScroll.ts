@@ -5,11 +5,8 @@ type UseScrollReturn = {
   yOffset: number | null;
 };
 
-const useScroll = (
-  targetElement: Window | Document | RefObject<HTMLElement | null>,
-): UseScrollReturn => {
-  const target =
-    'current' in targetElement ? targetElement.current : targetElement;
+const useScroll = (targetElement: Window | Document | RefObject<HTMLElement | null>): UseScrollReturn => {
+  const target = 'current' in targetElement ? targetElement.current : targetElement;
 
   const [xOffset, setXOffset] = useState<number | null>(null);
   const [yOffset, setYOffset] = useState<number | null>(null);

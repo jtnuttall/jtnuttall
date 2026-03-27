@@ -1,11 +1,6 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 
-export type ScrollingDirection =
-  | 'none'
-  | 'enter:down'
-  | 'enter:up'
-  | 'leave:down'
-  | 'leave:up';
+export type ScrollingDirection = 'none' | 'enter:down' | 'enter:up' | 'leave:down' | 'leave:up';
 
 type BoundingRectMeta = {
   y: number;
@@ -23,15 +18,11 @@ const getIntersectionDirection = (
   current: BoundingRectMeta,
 ): ScrollingDirection => {
   if (current.y < previous.y) {
-    return current.ratio > previous.ratio && isIntersecting
-      ? 'enter:down'
-      : 'leave:down';
+    return current.ratio > previous.ratio && isIntersecting ? 'enter:down' : 'leave:down';
   }
 
   if (current.y > previous.y) {
-    return current.ratio > previous.ratio && isIntersecting
-      ? 'enter:up'
-      : 'leave:up';
+    return current.ratio > previous.ratio && isIntersecting ? 'enter:up' : 'leave:up';
   }
 
   return 'none';
@@ -46,8 +37,7 @@ const useIntersection = (
   const previousRect = useRef<BoundingRectMeta>({ y: 0, ratio: 0 });
 
   const [intersecting, setIntersecting] = useState<boolean | null>(null);
-  const [scrollingDirection, setIntersectionDirection] =
-    useState<ScrollingDirection>('none');
+  const [scrollingDirection, setIntersectionDirection] = useState<ScrollingDirection>('none');
 
   const handleIntersection: IntersectionObserverCallback = (newEntries) => {
     let isIntersecting = false;
@@ -58,13 +48,7 @@ const useIntersection = (
         ratio: entry.intersectionRatio,
       };
 
-      setIntersectionDirection(
-        getIntersectionDirection(
-          entry.isIntersecting,
-          previousRect.current,
-          currentRect,
-        ),
-      );
+      setIntersectionDirection(getIntersectionDirection(entry.isIntersecting, previousRect.current, currentRect));
 
       isIntersecting ||= entry.isIntersecting;
       previousRect.current = currentRect;
@@ -75,10 +59,7 @@ const useIntersection = (
 
   useEffect(() => {
     if (elementRef.current) {
-      intersectionObserverRef.current = new IntersectionObserver(
-        handleIntersection,
-        options,
-      );
+      intersectionObserverRef.current = new IntersectionObserver(handleIntersection, options);
       intersectionObserverRef.current.observe(elementRef.current);
     }
 

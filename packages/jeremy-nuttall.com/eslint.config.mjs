@@ -1,5 +1,6 @@
-import { baseConfig } from '@jtnuttall/eslint-config';
 import nextPlugin from '@next/eslint-plugin-next';
+
+import { baseConfig } from '@jtnuttall/eslint-config';
 
 export default [
   { ignores: ['.next/**', 'sanity.types.ts'] },
