@@ -1,8 +1,7 @@
 import { FC, ReactNode, useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
-import { useInterval } from '@jtnuttall/shared/hooks';
-
 import { TypewriterAction, TypewriterActionType } from './actions';
+import useInterval from './hooks/useInterval';
 
 interface MoveCursorOnceAction {
   type: 'move-cursor-once';
