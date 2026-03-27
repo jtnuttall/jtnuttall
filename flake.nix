@@ -16,7 +16,7 @@
     in {
       devShells.default = pkgs.mkShell {
         buildInputs = builtins.attrValues {
-          inherit (pkgs) just just-lsp nodejs_24 pnpm_10 texliveFull;
+          inherit (pkgs) just just-lsp nodejs_24 pnpm_10 zathura texliveFull;
         };
       };
     });

@@ -1,13 +1,22 @@
+in_nix := env_var_or_default("IN_NIX_SHELL", "")
+use_docker := if in_nix != "" { "false" } else { "true" }
+
 docker_tag := "jnuttall-resume-texlive"
-docker_cmd := "docker run --rm -i --user=\"$(id -u):$(id -g)\" -v \"$PWD:/data\" -w /data " + docker_tag
+docker_run_cmd := "docker run --rm -i --user=\"$(id -u):$(id -g)\" -v \"$PWD:/data\" -w /data " + docker_tag
+
+cmd_prefix := if use_docker == "true" { docker_run_cmd } else { "" }
 
 @default: prepare (build "resume.tex") (build "coverletter.tex")
 
 prepare:
-    docker build -t {{docker_tag}} .
+    if [ "{{use_docker}}" = "true" ]; then \
+        docker build -t {{docker_tag}} . ; \
+    else \
+        echo "Running in native/Nix environment, skipping docker build." ; \
+    fi
 
 build file:
-    {{docker_cmd}} latexmk -lualatex -interaction=nonstopmode {{file}}
+    {{cmd_prefix}} latexmk -lualatex -interaction=nonstopmode {{file}}
 
 watch file:
     #!/usr/bin/env bash
@@ -15,13 +24,13 @@ watch file:
     TEX_FILE="{{file}}"
     PDF_FILE="${TEX_FILE%.tex}.pdf"
     if [ ! -f "$PDF_FILE" ]; then
-        {{docker_cmd}} latexmk -lualatex -interaction=nonstopmode "$TEX_FILE"
+        {{cmd_prefix}} latexmk -lualatex -interaction=nonstopmode "$TEX_FILE"
     fi
     zathura "$PDF_FILE" > /dev/null 2>&1 &
-    {{docker_cmd}} latexmk -lualatex -pvc -view=none -interaction=nonstopmode "$TEX_FILE"
+    {{cmd_prefix}} latexmk -lualatex -pvc -view=none -interaction=nonstopmode "$TEX_FILE"
 
 purge:
-    {{docker_cmd}} latexmk -c resume.tex coverletter.tex
+    {{cmd_prefix}} latexmk -c resume.tex coverletter.tex
 
 clean:
-    {{docker_cmd}} latexmk -C resume.tex coverletter.tex
+    {{cmd_prefix}} latexmk -C resume.tex coverletter.tex
