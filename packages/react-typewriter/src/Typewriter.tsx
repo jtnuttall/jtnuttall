@@ -265,7 +265,9 @@ export const Typewriter: FC<TypewriterProps> = ({
   useEffect(() => {
     if (actionCompleted) {
       const id = setMajorAction();
-      return () => clearTimeout(id);
+      return () => {
+        clearTimeout(id);
+      };
     }
     return () => {};
   }, [actionCompleted, setMajorAction]);

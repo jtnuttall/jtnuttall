@@ -11,19 +11,16 @@
     "./hooks": "./src/hooks/index.ts"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint .",
-    "typecheck": "tsc -p tsconfig.json"
+    "lint": "oxlint .",
+    "typecheck": "tsgo -p tsconfig.json"
   },
   "dependencies": {
     "react": "^19.2.4"
   },
   "devDependencies": {
-    "@jtnuttall/eslint-config": "workspace:^",
     "@types/react": "^19.2.14",
-    "@vitejs/plugin-react-swc": "^4.2.3",
-    "eslint": "^10.0.2",
-    "vite": "^7.3.1",
-    "vitest": "^4.0.18"
+    "@typescript/native-preview": "7.0.0-dev.20260323.1",
+    "oxlint": "^1.56.0",
+    "oxlint-tsgolint": "^0.17.2"
   }
 }

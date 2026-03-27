@@ -16,10 +16,8 @@
     }
   },
   "scripts": {
-    "build": "vite build",
-    "test": "vitest",
-    "lint": "eslint .",
-    "typecheck": "tsc -p tsconfig.json"
+    "lint": "oxlint .",
+    "typecheck": "tsgo -p tsconfig.json"
   },
   "dependencies": {
     "@jtnuttall/shared": "workspace:^",
@@ -27,15 +25,11 @@
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
-    "@jtnuttall/eslint-config": "workspace:^",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react-swc": "^4.2.3",
-    "eslint": "^10.0.2",
-    "typescript": "^5.9.3",
-    "vite": "^7.3.1",
-    "vite-plugin-dts": "^4.5.4",
-    "vitest": "^4.0.18"
+    "@typescript/native-preview": "7.0.0-dev.20260323.1",
+    "oxlint": "^1.56.0",
+    "oxlint-tsgolint": "^0.17.2"
   },
   "peerDependencies": {
     "react": "^19.0.0",

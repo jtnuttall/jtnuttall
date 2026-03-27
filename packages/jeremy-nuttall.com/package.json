@@ -6,14 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
-    "typecheck": "tsc -p tsconfig.json"
+    "lint": "oxlint .",
+    "typecheck": "tsgo -p tsconfig.json"
   },
   "dependencies": {
     "@jtnuttall/react-typewriter": "workspace:^",
     "@sanity/image-url": "^2.0.3",
     "@sanity/vision": "^5.13.0",
-    "@vercel/analytics": "^1.6.1",
+    "@vercel/analytics": "^2.0.1",
     "clsx": "^2.0.0",
     "date-fns": "^4.1.0",
     "groqd": "^1.7.1",
@@ -26,17 +26,16 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@jtnuttall/eslint-config": "workspace:^",
-    "@next/eslint-plugin-next": "^16.1.6",
     "@tailwindcss/postcss": "^4.2.1",
     "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^20",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@typescript/native-preview": "7.0.0-dev.20260323.1",
     "daisyui": "^5.5.19",
-    "eslint": "^10.0.2",
+    "oxlint": "^1.56.0",
+    "oxlint-tsgolint": "^0.17.2",
     "postcss": "^8",
-    "tailwindcss": "^4.2.1",
-    "typescript": "^5.9.3"
+    "tailwindcss": "^4.2.1"
   }
 }
