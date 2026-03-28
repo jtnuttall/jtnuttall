@@ -2,6 +2,7 @@
   "name": "jtnuttall",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "pnpm@10.32.1",
   "description": "Personal websites, web projects",
   "license": "Apache-2.0",
   "author": "Jeremy Nuttall",
@@ -15,6 +16,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "oxfmt": "^0.42.0",
+    "turbo": "^2.8.20",
     "type-fest": "^5.5.0"
   }
 }

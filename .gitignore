@@ -205,3 +205,4 @@ local/
 
 .direnv
 .pnpm-store
+.turbo

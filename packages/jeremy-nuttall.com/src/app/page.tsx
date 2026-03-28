@@ -47,9 +47,45 @@ const Project = q.star
   }))
   .slice(0, 7);
 
+const ProjectImage = ({
+  src,
+  demoUrl,
+  title,
+  width,
+  height,
+  className,
+}: {
+  src: string;
+  demoUrl?: string | null;
+  title?: string | null;
+  width: number;
+  height: number;
+  className?: string;
+}) => {
+  const img = (
+    <Image
+      className={`rounded object-cover aspect-video${demoUrl ? ' transition-opacity hover:opacity-80' : ''}${className ? ` ${className}` : ''}`}
+      alt={`Demo of ${title ?? ''}`}
+      src={src}
+      width={width}
+      height={height}
+    />
+  );
+
+  return demoUrl ? (
+    <Link href={demoUrl} rel="noreferrer" target="_blank">
+      {img}
+    </Link>
+  ) : (
+    img
+  );
+};
+
 export default async function Home() {
   const cvEntries = CVEntry.parse(await client.fetch(CVEntry.query));
-  const projects = Project.parse(await client.fetch(Project.query));
+  const projects = [...Project.parse(await client.fetch(Project.query))].sort(
+    (a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0),
+  );
 
   return (
     <div className="mx-auto min-h-screen max-w-screen-xl px-6 py-12 md:px-12 md:py-20 lg:px-24 lg:py-0">
@@ -176,134 +212,109 @@ export default async function Home() {
           </section>
           <section id="projects" aria-label="Projects" className="mt-24 flex flex-col gap-3">
             <h2 className="text-2xl font-mono font-bold mb-8">Projects</h2>
-            {[...projects]
-              .sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
-              .map(
-                ({
-                  _id,
-                  title,
-                  tagline,
-                  featured,
-                  keyMetric,
-                  keyContribution,
-                  description,
-                  repository,
-                  demoUrl,
-                  image,
-                  technologies,
-                }) => {
-                  const assetUrl = image?.asset?.url;
+            {projects.map(
+              ({
+                _id,
+                title,
+                tagline,
+                featured,
+                keyMetric,
+                keyContribution,
+                description,
+                repository,
+                demoUrl,
+                image,
+                technologies,
+              }) => {
+                const assetUrl = image?.asset?.url;
 
-                  const techTags = technologies && technologies.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 mt-3">
-                      {technologies.map(({ name }) => (
-                        <span
-                          key={name}
-                          className="badge badge-sm badge-outline text-base-content/60 border-neutral/50"
-                        >
-                          {name}
-                        </span>
-                      ))}
-                    </div>
-                  );
-
-                  const repoLink = repository && (
-                    <Link
-                      href={repository}
-                      rel="noreferrer"
-                      target="_blank"
-                      className="btn btn-sm btn-ghost text-base-content/50 hover:text-base-content flex items-center gap-2"
-                    >
-                      <LuExternalLink />
-                      Repo
-                    </Link>
-                  );
-
-                  if (featured) {
-                    return (
-                      <div
-                        key={_id}
-                        className="card border border-neutral/20 transition-colors hover:border-neutral/50 lg:p-4 mb-3"
+                const techTags = technologies && technologies.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mt-3">
+                    {technologies.map(({ name }) => (
+                      <span
+                        key={name}
+                        className="badge badge-sm badge-outline text-base-content/60 border-neutral/50"
                       >
-                        {assetUrl && (
-                          <figure>
-                            {(() => {
-                              const imageUrl = `${assetUrl}?w=640&h=360&fit=crop`;
-                              const img = (
-                                <Image
-                                  className={`rounded object-cover aspect-video w-full${demoUrl ? ' transition-opacity hover:opacity-80' : ''}`}
-                                  alt={`Demo of ${title ?? ''}`}
-                                  src={imageUrl}
-                                  width={640}
-                                  height={360}
-                                />
-                              );
-                              return demoUrl ? (
-                                <Link href={demoUrl} rel="noreferrer" target="_blank">
-                                  {img}
-                                </Link>
-                              ) : (
-                                img
-                              );
-                            })()}
-                          </figure>
-                        )}
-                        <div className="card-body">
-                          <h3 className="card-title font-mono">{title}</h3>
-                          {tagline && <p className="text-accent/80 text-sm italic">{tagline}</p>}
-                          <div className="flex flex-wrap items-center gap-2 mt-1">
-                            {keyMetric && (
-                              <span className="badge badge-accent badge-outline font-mono text-xs">{keyMetric}</span>
-                            )}
-                            {keyContribution && <span className="text-base-content/60 text-sm">{keyContribution}</span>}
-                          </div>
-                          <p className="text-base-content/70 mt-2">{description}</p>
-                          {techTags}
-                          <div className="mt-2 card-actions justify-end">{repoLink}</div>
-                        </div>
-                      </div>
-                    );
-                  }
+                        {name}
+                      </span>
+                    ))}
+                  </div>
+                );
 
+                const repoLink = repository && (
+                  <Link
+                    href={repository}
+                    rel="noreferrer"
+                    target="_blank"
+                    className="btn btn-sm btn-ghost text-base-content/50 hover:text-base-content flex items-center gap-2"
+                  >
+                    <LuExternalLink />
+                    Repo
+                  </Link>
+                );
+
+                if (featured) {
                   return (
                     <div
                       key={_id}
-                      className={`card border border-neutral/20 transition-colors hover:border-neutral/50 lg:p-3${assetUrl ? ' card-side' : ''}`}
+                      className="card border border-neutral/20 transition-colors hover:border-neutral/50 lg:p-4 mb-3"
                     >
                       {assetUrl && (
-                        <figure className="w-48 shrink-0">
-                          {(() => {
-                            const imageUrl = `${assetUrl}?w=320&h=180&fit=crop`;
-                            const img = (
-                              <Image
-                                className={`rounded object-cover aspect-video${demoUrl ? ' transition-opacity hover:opacity-80' : ''}`}
-                                alt={`Demo of ${title ?? ''}`}
-                                src={imageUrl}
-                                width={320}
-                                height={180}
-                              />
-                            );
-                            return demoUrl ? (
-                              <Link href={demoUrl} rel="noreferrer" target="_blank">
-                                {img}
-                              </Link>
-                            ) : (
-                              img
-                            );
-                          })()}
+                        <figure>
+                          <ProjectImage
+                            src={`${assetUrl}?w=640&h=360&fit=crop`}
+                            demoUrl={demoUrl}
+                            title={title}
+                            width={640}
+                            height={360}
+                            className="w-full"
+                          />
                         </figure>
                       )}
                       <div className="card-body">
                         <h3 className="card-title font-mono">{title}</h3>
                         {tagline && <p className="text-accent/80 text-sm italic">{tagline}</p>}
-                        <p className="text-base-content/70">{description}</p>
+                        <div className="flex flex-wrap items-center gap-2 mt-1">
+                          {keyMetric && (
+                            <span className="badge badge-accent badge-outline font-mono text-xs">{keyMetric}</span>
+                          )}
+                          {keyContribution && <span className="text-base-content/60 text-sm">{keyContribution}</span>}
+                        </div>
+                        <p className="text-base-content/70 mt-2">{description}</p>
                         {techTags}
                         <div className="mt-2 card-actions justify-end">{repoLink}</div>
                       </div>
                     </div>
                   );
-                },
-              )}
+                }
+
+                return (
+                  <div
+                    key={_id}
+                    className={`card border border-neutral/20 transition-colors hover:border-neutral/50 lg:p-3${assetUrl ? ' card-side' : ''}`}
+                  >
+                    {assetUrl && (
+                      <figure className="w-48 shrink-0">
+                        <ProjectImage
+                          src={`${assetUrl}?w=320&h=180&fit=crop`}
+                          demoUrl={demoUrl}
+                          title={title}
+                          width={320}
+                          height={180}
+                        />
+                      </figure>
+                    )}
+                    <div className="card-body">
+                      <h3 className="card-title font-mono">{title}</h3>
+                      {tagline && <p className="text-accent/80 text-sm italic">{tagline}</p>}
+                      <p className="text-base-content/70">{description}</p>
+                      {techTags}
+                      <div className="mt-2 card-actions justify-end">{repoLink}</div>
+                    </div>
+                  </div>
+                );
+              },
+            )}
           </section>
           <section className="mt-24 mb-12 text-sm font-light text-base-content/40">
             Built with Next.js, TailwindCSS, and daisyUI. Content managed with{' '}
