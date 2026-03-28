@@ -28,9 +28,7 @@ const Project: SchemaTypeDefinition = {
       name: 'priority',
       title: 'Priority',
       type: 'number',
-      options: {
-        default: -1,
-      },
+      initialValue: -1,
       validation: (rule) => rule.integer().min(-1).max(10),
     },
     {
@@ -84,6 +82,13 @@ const Project: SchemaTypeDefinition = {
       name: 'demoUrl',
       title: 'Demo URL',
       type: 'url',
+      description: 'Live demo or interactive example',
+    },
+    {
+      name: 'packageUrl',
+      title: 'Package URL',
+      type: 'url',
+      description: 'Package registry page, e.g. Hackage, npm, crates.io',
     },
     {
       name: 'pullRequests',

@@ -1,4 +1,4 @@
-import { FC, ReactNode, useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { FC, ReactNode, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import invariant from 'tiny-invariant';
 
 import { NonEmpty, TypewriterAction, TypewriterActionType } from './actions';
@@ -22,7 +22,6 @@ interface TypewriterState {
   text: string;
   writeIndex: number;
   moveDirection?: 'forward' | 'backward';
-  color?: string;
   targetIndex: number;
   targetText?: string;
   actionCompleted: boolean;
@@ -256,28 +255,24 @@ export const Typewriter: FC<TypewriterProps> = ({
     runInternal && !paused ? cpmDelay : undefined,
   );
 
-  const setMajorAction = useCallback(() => {
-    const action = actions[actionPtr];
-    internalActionRef.current = internalActionsMap[action.type];
-
-    return setTimeout(
-      () => {
-        dispatch(action);
-        setRunInternal(true);
-        setActionPtr((actionPtr + 1) % actions.length);
-      },
-      action.type === 'pause' ? action.milliseconds : 0,
-    );
-  }, [actionPtr, actions]);
-
   useEffect(() => {
     if (actionCompleted && !paused) {
-      const id = setMajorAction();
+      const action = actions[actionPtr];
+      internalActionRef.current = internalActionsMap[action.type];
+
+      const id = setTimeout(
+        () => {
+          dispatch(action);
+          setRunInternal(true);
+          setActionPtr((actionPtr + 1) % actions.length);
+        },
+        action.type === 'pause' ? action.milliseconds : 0,
+      );
       return () => {
         clearTimeout(id);
       };
     }
-  }, [actionCompleted, paused, setMajorAction]);
+  }, [actionCompleted, paused, actionPtr, actions]);
 
   useInterval(
     () => {

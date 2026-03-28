@@ -2,14 +2,14 @@ import { client } from '@/../sanity/lib/client';
 import { IconAnchor } from '@/components/icon-buttons';
 import Typewriter from '@/components/typewriter';
 import { q } from '@/lib/groqd-client';
-import { format as formatDate } from 'date-fns';
+import { format as formatDate, parseISO } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
-import { LuArrowBigRightDash, LuExternalLink, LuGithub, LuLinkedin } from 'react-icons/lu';
+import { LuArrowBigRightDash, LuExternalLink, LuGithub, LuLinkedin, LuPackage } from 'react-icons/lu';
 
 export const revalidate = 3600;
 
-const formatCVDate = (date?: string | null) => (date ? formatDate(new Date(date), 'MMM. yyyy') : 'present');
+const formatCVDate = (date?: string | null) => (date ? formatDate(parseISO(date), 'MMM. yyyy') : 'present');
 
 const CVEntry = q.star
   .filterByType('cvEntry')
@@ -28,7 +28,7 @@ const CVEntry = q.star
 const Project = q.star
   .filterByType('project')
   .filterRaw('priority >= 0')
-  .order('priority desc')
+  .order('priority desc', 'featured desc')
   .project((sub) => ({
     _id: true,
     title: true,
@@ -42,6 +42,7 @@ const Project = q.star
     })),
     repository: true,
     demoUrl: true,
+    packageUrl: true,
     description: true,
     technologies: sub.field('technologies[]').deref().project({ name: true }),
   }))
@@ -83,9 +84,7 @@ const ProjectImage = ({
 
 export default async function Home() {
   const cvEntries = CVEntry.parse(await client.fetch(CVEntry.query));
-  const projects = [...Project.parse(await client.fetch(Project.query))].sort(
-    (a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0),
-  );
+  const projects = Project.parse(await client.fetch(Project.query));
 
   return (
     <div className="mx-auto min-h-screen max-w-screen-xl px-6 py-12 md:px-12 md:py-20 lg:px-24 lg:py-0">
@@ -155,7 +154,7 @@ export default async function Home() {
                   interesting precisely because they shouldn&apos;t exist.
                 </p>
                 <p>
-                  Off the clock I write{' '}
+                  I really like writing{' '}
                   <a
                     href="https://www.haskell.org/"
                     className="underline decoration-accent/40 underline-offset-4 transition-colors hover:decoration-accent"
@@ -188,7 +187,7 @@ export default async function Home() {
                     </span>
                   ))}
                 </div>
-                {highlights && highlights.length > 0 && (
+                {highlights.length > 0 && (
                   <ul className="mt-4 space-y-1.5 text-base-content/70 leading-relaxed">
                     {highlights.map((highlight) => (
                       <li
@@ -223,6 +222,7 @@ export default async function Home() {
                 description,
                 repository,
                 demoUrl,
+                packageUrl,
                 image,
                 technologies,
               }) => {
@@ -238,16 +238,42 @@ export default async function Home() {
                   </div>
                 );
 
-                const repoLink = repository && (
-                  <Link
-                    href={repository}
-                    rel="noreferrer"
-                    target="_blank"
-                    className="btn btn-sm btn-ghost text-base-content/50 hover:text-base-content flex items-center gap-2"
-                  >
-                    <LuExternalLink />
-                    Repo
-                  </Link>
+                const projectLinks = (
+                  <>
+                    {demoUrl && (
+                      <Link
+                        href={demoUrl}
+                        rel="noreferrer"
+                        target="_blank"
+                        className="btn btn-sm btn-ghost text-base-content/50 hover:text-base-content flex items-center gap-2"
+                      >
+                        <LuExternalLink />
+                        Demo
+                      </Link>
+                    )}
+                    {packageUrl && (
+                      <Link
+                        href={packageUrl}
+                        rel="noreferrer"
+                        target="_blank"
+                        className="btn btn-sm btn-ghost text-base-content/50 hover:text-base-content flex items-center gap-2"
+                      >
+                        <LuPackage />
+                        Package
+                      </Link>
+                    )}
+                    {repository && (
+                      <Link
+                        href={repository}
+                        rel="noreferrer"
+                        target="_blank"
+                        className="btn btn-sm btn-ghost text-base-content/50 hover:text-base-content flex items-center gap-2"
+                      >
+                        <LuGithub />
+                        Repo
+                      </Link>
+                    )}
+                  </>
                 );
 
                 if (featured) {
@@ -279,7 +305,7 @@ export default async function Home() {
                         </div>
                         <p className="text-base-content/70 mt-2">{description}</p>
                         {techTags}
-                        <div className="mt-2 card-actions justify-end">{repoLink}</div>
+                        <div className="mt-2 card-actions justify-end">{projectLinks}</div>
                       </div>
                     </div>
                   );
@@ -306,7 +332,7 @@ export default async function Home() {
                       {tagline && <p className="text-accent/80 text-sm italic">{tagline}</p>}
                       <p className="text-base-content/70">{description}</p>
                       {techTags}
-                      <div className="mt-2 card-actions justify-end">{repoLink}</div>
+                      <div className="mt-2 card-actions justify-end">{projectLinks}</div>
                     </div>
                   </div>
                 );

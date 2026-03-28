@@ -35,6 +35,7 @@
                 (add-pkg-deps [
                   final.bash
                   final.git
+                  final.gh
                   final.ripgrep
                   final.gnugrep
                   final.gnused
@@ -70,6 +71,7 @@
         packages = with pkgs; [
           just
           just-lsp
+          gh
           texliveFull
           zathura
           claude-code

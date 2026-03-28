@@ -22,9 +22,7 @@ const CVEntry: SchemaTypeDefinition = {
       title: 'Location',
       type: 'array',
       of: [{ type: 'string' }],
-      options: {
-        default: 'Remote',
-      },
+      initialValue: ['Remote'],
       validation: (rule) => rule.required(),
     },
     {

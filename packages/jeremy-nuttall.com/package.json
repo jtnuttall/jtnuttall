@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@jtnuttall/react-typewriter": "workspace:^",
+    "@lottiefiles/dotlottie-react": "^0.18.7",
     "@sanity/vision": "^5.13.0",
     "@vercel/analytics": "^2.0.1",
     "date-fns": "^4.1.0",

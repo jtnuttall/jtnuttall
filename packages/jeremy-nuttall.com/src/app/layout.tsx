@@ -1,4 +1,5 @@
 import { Analytics } from '@vercel/analytics/react';
+import type { Metadata } from 'next';
 import { Space_Grotesk, Space_Mono } from 'next/font/google';
 
 import './globals.css';
@@ -13,9 +14,18 @@ const mono = Space_Mono({
   variable: '--next-font-mono',
 });
 
-export const metadata = {
+export const metadata: Metadata = {
+  metadataBase: new URL('https://jeremy-nuttall.com'),
   title: 'Jeremy Nuttall',
   description: 'Principal Software Engineer & Tech Lead — building healthcare systems that scale.',
+  openGraph: {
+    title: 'Jeremy Nuttall',
+    description: 'Principal Software Engineer & Tech Lead — building healthcare systems that scale.',
+    url: 'https://jeremy-nuttall.com',
+    siteName: 'Jeremy Nuttall',
+    locale: 'en_US',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
