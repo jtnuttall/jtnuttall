@@ -37,13 +37,37 @@ const Project: SchemaTypeDefinition = {
       name: 'image',
       title: 'Image',
       type: 'image',
-      validation: (rule) => rule.required(),
     },
     {
       name: 'description',
       title: 'Description',
       type: 'text',
       validation: (rule) => rule.required(),
+    },
+    {
+      name: 'tagline',
+      title: 'Tagline',
+      type: 'string',
+      description: 'Short hook, e.g. "Near-C++ noise generation, in pure Haskell"',
+    },
+    {
+      name: 'featured',
+      title: 'Featured',
+      type: 'boolean',
+      description: 'Featured projects get a larger, richer card treatment',
+      initialValue: false,
+    },
+    {
+      name: 'keyMetric',
+      title: 'Key Metric',
+      type: 'string',
+      description: 'A standout number, e.g. "~160M values/sec"',
+    },
+    {
+      name: 'keyContribution',
+      title: 'Key Contribution',
+      type: 'string',
+      description: 'Your specific contribution, e.g. "Ported and optimized from C++ FastNoiseLite"',
     },
     {
       name: 'repository',

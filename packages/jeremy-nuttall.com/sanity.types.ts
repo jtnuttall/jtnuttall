@@ -12,6 +12,8 @@
  * ---------------------------------------------------------------------------------
  */
 
+export declare const internalGroqTypeReferenceTo: unique symbol;
+
 // Source: schema.json
 export type SanityImageAssetReference = {
   _ref: string;
@@ -51,6 +53,10 @@ export type Project = {
     _type: 'image';
   };
   description?: string;
+  tagline?: string;
+  featured?: boolean;
+  keyMetric?: string;
+  keyContribution?: string;
   repository?: string;
   job?: CvEntryReference;
   demoUrl?: string;
@@ -237,5 +243,3 @@ export type AllSanitySchemaTypes =
   | SanityImageAsset
   | Geopoint
   | Slug;
-
-export declare const internalGroqTypeReferenceTo: unique symbol;
