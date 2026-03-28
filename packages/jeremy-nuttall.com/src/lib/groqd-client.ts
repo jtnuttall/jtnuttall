@@ -1,5 +1,6 @@
-import type { AllSanitySchemaTypes, internalGroqTypeReferenceTo } from '@/../sanity.types';
 import { createGroqBuilderWithZod } from 'groqd';
+
+import type { AllSanitySchemaTypes, internalGroqTypeReferenceTo } from '@/../sanity.types';
 
 type SchemaConfig = {
   schemaTypes: AllSanitySchemaTypes;

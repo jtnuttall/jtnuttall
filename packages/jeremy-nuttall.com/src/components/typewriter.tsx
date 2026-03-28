@@ -1,6 +1,7 @@
 'use client';
 
-import { FC, useCallback, useState } from 'react';
+import clsx from 'clsx';
+import { useCallback, useState } from 'react';
 
 import ReactTypewriter, { typewriterBuilder } from '@jtnuttall/react-typewriter';
 
@@ -34,7 +35,7 @@ const typewriterActions = typewriterBuilder()
   .delete()
   .buildActions();
 
-const Typewriter: FC = () => {
+export default function Typewriter() {
   const [paused, setPaused] = useState(false);
   const toggle = useCallback(() => {
     setPaused((p) => !p);
@@ -66,7 +67,10 @@ const Typewriter: FC = () => {
         actions={typewriterActions}
         render={(text) => (
           <code
-            className={`block text-2xl sm:text-3xl font-mono transition-opacity duration-300 ${paused ? 'text-base-content/60' : 'text-base-content/90'}`}
+            className={clsx(
+              'block text-2xl sm:text-3xl font-mono transition-opacity duration-300',
+              paused ? 'text-base-content/60' : 'text-base-content/90',
+            )}
           >
             {text}
           </code>
@@ -74,6 +78,4 @@ const Typewriter: FC = () => {
       />
     </div>
   );
-};
-
-export default Typewriter;
+}

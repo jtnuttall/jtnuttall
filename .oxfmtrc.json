@@ -3,7 +3,7 @@
   "singleQuote": true,
   "printWidth": 120,
   "sortImports": {
-    "internalPattern": ["@jtnuttall"]
+    "internalPattern": ["@jtnuttall", "@/"]
   },
   "sortPackageJson": true,
   "ignorePatterns": ["/dist", "/coverage"]
