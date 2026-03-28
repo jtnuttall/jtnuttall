@@ -4,3 +4,15 @@ packages:
 minimumReleaseAge: 4500
 trustPolicy: no-downgrade
 blockExoticSubdeps: true
+
+# chokidar 4.0.3 lost provenance attestation; fixed in 5.0.0
+# https://github.com/paulmillr/chokidar/issues/1440#issuecomment-3610663676
+# reselect 5.1.1 published locally by acemarke without provenance
+# https://github.com/reduxjs/reselect/issues/752
+# groq experimental prerelease from sanity monorepo, published without CI provenance
+# semver 5.x/6.x predate npm's provenance rollout; maintained by npm/GitHub team
+trustPolicyExclude:
+  - chokidar@4.0.3
+  - reselect@5.1.1
+  - groq@3.88.1-typegen-experimental.0
+  - semver@6.3.1 || 5.7.2

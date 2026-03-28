@@ -7,6 +7,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { LuArrowBigRightDash, LuExternalLink, LuGithub, LuLinkedin } from 'react-icons/lu';
 
+export const revalidate = 3600;
+
 const formatCVDate = (date?: string | null) => (date ? formatDate(new Date(date), 'MMM. yyyy') : 'present');
 
 const CVEntry = q.star
@@ -57,17 +59,19 @@ export default async function Home() {
                 Infrastructure, architecture, and the occasional existential crisis.
               </p>
             </div>
-            <ul className="mt-8 menu">
-              <li>
-                <Link href="#intro">Introduction</Link>
-              </li>
-              <li>
-                <Link href="#experience">Experience</Link>
-              </li>
-              <li>
-                <Link href="#projects">Projects</Link>
-              </li>
-            </ul>
+            <nav aria-label="Site navigation">
+              <ul className="mt-8 menu">
+                <li>
+                  <Link href="#intro">Introduction</Link>
+                </li>
+                <li>
+                  <Link href="#experience">Experience</Link>
+                </li>
+                <li>
+                  <Link href="#projects">Projects</Link>
+                </li>
+              </ul>
+            </nav>
           </div>
           <div className="flex flex-row mt-8 lg:mt-0 lg:justify-end gap-4 lg:px-24 lg:py-12 text-base-content/50">
             <IconAnchor
@@ -104,9 +108,9 @@ export default async function Home() {
                   >
                     Well.co
                   </a>
-                  , where I build healthcare software and think about distributed systems more than is
-                  probably healthy. I lead cloud infrastructure and platform architecture — the kind of
-                  work where the problems are interesting precisely because they shouldn&apos;t exist.
+                  , where I build healthcare software and think about distributed systems more than is probably healthy.
+                  I lead cloud infrastructure and platform architecture — the kind of work where the problems are
+                  interesting precisely because they shouldn&apos;t exist.
                 </p>
                 <p>
                   Off the clock I write{' '}
@@ -118,9 +122,8 @@ export default async function Home() {
                   >
                     Haskell
                   </a>
-                  , which is either a programming language or a coping mechanism depending on who you
-                  ask. My cat and my toddler have independently concluded that my keyboard is a toy.
-                  They are not wrong.
+                  , which is either a programming language or a coping mechanism depending on who you ask. My cat and my
+                  toddler have independently concluded that my keyboard is a toy. They are not wrong.
                 </p>
               </div>
             </div>
@@ -128,10 +131,7 @@ export default async function Home() {
           <section id="experience" aria-label="Work Experience" className="mt-20 flex flex-col">
             <h2 className="text-2xl font-mono font-bold mb-8">Experience</h2>
             {cvEntries.map(({ _id, company, jobTitle, startDate, endDate, highlights, technologies }) => (
-              <article
-                key={_id}
-                className="border-t border-neutral/50 py-8 first:border-t-0 first:pt-0"
-              >
+              <article key={_id} className="border-t border-neutral/50 py-8 first:border-t-0 first:pt-0">
                 <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
                   <h3 className="text-lg font-mono font-bold">{company}</h3>
                   <span className="text-sm text-base-content/50 font-mono tabular-nums">
@@ -141,10 +141,7 @@ export default async function Home() {
                 <p className="mt-1 text-base-content/60 italic">{jobTitle}</p>
                 <div className="flex flex-wrap gap-1.5 mt-3">
                   {technologies?.map(({ name }) => (
-                    <span
-                      key={name}
-                      className="badge badge-sm badge-outline text-base-content/60 border-neutral/50"
-                    >
+                    <span key={name} className="badge badge-sm badge-outline text-base-content/60 border-neutral/50">
                       {name}
                     </span>
                   ))}
@@ -174,31 +171,32 @@ export default async function Home() {
           <section id="projects" aria-label="Projects" className="mt-24 flex flex-col gap-3">
             <h2 className="text-2xl font-mono font-bold mb-8">Projects</h2>
             {projects.map(({ _id, title, description, repository, demoUrl, image }) => {
-              const projectLink = demoUrl;
+              const assetUrl = image?.asset?.url;
+              if (!assetUrl) return null;
+
+              const imageUrl = `${assetUrl}?w=320&h=180&fit=crop`;
+              const thumbnail = (
+                <Image
+                  className={`rounded object-cover aspect-video${demoUrl ? ' transition-opacity hover:opacity-80' : ''}`}
+                  alt={`Demo of ${title ?? ''}`}
+                  src={imageUrl}
+                  width={320}
+                  height={180}
+                />
+              );
+
               return (
                 <div
                   key={_id}
                   className="card border border-neutral/20 card-side transition-colors hover:border-neutral/50 lg:p-3"
                 >
                   <figure className="w-48 shrink-0">
-                    {projectLink ? (
-                      <Link href={projectLink} rel="noreferrer" target="_blank">
-                        <Image
-                          className="rounded object-cover aspect-video transition-opacity hover:opacity-80"
-                          alt={`Demo of ${title ?? ''}`}
-                          src={`${image?.asset?.url ?? ''}?w=320&h=180&fit=crop`}
-                          width={320}
-                          height={180}
-                        />
+                    {demoUrl ? (
+                      <Link href={demoUrl} rel="noreferrer" target="_blank">
+                        {thumbnail}
                       </Link>
                     ) : (
-                      <Image
-                        className="rounded object-cover aspect-video"
-                        alt={`Demo of ${title ?? ''}`}
-                        src={`${image?.asset?.url ?? ''}?w=320&h=180&fit=crop`}
-                        width={320}
-                        height={180}
-                      />
+                      thumbnail
                     )}
                   </figure>
                   <div className="card-body">

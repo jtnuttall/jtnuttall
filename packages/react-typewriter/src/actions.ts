@@ -43,7 +43,7 @@ class TypewriterBuilder {
     return this;
   }
 
-  moveCursorBackward(by?: number) {
+  moveCursorBackward(by: number) {
     this.actions.push({
       type: 'move-cursor',
       by,

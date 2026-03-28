@@ -36,14 +36,20 @@ const typewriterActions = typewriterBuilder()
 
 const Typewriter: FC = () => {
   const [paused, setPaused] = useState(false);
-  const toggle = useCallback(() => setPaused((p) => !p), []);
+  const toggle = useCallback(() => {
+    setPaused((p) => !p);
+  }, []);
 
   return (
     <div
       className="min-w-full cursor-pointer select-none"
       role="button"
       tabIndex={0}
-      aria-label={paused ? 'Typewriter animation paused. Click or press Enter to resume.' : 'Typewriter animation playing. Click or press Enter to pause.'}
+      aria-label={
+        paused
+          ? 'Typewriter animation paused. Click or press Enter to resume.'
+          : 'Typewriter animation playing. Click or press Enter to pause.'
+      }
       onClick={toggle}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {

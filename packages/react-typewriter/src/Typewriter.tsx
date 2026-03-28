@@ -277,7 +277,6 @@ export const Typewriter: FC<TypewriterProps> = ({
         clearTimeout(id);
       };
     }
-    return () => {};
   }, [actionCompleted, paused, setMajorAction]);
 
   useInterval(

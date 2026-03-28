@@ -6,16 +6,17 @@
     "dist"
   ],
   "type": "module",
-  "main": "./dist/react-typewriter.umd.cjs",
-  "module": "./dist/react-typewriter.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./src/index.tsx",
-      "require": "./dist/react-typewriter.umd.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
   "scripts": {
+    "build": "tsup",
     "lint": "oxlint .",
     "test": "vitest run",
     "typecheck": "tsgo -p tsconfig.json"
@@ -28,12 +29,13 @@
     "@testing-library/react": "^16.3.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@typescript/native-preview": "7.0.0-dev.20260323.1",
+    "@typescript/native-preview": "7.0.0-dev.20260324.1",
     "jsdom": "^29.0.1",
-    "oxlint": "^1.56.0",
-    "oxlint-tsgolint": "^0.17.2",
+    "oxlint": "^1.57.0",
+    "oxlint-tsgolint": "^0.17.3",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "tsup": "^8.5.1",
     "vitest": "^4.1.1"
   },
   "peerDependencies": {

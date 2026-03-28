@@ -58,12 +58,7 @@ describe('TypewriterBuilder', () => {
   });
 
   it('chains multiple actions in order', () => {
-    const actions = typewriterBuilder()
-      .write('hello')
-      .pause(100)
-      .delete(3)
-      .write('world')
-      .buildActions();
+    const actions = typewriterBuilder().write('hello').pause(100).delete(3).write('world').buildActions();
 
     expect(actions).toEqual([
       { type: 'write', text: 'hello' },

@@ -2,7 +2,9 @@ import { useRef, useEffect, useSyncExternalStore } from 'react';
 
 const subscribe = (callback: () => void) => {
   document.addEventListener('visibilitychange', callback);
-  return () => document.removeEventListener('visibilitychange', callback);
+  return () => {
+    document.removeEventListener('visibilitychange', callback);
+  };
 };
 
 const getSnapshot = () => document.visibilityState === 'visible';
@@ -29,8 +31,6 @@ const useInterval = (callback: () => void, delay?: number): void => {
         clearInterval(id);
       };
     }
-
-    return () => {};
   }, [delay, visible]);
 };
 
