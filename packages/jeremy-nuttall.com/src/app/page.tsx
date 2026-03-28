@@ -231,10 +231,7 @@ export default async function Home() {
                 const techTags = technologies && technologies.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 mt-3">
                     {technologies.map(({ name }) => (
-                      <span
-                        key={name}
-                        className="badge badge-sm badge-outline text-base-content/60 border-neutral/50"
-                      >
+                      <span key={name} className="badge badge-sm badge-outline text-base-content/60 border-neutral/50">
                         {name}
                       </span>
                     ))}
