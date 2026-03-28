@@ -51,6 +51,9 @@ export default async function Home() {
             <div>
               <h1 className="text-5xl font-black sm:text-6xl">Jeremy Nuttall</h1>
               <h2 className="mt-5 text-xl font-semibold sm:text-2xl">Principal Software Engineer ✕ Tech Lead</h2>
+              <p className="mt-3 max-w-xs text-base-content/70">
+                Building systems that scale and teams that ship.
+              </p>
             </div>
             <ul className="mt-5 menu md:menu-lg">
               <li>
@@ -88,12 +91,28 @@ export default async function Home() {
                 <Typewriter />
               </div>
               <div className="hidden motion-reduce:block">Hi! I&apos;m Jeremy.</div>
-              <div className="prose mt-4">
-                <p>Working on healthcare applications to improve our health!</p>
+              <div className="prose mt-6 max-w-prose">
+                <p>
+                  I&apos;m a principal engineer and tech lead building healthcare software at{' '}
+                  <a href="https://well.co" className="link link-accent" rel="noreferrer" target="_blank">
+                    Well.co
+                  </a>
+                  . I like hard problems — the kind that sit at the intersection of scale, security, and developer
+                  experience. I lead cloud infrastructure and platform architecture, and I care about shipping software
+                  that&apos;s well-crafted and makes a real difference.
+                </p>
+                <p>
+                  When I&apos;m not deep in TypeScript and Terraform, I&apos;m usually writing{' '}
+                  <a href="https://www.haskell.org/" className="link link-accent" rel="noreferrer" target="_blank">
+                    Haskell
+                  </a>{' '}
+                  or convincing my cat and my toddler that the keyboard isn&apos;t a toy.
+                </p>
               </div>
             </div>
           </section>
           <section id="experience" aria-label="Work Experience" className="mt-20 group flex flex-col gap-3">
+            <h2 className="text-3xl font-bold mb-2">Experience</h2>
             {cvEntries.map(({ _id, company, jobTitle, startDate, endDate, highlights, technologies }) => (
               <div
                 key={_id}
@@ -101,7 +120,7 @@ export default async function Home() {
                   'collapse',
                   'collapse-arrow',
                   '[&:has(input:checked)]:bg-base-200',
-                  '[&:has(input:checked)]:-x-scale-105',
+                  '[&:has(input:checked)]:scale-105',
                   '[&:not(:has(input:checked))]:hover:scale-105',
                   'border',
                   'shadow-lg',
@@ -143,13 +162,14 @@ export default async function Home() {
             ))}
             <Link
               href="/static/resume.pdf"
-              className="mt-5 link link-accent hover:link-primary flex items-center gap-2 self-end transition-colors"
+              className="btn btn-outline btn-accent mt-5 gap-2 self-end"
             >
-              View full Resume
+              View Full Résumé
               <LuArrowBigRightDash />
             </Link>
           </section>
           <section id="projects" aria-label="Projects" className="mt-24 flex flex-col gap-3">
+            <h2 className="text-3xl font-bold mb-2">Projects</h2>
             {projects.map(({ _id, title, description, repository, image }) => (
               <div
                 key={_id}

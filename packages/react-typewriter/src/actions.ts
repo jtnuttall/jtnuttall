@@ -1,3 +1,5 @@
+import invariant from 'tiny-invariant';
+
 export interface MoveCursorAction {
   type: 'move-cursor';
   by?: number;
@@ -26,6 +28,8 @@ export interface ResetAction {
 export type TypewriterAction = WriteAction | PauseAction | MoveCursorAction | DeleteAction | ResetAction;
 
 export type TypewriterActionType = TypewriterAction['type'];
+
+export type NonEmpty<T> = readonly [T, ...T[]];
 
 class TypewriterBuilder {
   private readonly actions: TypewriterAction[] = [];
@@ -65,14 +69,13 @@ class TypewriterBuilder {
   }
 
   /**
-   * Deletes all characters if number is undefined or <= 0
-   *
-   * @param characters
+   * Deletes characters from the end of the current text.
+   * With no argument, deletes all characters.
    */
-  delete(characters = 0) {
+  delete(characters?: number) {
     this.actions.push({
       type: 'delete',
-      characters: characters > 0 ? characters : undefined,
+      characters,
     });
     return this;
   }
@@ -84,8 +87,10 @@ class TypewriterBuilder {
     return this;
   }
 
-  buildActions() {
-    return this.actions;
+  buildActions(): NonEmpty<TypewriterAction> {
+    const [first, ...rest] = this.actions;
+    invariant(first, 'TypewriterBuilder: must have at least one action');
+    return [first, ...rest];
   }
 }
 

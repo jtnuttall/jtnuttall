@@ -1,6 +1,7 @@
 import { FC, ReactNode, useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import invariant from 'tiny-invariant';
 
-import { TypewriterAction, TypewriterActionType } from './actions';
+import { NonEmpty, TypewriterAction, TypewriterActionType } from './actions';
 import useInterval from './hooks/useInterval';
 
 interface MoveCursorOnceAction {
@@ -51,7 +52,11 @@ const typewriterReducer = (
     }
     case 'delete': {
       const { text } = state;
-      const { characters = text.length } = action;
+      const characters = action.characters ?? text.length;
+
+      if (characters <= 0) {
+        return { ...state, actionCompleted: true };
+      }
 
       return {
         ...state,
@@ -174,7 +179,7 @@ const cursorMap: Record<CursorType, { cursorActive: string; cursorInactive: stri
 };
 
 export type TypewriterProps = {
-  actions: TypewriterAction[];
+  actions: NonEmpty<TypewriterAction>;
   prompt?: string;
   cpm?: number;
   cursorAnimation?: 'always' | 'onWrite' | 'none';
@@ -187,7 +192,7 @@ const renderTypewriter = (cursor: string, { text, writeIndex }: TypewriterState)
   text.slice(0, writeIndex) + cursor + text.slice(writeIndex, text.length);
 
 /**
- * Component that mimicks a typewriter effect.
+ * Component that mimics a typewriter effect.
  *
  * Note that, strictly speaking, there is no extremely performant way to do this (in JS, at least),
  * since each character write/delete requires DOM manipulation (virtual DOM and text-only manipulation
@@ -215,11 +220,13 @@ export const Typewriter: FC<TypewriterProps> = ({
   actions,
   prompt = '',
   cpm = 425,
-  cursorAnimation = 'blink',
+  cursorAnimation = 'onWrite',
   cursorBlinkFrequency = 5,
   cursorType = 'underscore',
   render,
 }) => {
+  invariant(actions.length > 0, 'Typewriter requires at least one action');
+
   const cpmDelay = useMemo(() => cpmToMillis(cpm), [cpm]);
   const blinkDelay = useMemo(() => hzToMillis(cursorBlinkFrequency), [cursorBlinkFrequency]);
   const { cursorActive, cursorInactive } = useMemo(() => cursorMap[cursorType], [cursorType]);

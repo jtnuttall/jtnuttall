@@ -204,3 +204,4 @@ sketch
 local/
 
 .direnv
+.pnpm-store

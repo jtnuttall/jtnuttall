@@ -15,7 +15,8 @@ const mono = Space_Mono({
 
 export const metadata = {
   title: 'Jeremy Nuttall',
-  description: 'Software Engineer',
+  description:
+    'Principal Software Engineer & Tech Lead — building healthcare systems that scale.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

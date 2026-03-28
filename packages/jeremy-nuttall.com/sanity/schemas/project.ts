@@ -41,7 +41,7 @@ const Project: SchemaTypeDefinition = {
     },
     {
       name: 'description',
-      title: 'Decription',
+      title: 'Description',
       type: 'text',
       validation: (rule) => rule.required(),
     },
