@@ -182,6 +182,7 @@ export type TypewriterProps = {
   actions: NonEmpty<TypewriterAction>;
   prompt?: string;
   cpm?: number;
+  paused?: boolean;
   cursorAnimation?: 'always' | 'onWrite' | 'none';
   cursorBlinkFrequency?: number;
   cursorType?: CursorType;
@@ -220,6 +221,7 @@ export const Typewriter: FC<TypewriterProps> = ({
   actions,
   prompt = '',
   cpm = 425,
+  paused = false,
   cursorAnimation = 'onWrite',
   cursorBlinkFrequency = 5,
   cursorType = 'underscore',
@@ -251,7 +253,7 @@ export const Typewriter: FC<TypewriterProps> = ({
         setRunInternal(false);
       }
     },
-    runInternal ? cpmDelay : undefined,
+    runInternal && !paused ? cpmDelay : undefined,
   );
 
   const setMajorAction = useCallback(() => {
@@ -269,21 +271,25 @@ export const Typewriter: FC<TypewriterProps> = ({
   }, [actionPtr, actions]);
 
   useEffect(() => {
-    if (actionCompleted) {
+    if (actionCompleted && !paused) {
       const id = setMajorAction();
       return () => {
         clearTimeout(id);
       };
     }
     return () => {};
-  }, [actionCompleted, setMajorAction]);
+  }, [actionCompleted, paused, setMajorAction]);
 
   useInterval(
     () => {
       setCursor(cursor === cursorActive ? cursorInactive : cursorActive);
     },
-    cursorAnimation !== 'none' && !runInternal ? blinkDelay : undefined,
+    cursorAnimation !== 'none' && !runInternal && !paused ? blinkDelay : undefined,
   );
+
+  useEffect(() => {
+    setCursor(cursorActive);
+  }, [cursorActive]);
 
   useEffect(() => {
     if (runInternal && cursorAnimation !== 'always') {

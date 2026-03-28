@@ -2,7 +2,6 @@ import { client } from '@/../sanity/lib/client';
 import { IconAnchor } from '@/components/icon-buttons';
 import Typewriter from '@/components/typewriter';
 import { q } from '@/lib/groqd-client';
-import clsx from 'clsx';
 import { format as formatDate } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -35,6 +34,7 @@ const Project = q.star
       asset: imgSub.field('asset').deref().project({ url: true }),
     })),
     repository: true,
+    demoUrl: true,
     description: true,
   }))
   .slice(0, 7);
@@ -44,18 +44,20 @@ export default async function Home() {
   const projects = Project.parse(await client.fetch(Project.query));
 
   return (
-    <div className="mx-auto min-h-screen max-w-screen-2xl px-6 py-12 md:px-12 md:py-20 lg:px-24 lg:py-0">
+    <div className="mx-auto min-h-screen max-w-screen-xl px-6 py-12 md:px-12 md:py-20 lg:px-24 lg:py-0">
       <div className="lg:flex lg:justify-between lg:gap-4">
         <header className="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-5/12 lg:flex-col lg:justify-between">
           <div className="lg:pt-24">
             <div>
-              <h1 className="text-5xl font-black sm:text-6xl">Jeremy Nuttall</h1>
-              <h2 className="mt-5 text-xl font-semibold sm:text-2xl">Principal Software Engineer ✕ Tech Lead</h2>
-              <p className="mt-3 max-w-xs text-base-content/70">
-                Building systems that scale and teams that ship.
+              <h1 className="text-4xl font-bold font-mono tracking-tight sm:text-5xl lg:text-6xl">Jeremy Nuttall</h1>
+              <h2 className="mt-4 font-mono tracking-wider text-accent text-sm sm:text-base">
+                Principal Software Engineer ✕ Tech Lead
+              </h2>
+              <p className="mt-4 max-w-xs leading-relaxed text-base-content/50">
+                Infrastructure, architecture, and the occasional existential crisis.
               </p>
             </div>
-            <ul className="mt-5 menu md:menu-lg">
+            <ul className="mt-8 menu">
               <li>
                 <Link href="#intro">Introduction</Link>
               </li>
@@ -67,7 +69,7 @@ export default async function Home() {
               </li>
             </ul>
           </div>
-          <div className="flex flex-row mt-5 lg:mt-0 lg:justify-end gap-5 lg:px-24 lg:py-12 text-neutral-content">
+          <div className="flex flex-row mt-8 lg:mt-0 lg:justify-end gap-4 lg:px-24 lg:py-12 text-base-content/50">
             <IconAnchor
               icon={LuLinkedin}
               aria-label="My Linkedin"
@@ -84,133 +86,150 @@ export default async function Home() {
             />
           </div>
         </header>
-        <main id="content" className="flex flex-col gap-5 lg:gap-10 pt-24 lg:w-7/12 lg:py-24">
+        <main id="content" className="flex flex-col gap-5 lg:gap-10 pt-24 lg:w-7/12 lg:py-24 lg:pl-8">
           <section id="intro" aria-label="Introduction" className="hero">
             <div className="hero-content flex flex-col">
               <div className="w-full motion-reduce:hidden">
                 <Typewriter />
               </div>
-              <div className="hidden motion-reduce:block">Hi! I&apos;m Jeremy.</div>
+              <div className="hidden motion-reduce:block font-mono text-2xl">Hi! I&apos;m Jeremy.</div>
               <div className="prose mt-6 max-w-prose">
                 <p>
-                  I&apos;m a principal engineer and tech lead building healthcare software at{' '}
-                  <a href="https://well.co" className="link link-accent" rel="noreferrer" target="_blank">
+                  I&apos;m a principal engineer and tech lead at{' '}
+                  <a
+                    href="https://well.co"
+                    className="underline decoration-accent/40 underline-offset-4 transition-colors hover:decoration-accent"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
                     Well.co
                   </a>
-                  . I like hard problems — the kind that sit at the intersection of scale, security, and developer
-                  experience. I lead cloud infrastructure and platform architecture, and I care about shipping software
-                  that&apos;s well-crafted and makes a real difference.
+                  , where I build healthcare software and think about distributed systems more than is
+                  probably healthy. I lead cloud infrastructure and platform architecture — the kind of
+                  work where the problems are interesting precisely because they shouldn&apos;t exist.
                 </p>
                 <p>
-                  When I&apos;m not deep in TypeScript and Terraform, I&apos;m usually writing{' '}
-                  <a href="https://www.haskell.org/" className="link link-accent" rel="noreferrer" target="_blank">
+                  Off the clock I write{' '}
+                  <a
+                    href="https://www.haskell.org/"
+                    className="underline decoration-accent/40 underline-offset-4 transition-colors hover:decoration-accent"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
                     Haskell
-                  </a>{' '}
-                  or convincing my cat and my toddler that the keyboard isn&apos;t a toy.
+                  </a>
+                  , which is either a programming language or a coping mechanism depending on who you
+                  ask. My cat and my toddler have independently concluded that my keyboard is a toy.
+                  They are not wrong.
                 </p>
               </div>
             </div>
           </section>
-          <section id="experience" aria-label="Work Experience" className="mt-20 group flex flex-col gap-3">
-            <h2 className="text-3xl font-bold mb-2">Experience</h2>
+          <section id="experience" aria-label="Work Experience" className="mt-20 flex flex-col">
+            <h2 className="text-2xl font-mono font-bold mb-8">Experience</h2>
             {cvEntries.map(({ _id, company, jobTitle, startDate, endDate, highlights, technologies }) => (
-              <div
+              <article
                 key={_id}
-                className={clsx(
-                  'collapse',
-                  'collapse-arrow',
-                  '[&:has(input:checked)]:bg-base-200',
-                  '[&:has(input:checked)]:scale-105',
-                  '[&:not(:has(input:checked))]:hover:scale-105',
-                  'border',
-                  'shadow-lg',
-                  'border-neutral',
-                  'hover:bg-base-200',
-                  'py-5',
-                  'transition-all',
-                )}
+                className="border-t border-neutral/50 py-8 first:border-t-0 first:pt-0"
               >
-                <input
-                  type="checkbox"
-                  name="work-experience-accordion"
-                  aria-label={`Toggle collapse for experience at ${company ?? ''}`}
-                />
-                <div className="collapse-title">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between">
-                    <h3 className="text-2xl font-semibold">{company}</h3>
-                    <div className="opacity-50">
-                      {formatCVDate(startDate)} – {formatCVDate(endDate)}
-                    </div>
-                  </div>
-                  <h4 className="mt-2 font-light">{jobTitle}</h4>
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {technologies?.map(({ name }) => (
-                      <div key={name} className="badge badge-secondary">
-                        {name}
-                      </div>
-                    ))}
-                  </div>
+                <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
+                  <h3 className="text-lg font-mono font-bold">{company}</h3>
+                  <span className="text-sm text-base-content/50 font-mono tabular-nums">
+                    {formatCVDate(startDate)} – {formatCVDate(endDate)}
+                  </span>
                 </div>
-                <div className="collapse-content prose font-thin pb-2">
-                  <ul>
-                    {highlights?.map((highlight) => (
-                      <li key={highlight}>{highlight}</li>
+                <p className="mt-1 text-base-content/60 italic">{jobTitle}</p>
+                <div className="flex flex-wrap gap-1.5 mt-3">
+                  {technologies?.map(({ name }) => (
+                    <span
+                      key={name}
+                      className="badge badge-sm badge-outline text-base-content/60 border-neutral/50"
+                    >
+                      {name}
+                    </span>
+                  ))}
+                </div>
+                {highlights && highlights.length > 0 && (
+                  <ul className="mt-4 space-y-1.5 text-base-content/70 leading-relaxed">
+                    {highlights.map((highlight) => (
+                      <li
+                        key={highlight}
+                        className="pl-4 relative before:content-[''] before:absolute before:left-0 before:top-[0.6em] before:h-px before:w-2 before:bg-base-content/40"
+                      >
+                        {highlight}
+                      </li>
                     ))}
                   </ul>
-                </div>
-              </div>
+                )}
+              </article>
             ))}
             <Link
               href="/static/resume.pdf"
-              className="btn btn-outline btn-accent mt-5 gap-2 self-end"
+              className="btn btn-ghost mt-8 gap-2 self-end text-base-content/60 hover:text-base-content underline-offset-4"
             >
               View Full Résumé
               <LuArrowBigRightDash />
             </Link>
           </section>
           <section id="projects" aria-label="Projects" className="mt-24 flex flex-col gap-3">
-            <h2 className="text-3xl font-bold mb-2">Projects</h2>
-            {projects.map(({ _id, title, description, repository, image }) => (
-              <div
-                key={_id}
-                className="card border border-neutral justify-center card-side md:hover:scale-105 shadow-lg transition-transform lg:p-2"
-              >
-                <figure className="min-w-fit">
-                  <Image
-                    className="rounded-2xl"
-                    alt={`Demo of ${title ?? ''}`}
-                    src={`${image?.asset?.url ?? ''}?max-w=100`}
-                    width={100}
-                    height={100}
-                  />
-                </figure>
-                <div className="card-body">
-                  <h3 className="card-title">{title}</h3>
-                  <p>{description}</p>
-                  <div className="mt-2 card-actions justify-end">
-                    {repository && (
-                      <Link
-                        href={repository}
-                        rel="noreferrer"
-                        target="_blank"
-                        className="btn btn-sm btn-secondary flex items-center gap-2"
-                      >
-                        <LuExternalLink />
-                        Repo
+            <h2 className="text-2xl font-mono font-bold mb-8">Projects</h2>
+            {projects.map(({ _id, title, description, repository, demoUrl, image }) => {
+              const projectLink = demoUrl;
+              return (
+                <div
+                  key={_id}
+                  className="card border border-neutral/20 card-side transition-colors hover:border-neutral/50 lg:p-3"
+                >
+                  <figure className="w-48 shrink-0">
+                    {projectLink ? (
+                      <Link href={projectLink} rel="noreferrer" target="_blank">
+                        <Image
+                          className="rounded object-cover aspect-video transition-opacity hover:opacity-80"
+                          alt={`Demo of ${title ?? ''}`}
+                          src={`${image?.asset?.url ?? ''}?w=320&h=180&fit=crop`}
+                          width={320}
+                          height={180}
+                        />
                       </Link>
+                    ) : (
+                      <Image
+                        className="rounded object-cover aspect-video"
+                        alt={`Demo of ${title ?? ''}`}
+                        src={`${image?.asset?.url ?? ''}?w=320&h=180&fit=crop`}
+                        width={320}
+                        height={180}
+                      />
                     )}
+                  </figure>
+                  <div className="card-body">
+                    <h3 className="card-title font-mono">{title}</h3>
+                    <p className="text-base-content/70">{description}</p>
+                    <div className="mt-2 card-actions justify-end">
+                      {repository && (
+                        <Link
+                          href={repository}
+                          rel="noreferrer"
+                          target="_blank"
+                          className="btn btn-sm btn-ghost text-base-content/50 hover:text-base-content flex items-center gap-2"
+                        >
+                          <LuExternalLink />
+                          Repo
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </section>
-          <section className="mt-24 text-sm font-extralight prose">
-            Inspired by Brittany Chiang&apos;s excellent{' '}
-            <a href="https://brittanychiang.com/" className="link" rel="noreferrer" target="_blank">
-              online resume
-            </a>
-            . Built with Next.js, TailwindCSS, and daisyUI. Deployed on Vercel. Content is managed with{' '}
-            <a href="https://www.sanity.io/" className="link" rel="noreferrer" target="_blank">
+          <section className="mt-24 mb-12 text-sm font-light text-base-content/40">
+            Built with Next.js, TailwindCSS, and daisyUI. Content managed with{' '}
+            <a
+              href="https://www.sanity.io/"
+              className="underline decoration-base-content/20 underline-offset-2 hover:decoration-base-content/50 transition-colors"
+              rel="noreferrer"
+              target="_blank"
+            >
               Sanity
             </a>
             .

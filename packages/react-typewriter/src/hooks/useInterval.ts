@@ -1,7 +1,18 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useSyncExternalStore } from 'react';
+
+const subscribe = (callback: () => void) => {
+  document.addEventListener('visibilitychange', callback);
+  return () => document.removeEventListener('visibilitychange', callback);
+};
+
+const getSnapshot = () => document.visibilityState === 'visible';
+const getServerSnapshot = () => true;
+
+const useDocumentVisible = () => useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
 const useInterval = (callback: () => void, delay?: number): void => {
   const savedCallback = useRef<(() => void) | undefined>(undefined);
+  const visible = useDocumentVisible();
 
   useEffect(() => {
     savedCallback.current = callback;
@@ -12,7 +23,7 @@ const useInterval = (callback: () => void, delay?: number): void => {
       savedCallback.current?.();
     };
 
-    if (delay) {
+    if (delay && visible) {
       const id = setInterval(tick, delay);
       return () => {
         clearInterval(id);
@@ -20,7 +31,7 @@ const useInterval = (callback: () => void, delay?: number): void => {
     }
 
     return () => {};
-  }, [delay]);
+  }, [delay, visible]);
 };
 
 export default useInterval;

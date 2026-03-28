@@ -9,7 +9,7 @@ const sans = Space_Grotesk({
 });
 const mono = Space_Mono({
   subsets: ['latin'],
-  weight: '400',
+  weight: ['400', '700'],
   variable: '--next-font-mono',
 });
 
@@ -21,7 +21,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`scroll-smooth bg-circuit-board ${sans.variable} ${mono.variable} font-sans`}>
+    <html lang="en" className={`scroll-smooth ${sans.variable} ${mono.variable} font-sans antialiased`}>
       <body>
         {children}
         <Analytics />

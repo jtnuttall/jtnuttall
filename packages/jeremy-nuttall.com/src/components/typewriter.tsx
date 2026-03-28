@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useCallback, useState } from 'react';
 
 import ReactTypewriter, { typewriterBuilder } from '@jtnuttall/react-typewriter';
 
@@ -35,14 +35,36 @@ const typewriterActions = typewriterBuilder()
   .buildActions();
 
 const Typewriter: FC = () => {
+  const [paused, setPaused] = useState(false);
+  const toggle = useCallback(() => setPaused((p) => !p), []);
+
   return (
-    <div className="min-w-full">
+    <div
+      className="min-w-full cursor-pointer select-none"
+      role="button"
+      tabIndex={0}
+      aria-label={paused ? 'Typewriter animation paused. Click or press Enter to resume.' : 'Typewriter animation playing. Click or press Enter to pause.'}
+      onClick={toggle}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggle();
+        }
+      }}
+    >
       <ReactTypewriter
         prompt="λ "
         cpm={750}
-        cursorType="ibeam"
+        paused={paused}
+        cursorType={paused ? 'underscore' : 'ibeam'}
         actions={typewriterActions}
-        render={(text) => <code className="block p-5 bg-gray-950/80 rounded-lg">{text}</code>}
+        render={(text) => (
+          <code
+            className={`block text-2xl sm:text-3xl font-mono transition-opacity duration-300 ${paused ? 'text-base-content/60' : 'text-base-content/90'}`}
+          >
+            {text}
+          </code>
+        )}
       />
     </div>
   );

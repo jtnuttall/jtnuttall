@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 @plugin "daisyui" {
-  themes: synthwave --default;
+  themes: business --default;
 }
 
 @theme {
@@ -9,14 +9,37 @@
   --font-mono: var(--next-font-mono);
 }
 
-.bg-circuit-board:before {
-  content: '';
-  background-image: url('/static/circuit-board.svg');
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0.15;
-  z-index: -1;
+/* Custom palette — clair-obscur, autumnal */
+:where(:root) {
+  --color-base-100: oklch(16% 0 0);
+  --color-base-200: oklch(20% 0 0);
+  --color-base-300: oklch(25% 0 0);
+  --color-base-content: oklch(90% 0.008 80);
+
+  --color-primary: oklch(75% 0.04 80);
+  --color-primary-content: oklch(16% 0 0);
+
+  --color-secondary: oklch(60% 0 0);
+  --color-secondary-content: oklch(16% 0 0);
+
+  --color-accent: oklch(72% 0.09 75);
+  --color-accent-content: oklch(16% 0 0);
+
+  --color-neutral: oklch(28% 0.005 75);
+  --color-neutral-content: oklch(85% 0.008 80);
+
+  --radius-box: 0.25rem;
+  --radius-field: 0.25rem;
+  --radius-selector: 0rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+/* Editorial prose refinements */
+.prose {
+  --tw-prose-body: oklch(82% 0.005 80);
+  --tw-prose-headings: oklch(92% 0 0);
+  --tw-prose-links: oklch(72% 0.09 75);
+  --tw-prose-bold: oklch(92% 0 0);
 }
