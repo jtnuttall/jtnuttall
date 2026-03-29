@@ -68,7 +68,7 @@ const typewriterReducer = (
       const { text, writeIndex } = state;
       const { by, direction } = action;
 
-      const moveBy = direction === 'forward' ? (by ?? text.length) : (by ?? 0);
+      const moveBy = by ?? text.length;
 
       return {
         ...state,

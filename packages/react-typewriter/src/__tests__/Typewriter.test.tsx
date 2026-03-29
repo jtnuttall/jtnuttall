@@ -297,14 +297,7 @@ describe('Typewriter', () => {
       expect(getText()).toBe(`a${UNDERSCORE_CURSOR}`);
 
       // pause the typewriter
-      rerender(
-        <Typewriter
-          actions={actions}
-          cpm={600}
-          paused={true}
-          render={(text) => <span>{text}</span>}
-        />,
-      );
+      rerender(<Typewriter actions={actions} cpm={600} paused={true} render={(text) => <span>{text}</span>} />);
 
       // advance time — nothing should change
       tickChars(5, 600);
