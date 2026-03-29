@@ -8,7 +8,7 @@ import type { Project } from '@/lib/queries';
 
 import { Tag, TagList } from './tags';
 
-export const ProjectCard = ({
+export const ProjectCard: FC<Project> = ({
   title,
   tagline,
   featured,
@@ -20,7 +20,7 @@ export const ProjectCard = ({
   packageUrl,
   image,
   technologies,
-}: Project) => {
+}) => {
   const assetUrl = image?.asset?.url;
 
   return (
@@ -104,15 +104,13 @@ const ProjectImage: FC<ProjectImageProps> = ({ src, demoUrl, title, width, heigh
   );
 };
 
-const ProjectLinks = ({
-  demoUrl,
-  packageUrl,
-  repository,
-}: {
+interface ProjectLinksProps {
   demoUrl?: string | null;
   packageUrl?: string | null;
   repository?: string | null;
-}) => (
+}
+
+const ProjectLinks: FC<ProjectLinksProps> = ({ demoUrl, packageUrl, repository }) => (
   <>
     {demoUrl && (
       <Link

@@ -6,12 +6,6 @@ const CVEntry: SchemaTypeDefinition = {
   type: 'document',
   fields: [
     {
-      name: 'company',
-      title: 'Company',
-      type: 'string',
-      validation: (rule) => rule.required(),
-    },
-    {
       name: 'jobTitle',
       title: 'Job Title',
       type: 'string',
@@ -37,32 +31,11 @@ const CVEntry: SchemaTypeDefinition = {
       type: 'date',
     },
     {
-      name: 'description',
-      title: 'Description',
-      type: 'text',
-    },
-    {
-      name: 'technologies',
-      title: 'Technologies',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'technology' }],
-        },
-      ],
-    },
-    {
       name: 'highlights',
       title: 'Highlights',
       type: 'array',
       of: [{ type: 'text' }],
       validation: (rule) => rule.required(),
-    },
-    {
-      name: 'url',
-      title: 'Website',
-      type: 'url',
     },
   ],
 };

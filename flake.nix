@@ -33,6 +33,7 @@
                 (try-fwd-env "TERM")
                 (try-fwd-env "COLORTERM")
                 (add-pkg-deps [
+                  final.gawk
                   final.bash
                   final.git
                   final.gh
@@ -69,6 +70,7 @@
 
       devShells.default = pkgs.mkShell {
         packages = with pkgs; [
+          gawk
           just
           just-lsp
           gh

@@ -4,22 +4,28 @@ import { client } from '@/../sanity/lib/client';
 
 import { q } from './groqd-client';
 
-export type CVEntry = InferResultItem<typeof CVEntries>;
-const CVEntries = q.star
-  .filterByType('cvEntry')
-  .order('startDate desc')
-  .project((sub) => ({
+export type CVEntryGroup = InferResultItem<typeof CVEntryGroups>;
+const CVEntryGroups = q.star.filterByType('cvEntryGroup').project((sub) => ({
+  _id: true,
+  company: true,
+  url: true,
+  technologies: sub.field('technologies[]').deref().project({ name: true }),
+  cvEntries: sub.field('cvEntries[]').deref().order('startDate desc').project({
     _id: true,
-    company: true,
     jobTitle: true,
-    description: true,
-    highlights: true,
     startDate: true,
     endDate: true,
-    url: true,
-    technologies: sub.field('technologies[]').deref().project({ name: true }),
-  }));
-export const queryCVEntries = async () => CVEntries.parse(await client.fetch(CVEntries.query));
+    highlights: true,
+  }),
+}));
+export const queryCVEntryGroups = async () => {
+  const groups = CVEntryGroups.parse(await client.fetch(CVEntryGroups.query));
+  return groups.sort((a, b) => {
+    const aDate = a.cvEntries?.[0]?.startDate ?? '';
+    const bDate = b.cvEntries?.[0]?.startDate ?? '';
+    return bDate.localeCompare(aDate);
+  });
+};
 
 export type Project = InferResultItem<typeof Projects>;
 const Projects = q.star
@@ -33,7 +39,6 @@ const Projects = q.star
     featured: true,
     keyMetric: true,
     keyContribution: true,
-    contributionType: true,
     image: sub.field('image').project((imgSub) => ({
       asset: imgSub.field('asset').deref().project({ url: true }),
     })),

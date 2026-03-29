@@ -42,8 +42,8 @@ export type Project = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title: string;
-  contributionType: 'open-source' | 'job' | 'personal';
+  title?: string;
+  contributionType?: 'open-source' | 'job' | 'personal';
   priority?: number;
   image?: {
     asset?: SanityImageAssetReference;
@@ -52,7 +52,7 @@ export type Project = {
     crop?: SanityImageCrop;
     _type: 'image';
   };
-  description: string;
+  description?: string;
   tagline?: string;
   featured?: boolean;
   keyMetric?: string;
@@ -71,18 +71,18 @@ export type Project = {
 
 export type SanityImageCrop = {
   _type: 'sanity.imageCrop';
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
 };
 
 export type SanityImageHotspot = {
   _type: 'sanity.imageHotspot';
-  x: number;
-  y: number;
-  height: number;
-  width: number;
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
 };
 
 export type Technology = {
@@ -91,7 +91,7 @@ export type Technology = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name: string;
+  name?: string;
   icon?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -102,25 +102,38 @@ export type Technology = {
   aliases?: Array<string>;
 };
 
-export type CvEntry = {
+export type CvEntryGroup = {
   _id: string;
-  _type: 'cvEntry';
+  _type: 'cvEntryGroup';
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  company: string;
-  jobTitle: string;
-  location: Array<string>;
-  startDate: string;
-  endDate?: string;
+  company?: string;
+  url?: string;
   description?: string;
   technologies?: Array<
     {
       _key: string;
     } & TechnologyReference
   >;
-  highlights: Array<string>;
-  url?: string;
+  cvEntries?: Array<
+    {
+      _key: string;
+    } & CvEntryReference
+  >;
+};
+
+export type CvEntry = {
+  _id: string;
+  _type: 'cvEntry';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  jobTitle?: string;
+  location?: Array<string>;
+  startDate?: string;
+  endDate?: string;
+  highlights?: Array<string>;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -144,9 +157,9 @@ export type SanityImagePalette = {
 
 export type SanityImageDimensions = {
   _type: 'sanity.imageDimensions';
-  height: number;
-  width: number;
-  aspectRatio: number;
+  height?: number;
+  width?: number;
+  aspectRatio?: number;
 };
 
 export type SanityImageMetadata = {
@@ -172,14 +185,14 @@ export type SanityFileAsset = {
   title?: string;
   description?: string;
   altText?: string;
-  sha1hash: string;
-  extension: string;
-  mimeType: string;
-  size: number;
-  assetId: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
   uploadId?: string;
-  path: string;
-  url: string;
+  path?: string;
+  url?: string;
   source?: SanityAssetSourceData;
 };
 
@@ -201,14 +214,14 @@ export type SanityImageAsset = {
   title?: string;
   description?: string;
   altText?: string;
-  sha1hash: string;
-  extension: string;
-  mimeType: string;
-  size: number;
-  assetId: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
   uploadId?: string;
-  path: string;
-  url: string;
+  path?: string;
+  url?: string;
   metadata?: SanityImageMetadata;
   source?: SanityAssetSourceData;
 };
@@ -222,7 +235,7 @@ export type Geopoint = {
 
 export type Slug = {
   _type: 'slug';
-  current: string;
+  current?: string;
   source?: string;
 };
 
@@ -234,6 +247,7 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Technology
+  | CvEntryGroup
   | CvEntry
   | SanityImagePaletteSwatch
   | SanityImagePalette

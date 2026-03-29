@@ -1,18 +1,19 @@
+import clsx from 'clsx';
 import { format as formatDate, parseISO } from 'date-fns';
 import Link from 'next/link';
-import { useMemo, type FC, type ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import { LuArrowBigRightDash, LuGithub, LuLinkedin } from 'react-icons/lu';
 
 import { IconAnchor } from '@/components/icon-buttons';
 import { ProjectCard } from '@/components/project-card';
 import { Tag, TagList } from '@/components/tags';
 import Typewriter from '@/components/typewriter';
-import { type CVEntry, queryCVEntries, queryProjects } from '@/lib/queries';
+import { type CVEntryGroup, queryCVEntryGroups, queryProjects } from '@/lib/queries';
 
 export const revalidate = 3600;
 
 export default async function Home() {
-  const cvEntries = await queryCVEntries();
+  const cvEntryGroups = await queryCVEntryGroups();
   const projects = await queryProjects();
 
   return (
@@ -34,14 +35,14 @@ export default async function Home() {
                   rel="noreferrer"
                   target="_blank"
                 >
-                  Well.co
+                  Well
                 </a>
                 , where I build healthcare software and think about distributed systems more than is probably healthy. I
                 lead cloud infrastructure and platform architecture — the kind of work where the problems are
                 interesting precisely because they shouldn&apos;t exist.
               </p>
               <p>
-                I really like writing{' '}
+                I really like{' '}
                 <a
                   href="https://www.haskell.org/"
                   className="underline decoration-accent/40 underline-offset-4 transition-colors hover:decoration-accent"
@@ -58,8 +59,8 @@ export default async function Home() {
         </section>
         <section id="experience" aria-label="Work Experience" className="mt-20 flex flex-col">
           <h2 className="text-2xl font-mono font-bold mb-8">Experience</h2>
-          {cvEntries.map((entry) => (
-            <CVEntryCard key={entry._id} {...entry} />
+          {cvEntryGroups.map((group) => (
+            <CVEntryGroupCard key={group._id} {...group} />
           ))}
         </section>
         <section id="projects" aria-label="Projects" className="mt-24 flex flex-col gap-3">
@@ -144,34 +145,38 @@ const SidebarHeader = () => (
   </header>
 );
 
-const formatCVDate = (date?: string | null) => (date ? formatDate(parseISO(date), 'MMM. yyyy') : 'present');
+const formatCVDate = (date?: string | null) => {
+  if (!date) return 'present';
+  const parsed = parseISO(date);
+  const month = formatDate(parsed, 'MMM');
+  return month.length <= 3 ? `${month} ${formatDate(parsed, 'yyyy')}` : `${month}. ${formatDate(parsed, 'yyyy')}`;
+};
 
-const CVEntryCard: FC<CVEntry> = ({ company, jobTitle, startDate, endDate, highlights, technologies, url }) => {
-  const cvEntryHeading = useMemo(() => {
-    const heading = (
-      <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
-        <h3 className="text-xl font-mono font-bold">{company}</h3>
-        <span className="text-sm text-base-content/60 font-mono tabular-nums">
-          {formatCVDate(startDate)} – {formatCVDate(endDate)}
-        </span>
-      </div>
-    );
+const CVEntryGroupCard: FC<CVEntryGroup> = ({ company, url, technologies, cvEntries }) => {
+  const latest = cvEntries?.[0];
+  const earliest = cvEntries?.[cvEntries.length - 1];
+  const overallStart = earliest?.startDate;
+  const overallEnd = latest?.endDate;
+  const singleEntry = cvEntries?.length === 1;
 
-    if (url) {
-      return (
-        <Link href={url} rel="noreferrer" target="_blank">
-          {heading}
-        </Link>
-      );
-    }
-
-    return heading;
-  }, [company, endDate, startDate, url]);
+  const heading = (
+    <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
+      <h3 className="text-xl font-mono font-bold">{company}</h3>
+      <span className="text-sm text-base-content/60 font-mono tabular-nums">
+        {formatCVDate(overallStart)} – {formatCVDate(overallEnd)}
+      </span>
+    </div>
+  );
 
   return (
     <article className="border-t border-neutral/50 py-8 first:border-t-0 first:pt-0">
-      {cvEntryHeading}
-      <p className="mt-1 text-accent italic">{jobTitle}</p>
+      {url ? (
+        <Link href={url} rel="noreferrer" target="_blank">
+          {heading}
+        </Link>
+      ) : (
+        heading
+      )}
       {technologies && technologies.length > 0 && (
         <TagList>
           {technologies.map(({ name }) => (
@@ -181,18 +186,47 @@ const CVEntryCard: FC<CVEntry> = ({ company, jobTitle, startDate, endDate, highl
           ))}
         </TagList>
       )}
-      {highlights.length > 0 && (
-        <ul className="mt-4 space-y-1.5 text-base-content/70 leading-relaxed">
-          {highlights.map((highlight) => (
-            <li
-              key={highlight}
-              className="pl-4 relative before:content-[''] before:absolute before:left-0 before:top-[0.6em] before:h-px before:w-2 before:bg-base-content/40"
-            >
-              {highlight}
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="mt-4">
+        {cvEntries?.map((entry, i) => (
+          <div key={entry._id} className="grid grid-cols-[12px_1fr] gap-x-3">
+            <div className="flex flex-col items-center">
+              <div className={clsx('shrink-0 my-1.5', i === 0 && 'mt-[0.4em]')}>{i > 0 && <TimelineChevrons />}</div>
+              <div className="w-px flex-1 bg-base-content/20" />
+            </div>
+            <div className={clsx(i < cvEntries.length - 1 && 'pb-5')}>
+              <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
+                <p className="text-accent italic">{entry.jobTitle}</p>
+                {!singleEntry && (
+                  <span className="text-sm text-base-content/40 font-mono tabular-nums">
+                    {formatCVDate(entry.startDate)} – {formatCVDate(entry.endDate)}
+                  </span>
+                )}
+              </div>
+              {entry.highlights && entry.highlights.length > 0 && (
+                <ul className="mt-4 space-y-1.5 text-base-content/70 leading-relaxed">
+                  {entry.highlights.map((highlight) => (
+                    <li
+                      key={highlight}
+                      className="pl-4 relative break-normal before:content-[''] before:absolute before:left-0 before:top-[0.6em] before:h-px before:w-2 before:bg-base-content/40"
+                    >
+                      {highlight}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
     </article>
   );
 };
+
+/** Three stacked upward-pointing chevrons — <<<, rotated to vertical. */
+const TimelineChevrons = () => (
+  <svg width="10" height="12" viewBox="0 0 10 12" fill="none" className="text-base-content/30" aria-hidden="true">
+    <path d="M8 3.5 5 1 2 3.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M8 6.5 5 4 2 6.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M8 9.5 5 7 2 9.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
