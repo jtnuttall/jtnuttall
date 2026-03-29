@@ -112,7 +112,7 @@ const SidebarHeader = () => (
   <header className="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-5/12 lg:flex-col lg:justify-between">
     <div className="lg:pt-24">
       <hgroup>
-        <h1 className="text-4xl font-bold font-mono tracking-tight sm:text-5xl lg:text-6xl">Jeremy Nuttall</h1>
+        <h1 className="text-3xl font-bold font-mono tracking-tight sm:text-5xl lg:text-6xl">Jeremy Nuttall</h1>
         <h2 className="mt-4 font-mono tracking-wider text-accent text-sm sm:text-base">
           Principal Software Engineer ✕ Tech Lead
         </h2>
