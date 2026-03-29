@@ -1,5 +1,5 @@
-import { ComponentProps, FC } from 'react';
-import { IconType } from 'react-icons';
+import type { ComponentProps, FC } from 'react';
+import type { IconType } from 'react-icons';
 
 interface IconAnchorProps extends Omit<ComponentProps<'a'>, 'className'> {
   icon: IconType;

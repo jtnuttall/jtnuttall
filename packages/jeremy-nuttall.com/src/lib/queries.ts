@@ -1,4 +1,4 @@
-import { InferResultItem } from 'groqd';
+import type { InferResultItem } from 'groqd';
 
 import { client } from '@/../sanity/lib/client';
 

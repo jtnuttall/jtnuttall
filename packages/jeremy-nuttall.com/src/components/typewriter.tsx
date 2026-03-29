@@ -1,6 +1,6 @@
 'use client';
 
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { useCallback, useState } from 'react';
 
 import ReactTypewriter, { typewriterBuilder } from '@jtnuttall/react-typewriter';

@@ -238,4 +238,129 @@ describe('Typewriter', () => {
       expect(getText()).toBe(UNDERSCORE_CURSOR);
     });
   });
+
+  describe('action looping', () => {
+    it('loops back to the first action after completing all actions', () => {
+      const actions = typewriterBuilder().write('ab').delete().buildActions();
+      const { getText } = renderTypewriter({ actions, cpm: 600 });
+
+      // first pass: write 'ab'
+      flushInitialAction();
+      tickChars(2, 600);
+      tickChars(1, 600);
+
+      // first pass: delete all
+      flushInitialAction();
+      tickChars(3, 600);
+
+      // actionPtr has wrapped to 0 — the write action fires again
+      flushInitialAction();
+      tickChars(1, 600);
+
+      // first character of the second loop's write
+      expect(getText()).toBe(`a${UNDERSCORE_CURSOR}`);
+    });
+  });
+
+  describe('pause action', () => {
+    it('waits the specified duration before advancing', () => {
+      const actions = typewriterBuilder().pause(500).write('x').pause(10_000).buildActions();
+      const { getText } = renderTypewriter({ actions, cpm: 600 });
+
+      // pause dispatches immediately with a setTimeout of 500ms
+      flushInitialAction();
+
+      // before the pause elapses, still just cursor
+      expect(getText()).toBe(UNDERSCORE_CURSOR);
+
+      // advance past the pause
+      act(() => {
+        vi.advanceTimersByTime(500);
+      });
+
+      // write 'x'
+      flushInitialAction();
+      tickChars(1, 600);
+
+      expect(getText()).toBe(`x${UNDERSCORE_CURSOR}`);
+    });
+  });
+
+  describe('paused prop', () => {
+    it('freezes the typewriter when paused', () => {
+      const actions = typewriterBuilder().write('abc').pause(10_000).buildActions();
+      const { getText, rerender } = renderTypewriter({ actions, cpm: 600 });
+
+      // write one character
+      flushInitialAction();
+      tickChars(1, 600);
+      expect(getText()).toBe(`a${UNDERSCORE_CURSOR}`);
+
+      // pause the typewriter
+      rerender(
+        <Typewriter
+          actions={actions}
+          cpm={600}
+          paused={true}
+          render={(text) => <span>{text}</span>}
+        />,
+      );
+
+      // advance time — nothing should change
+      tickChars(5, 600);
+      act(() => {
+        vi.advanceTimersByTime(5000);
+      });
+
+      // re-capture text after rerender
+      let pausedText = '';
+      rerender(
+        <Typewriter
+          actions={actions}
+          cpm={600}
+          paused={true}
+          render={(text) => {
+            pausedText = text;
+            return <span>{text}</span>;
+          }}
+        />,
+      );
+
+      // text should still have only 'a'
+      expect(pausedText).toContain('a');
+      expect(pausedText).not.toContain('b');
+    });
+  });
+
+  describe('moveCursorForward', () => {
+    it('moves cursor forward to end when no count specified', () => {
+      const actions = typewriterBuilder()
+        .write('abc')
+        .moveCursorBackward(3)
+        .moveCursorForward()
+        .delete(1)
+        .pause(10_000)
+        .buildActions();
+      const { getText } = renderTypewriter({ actions, cpm: 600 });
+
+      // write 'abc'
+      flushInitialAction();
+      tickChars(3, 600);
+      tickChars(1, 600);
+
+      // move cursor back 3 (to position 0)
+      flushInitialAction();
+      tickChars(4, 600);
+
+      // move cursor forward to end (no count = move to end)
+      flushInitialAction();
+      tickChars(4, 600);
+
+      // delete 1 from end
+      flushInitialAction();
+      tickChars(2, 600);
+
+      expect(getText()).toBe(`ab${UNDERSCORE_CURSOR}`);
+    });
+  });
 });

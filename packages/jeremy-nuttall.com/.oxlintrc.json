@@ -102,6 +102,7 @@
     "@typescript-eslint/prefer-literal-enum-member": "error",
     "@typescript-eslint/prefer-namespace-keyword": "error",
     "@typescript-eslint/triple-slash-reference": "error",
+    "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/unified-signatures": "error",
     "react/jsx-key": "error",
     "react/jsx-no-comment-textnodes": "error",

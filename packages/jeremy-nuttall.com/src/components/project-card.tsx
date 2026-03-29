@@ -1,7 +1,7 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { LuExternalLink, LuGithub, LuPackage } from 'react-icons/lu';
 
 import type { Project } from '@/lib/queries';
@@ -88,7 +88,7 @@ const ProjectImage: FC<ProjectImageProps> = ({ src, demoUrl, title, width, heigh
   const img = (
     <Image
       className={clsx('rounded object-cover aspect-video', demoUrl && 'transition-opacity hover:opacity-80', className)}
-      alt={`Demo of ${title ?? ''}`}
+      alt={title ? `Demo of ${title}` : 'Project demo'}
       src={url.toString()}
       width={width}
       height={height}

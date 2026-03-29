@@ -1,7 +1,8 @@
-import { FC, ReactNode, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import type { FC, ReactNode } from 'react';
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import invariant from 'tiny-invariant';
 
-import { NonEmpty, TypewriterAction, TypewriterActionType } from './actions';
+import type { NonEmpty, TypewriterAction, TypewriterActionType } from './actions';
 import useInterval from './hooks/useInterval';
 
 interface MoveCursorOnceAction {
