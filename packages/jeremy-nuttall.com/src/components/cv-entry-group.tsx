@@ -11,7 +11,7 @@ const formatCVDate = (date?: string | null) => {
   if (!date) return 'present';
   const parsed = parseISO(date);
   const month = formatDate(parsed, 'MMM');
-  return month.length <= 3 ? `${month} ${formatDate(parsed, 'yyyy')}` : `${month}. ${formatDate(parsed, 'yyyy')}`;
+  return `${month} ${formatDate(parsed, 'yyyy')}`;
 };
 
 export const CVEntryGroupCard: FC<CVEntryGroup> = ({ company, url, technologies, cvEntries }) => {
