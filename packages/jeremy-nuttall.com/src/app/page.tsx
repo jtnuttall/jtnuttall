@@ -134,13 +134,13 @@ const SidebarHeader = () => (
         </ul>
       </nav>
 
-      <Link
+      <a
         href="/static/resume.pdf"
         className="btn btn-ghost mt-8 gap-2 self-end text-base-content/60 hover:text-base-content underline-offset-4"
       >
         View résumé
         <LuArrowBigRightDash />
-      </Link>
+      </a>
     </div>
     <div className="flex flex-row mt-8 lg:mt-0 lg:justify-end gap-4 lg:px-24 lg:py-12 text-base-content/60">
       <IconAnchor
